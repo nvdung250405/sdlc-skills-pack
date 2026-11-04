@@ -27,3 +27,4 @@ Each JSON transcript in `evals/results/` records:
 - `artifacts_produced`: List of relative paths and schema validation status
 - `verification_passed`: Boolean indicating empirical test gate status
 - `limitations`: Observations, manual fallbacks triggered, or edge cases
+

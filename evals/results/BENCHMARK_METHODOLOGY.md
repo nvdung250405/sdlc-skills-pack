@@ -53,3 +53,4 @@ For each of the 11 golden task fixtures in `evals/*.json`:
 ## 4. Transcript Archiving Convention
 
 Empirical run transcripts must be archived in `evals/results/<agent-runtime>/<fixture-id>_<model>_<timestamp>.json` following the schema documented in `evals/results/README.md`.
+

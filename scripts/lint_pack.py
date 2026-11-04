@@ -394,7 +394,7 @@ def main() -> int:
             bundled = router_templates / rel
             if not bundled.is_file():
                 errors.append(f"router bundled template missing: {bundled.relative_to(ROOT)}")
-            elif bundled.read_bytes() != tmpl.read_bytes():
+            elif bundled.read_bytes().replace(b"\r\n", b"\n") != tmpl.read_bytes().replace(b"\r\n", b"\n"):
                 errors.append(f"router bundled template out of sync with root: {rel}")
 
     router_workflows = ROOT / "skills" / "using-sdlc-skills" / "assets" / "workflows"
@@ -402,7 +402,7 @@ def main() -> int:
         bundled = router_workflows / wf.name
         if not bundled.is_file():
             errors.append(f"router bundled workflow missing: {bundled.relative_to(ROOT)}")
-        elif bundled.read_bytes() != wf.read_bytes():
+        elif bundled.read_bytes().replace(b"\r\n", b"\n") != wf.read_bytes().replace(b"\r\n", b"\n"):
             errors.append(f"router bundled workflow out of sync with root: {wf.name}")
 
     router_scripts = ROOT / "skills" / "using-sdlc-skills" / "scripts"
@@ -411,7 +411,7 @@ def main() -> int:
         bundled_script = router_scripts / s_name
         if not bundled_script.is_file():
             errors.append(f"router bundled script missing: {bundled_script.relative_to(ROOT)}")
-        elif bundled_script.read_bytes() != src_script.read_bytes():
+        elif bundled_script.read_bytes().replace(b"\r\n", b"\n") != src_script.read_bytes().replace(b"\r\n", b"\n"):
             errors.append(f"router bundled script out of sync with root: {s_name}")
 
     shared_checklists = {
@@ -435,11 +435,11 @@ def main() -> int:
         if not src.is_file():
             errors.append(f"missing canonical shared reference: {src.relative_to(ROOT)}")
             continue
-        src_bytes = src.read_bytes()
+        src_bytes = src.read_bytes().replace(b"\r\n", b"\n")
         for target in targets:
             if not target.is_file():
                 errors.append(f"shared checklist target missing: {target.relative_to(ROOT)}")
-            elif target.read_bytes() != src_bytes:
+            elif target.read_bytes().replace(b"\r\n", b"\n") != src_bytes:
                 errors.append(f"shared checklist out of sync with canonical shared/ source: {target.relative_to(ROOT)}")
 
     lock_path = ROOT / "manifests" / "upstream-lock.json"
@@ -556,7 +556,7 @@ def main() -> int:
                             errors.append(f"provenance mismatch for {destination}: {key} should be {expected!r}")
                     skill_file = ROOT / destination / "SKILL.md"
                     if skill_file.is_file() and record.get("content_sha256"):
-                        digest = hashlib.sha256(skill_file.read_bytes()).hexdigest()
+                        digest = hashlib.sha256(skill_file.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
                         if digest != record.get("content_sha256"):
                             errors.append(f"provenance content hash mismatch for {destination}; update provenance after a reviewed edit")
                     elif args.strict:

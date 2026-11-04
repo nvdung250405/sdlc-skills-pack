@@ -393,7 +393,7 @@ def main() -> int:
                 "transformations": item.get("transformations", []),
                 "kind": "adapted-derived-skill",
                 "refresh_policy": "manual-review-only",
-                "content_sha256": hashlib.sha256(skill_file.read_bytes()).hexdigest(),
+                "content_sha256": hashlib.sha256(skill_file.read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
             }
         for name in sorted(PACK_OWNED_SKILLS):
             destination = f"skills/{name}" if (ROOT / "skills" / name).is_dir() else f"extras/{name}"

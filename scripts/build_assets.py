@@ -34,11 +34,12 @@ def sync_templates(check_only: bool) -> list[str]:
     for src in src_files:
         rel = src.relative_to(src_dir)
         dest = DEST_TEMPLATES / rel
-        if not dest.is_file() or dest.read_bytes() != src.read_bytes():
+        src_bytes = src.read_bytes().replace(b"\r\n", b"\n")
+        if not dest.is_file() or dest.read_bytes().replace(b"\r\n", b"\n") != src_bytes:
             diffs.append(f"template: {rel}")
             if not check_only:
                 dest.parent.mkdir(parents=True, exist_ok=True)
-                dest.write_bytes(src.read_bytes())
+                dest.write_bytes(src_bytes)
 
     # Check for orphans
     for dest in DEST_TEMPLATES.rglob("*"):
@@ -60,11 +61,12 @@ def sync_workflows(check_only: bool) -> list[str]:
 
     for src in src_files:
         dest = DEST_WORKFLOWS / src.name
-        if not dest.is_file() or dest.read_bytes() != src.read_bytes():
+        src_bytes = src.read_bytes().replace(b"\r\n", b"\n")
+        if not dest.is_file() or dest.read_bytes().replace(b"\r\n", b"\n") != src_bytes:
             diffs.append(f"workflow: {src.name}")
             if not check_only:
                 dest.parent.mkdir(parents=True, exist_ok=True)
-                dest.write_bytes(src.read_bytes())
+                dest.write_bytes(src_bytes)
 
     for dest in DEST_WORKFLOWS.glob("*.md"):
         src = src_dir / dest.name
@@ -84,11 +86,12 @@ def sync_scripts(check_only: bool) -> list[str]:
         dest = DEST_SCRIPTS / s_name
         if not src.is_file():
             continue
-        if not dest.is_file() or dest.read_bytes() != src.read_bytes():
+        src_bytes = src.read_bytes().replace(b"\r\n", b"\n")
+        if not dest.is_file() or dest.read_bytes().replace(b"\r\n", b"\n") != src_bytes:
             diffs.append(f"script: {s_name}")
             if not check_only:
                 dest.parent.mkdir(parents=True, exist_ok=True)
-                dest.write_bytes(src.read_bytes())
+                dest.write_bytes(src_bytes)
     return diffs
 
 

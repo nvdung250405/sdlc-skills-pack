@@ -535,7 +535,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "aa550c484926a14f86e3d7559c0b7c039d1ab65e7eb8ee31ebf26c48985b6393"
+      "content_sha256": "067b04fb9fa9fde7fa1fc09636aac99e7b4079354fdbc1f16cd330c32596caaf"
     },
     "extras/cost-optimization": {
       "upstream": "wshobson-agents",
@@ -548,7 +548,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "039b8849eb7c72afbd32b9c08da9cf0aa9cbbad868eff551ed5fae54f1d1a278"
+      "content_sha256": "1a60e8208d9da4805d104141061cbba3f05fd1ebae71b309eebf6ddbc617a075"
     },
     "extras/subagent-driven-development": {
       "upstream": "obra-superpowers",
