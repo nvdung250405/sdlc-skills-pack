@@ -143,8 +143,8 @@ def render_agents_md(with_extras: bool, skill_root: str, asset_root: str) -> str
     ]
     if with_extras:
         command.append("--with-extras")
-    result = subprocess.run(command, check=True, capture_output=True, text=True, encoding="utf-8")
-    return result.stdout
+    result = subprocess.run(command, check=True, capture_output=True)
+    return result.stdout.decode("utf-8")
 
 
 def print_missing_optional_summary(sources: list[Path], args: argparse.Namespace, manifest_path: Path) -> None:

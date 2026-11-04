@@ -6,6 +6,7 @@ installed skill folders; --asset-root points to the pack copy containing workflo
 and templates/.
 """
 from __future__ import annotations
+import sys
 import argparse
 import re
 from pathlib import Path
@@ -62,6 +63,10 @@ def render(with_extras: bool = False, skill_root: str = "skills", asset_root: st
 
 
 def main() -> None:
+    # Ensure stdout uses UTF-8 on Windows where the console may default to cp1252.
+    if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--with-extras", action="store_true")
     parser.add_argument("--skill-root", default="skills", help="project-relative path containing installed skill folders")

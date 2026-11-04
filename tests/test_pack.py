@@ -117,20 +117,20 @@ class PackStaticTests(unittest.TestCase):
                 rel = t.relative_to(ROOT / "templates")
                 bundled = router_tmpl_dir / rel
                 self.assertTrue(bundled.is_file(), f"Missing bundled template {rel}")
-                self.assertEqual(t.read_bytes(), bundled.read_bytes(), f"Bundled template {rel} out of sync")
+                self.assertEqual(t.read_bytes().replace(b"\r\n", b"\n"), bundled.read_bytes().replace(b"\r\n", b"\n"), f"Bundled template {rel} out of sync")
 
         router_wf_dir = ROOT / "skills" / "using-sdlc-skills" / "assets" / "workflows"
         for w in (ROOT / "workflows").glob("*.md"):
             bundled = router_wf_dir / w.name
             self.assertTrue(bundled.is_file(), f"Missing bundled workflow {w.name}")
-            self.assertEqual(w.read_bytes(), bundled.read_bytes(), f"Bundled workflow {w.name} out of sync")
+            self.assertEqual(w.read_bytes().replace(b"\r\n", b"\n"), bundled.read_bytes().replace(b"\r\n", b"\n"), f"Bundled workflow {w.name} out of sync")
 
         router_script_dir = ROOT / "skills" / "using-sdlc-skills" / "scripts"
         for script_name in ["scaffold.py", "bounded_run.py", "verify_contracts.py"]:
             src = ROOT / "scripts" / script_name
             bundled = router_script_dir / script_name
             self.assertTrue(bundled.is_file(), f"Missing bundled script {script_name}")
-            self.assertEqual(src.read_bytes(), bundled.read_bytes(), f"Bundled script {script_name} out of sync")
+            self.assertEqual(src.read_bytes().replace(b"\r\n", b"\n"), bundled.read_bytes().replace(b"\r\n", b"\n"), f"Bundled script {script_name} out of sync")
 
         res_check = run_script("build_assets.py", "--check")
         self.assertEqual(res_check.returncode, 0, f"build_assets.py --check failed: {res_check.stderr}")
