@@ -1,57 +1,59 @@
-# Pull Request: [SHORT_SUMMARY_OF_CHANGE]
+# Pull Request: [PR Title]
 
-- **Type**: Feature | Bugfix | Refactor | Performance | Security | Docs
-- **Related Spec / Issue**: Fixes #`[ISSUE_NUMBER]` / Implements `docs/features/[feature-id]/spec.md`
-- **Author**: [Name / Agent]
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Pull Request Description & Review  
+> **Primary Owner Skill:** `code-review-and-quality`  
+> **Canonical Destination Path:** `.github/pull_request_template.md` (or PR body)  
+> **Status:** `<Open | In Review | Approved | Merged>`  
+> **Last updated:** `<YYYY-MM-DD>`  
 
----
-
-## 1. Summary of Changes
-[Concise explanation of what changes were made and why. Highlight any key architectural or interface modifications.]
-
-- Change 1: [Brief description]
-- Change 2: [Brief description]
-
----
-
-## 2. Motivation & Context
-[Why was this change necessary? What user problem, bug, or technical debt does it resolve?]
+- **Type:** `feat` | `fix` | `refactor` | `perf` | `test` | `docs` | `chore`
+- **Related Spec / Issue:** [e.g., `FEAT-001`, `ISSUE-42`]
+- **Author:** [Name / Role / Agent]
 
 ---
 
-## 3. Verification & Test Evidence
+## 1. Summary of Changes (Required)
+[Provide a clear, concise bulleted summary of what was changed and why. Highlight any architectural seams or public interface modifications.]
 
-> [!IMPORTANT]
-> Evidence before assertions: list the commands actually executed and include real output summaries.
+- Change 1: [Implemented X to satisfy US-001]
+- Change 2: [Added database migration for Y]
+- Change 3: [Added automated integration tests]
 
-### Commands Executed
-```bash
-# Unit & integration tests
-pytest tests/ -v
-# or npm test
+---
 
-# Linting and type-checking
-python scripts/lint_pack.py --strict
-# or npm run typecheck
+## 2. Motivation & Context (Required)
+[Link to the governing Feature Spec (`docs/features/<feature-id>/spec.md`) and Technical Plan (`docs/features/<feature-id>/plan.md`). Explain why this approach was taken over alternatives.]
+
+---
+
+## 3. Verification & Test Evidence (Required)
+Evidence before assertions. List the exact commands executed and their fresh outcomes.
+
+| Check | Command Executed | Result / Exit Code | Evidence / Logs |
+|---|---|---|---|
+| Unit Tests | `npm test` | Passed (14 tests) | Clean exit 0 |
+| Integration Tests | `npm run test:integration` | Passed (5 tests) | DB transactions verified |
+| Lint & Typecheck | `npm run lint && npm run typecheck` | Passed (0 errors) | Zero warnings |
+
+### Terminal Verification Snippet
+```text
+[Paste terminal verification snippet here]
 ```
 
-### Verification Results
-- [x] All unit tests passed (`[X] passed in [Y]s`)
-- [x] Strict linting and formatting passed (0 errors, 0 warnings)
-- [x] Manual / Browser verification completed (screenshots or curl output attached if applicable)
+---
+
+## 4. Breaking Changes & Migrations (Optional)
+- [ ] Database migration included (guaranteed zero downtime)
+- [ ] Environment variables or configuration changes required
+- [ ] API contract changes (backward-compatible)
 
 ---
 
-## 4. Breaking Changes & Migration Steps
-- [ ] **Breaking changes introduced?** (Yes / No)
-- If yes, describe migration steps:
-  - [Step 1: Run database migration `xyz`]
-  - [Step 2: Update environment variable `ABC`]
-
----
-
-## 5. Reviewer Checklist
-- [ ] Code adheres to project style, conventions, and deep module boundaries.
-- [ ] No unexplained telemetry, credential exposure, or insecure dependencies.
-- [ ] Edge cases and failure modes are explicitly handled.
-- [ ] Documentation and architectural decision records are updated if applicable.
+## 5. Reviewer Checklist (Required)
+- [ ] Code follows project architecture, modular seams, and idiomatic standards
+- [ ] Acceptance criteria from the feature spec are satisfied
+- [ ] New behavioral logic is accompanied by automated tests (TDD)
+- [ ] No secrets, credentials, or sensitive debugging code committed
+- [ ] No test threshold or quality gate was weakened to pass CI
+- **Peer Reviewer Sign-off:** [Reviewer Name / Approval Date]

@@ -1,5 +1,16 @@
 # Production incident response workflow
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `incident-response`  
+> **Scenario Group:** Defect Resolution  
+> **Trigger / Input:** Production alert, outage, service degradation, SLO breach  
+> **Primary Stages:** Stabilize & Mitigate → Diagnose Root Cause → Surgical Fix → Postmortem & Prevention  
+> **Key Output:** Incident postmortem, preventative action items, runbook update  
+> **Verification / Exit Gate:** System SLIs/SLOs restored to healthy baseline for ≥ 15 minutes, postmortem published  
+
+---
+
+
 Use this workflow for active production or staging incidents affecting service stability, customer experience, data integrity, or security. Follow organizational incident policies and severity definitions when established.
 
 ---

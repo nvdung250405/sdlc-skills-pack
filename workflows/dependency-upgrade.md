@@ -1,5 +1,16 @@
 # Dependency & security upgrade workflow
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `dependency-upgrade`  
+> **Scenario Group:** Maintenance & Optimization  
+> **Trigger / Input:** Security advisory, CVE alert, outdated runtime, major framework version  
+> **Primary Stages:** Upgrade Triage → Worktree Isolation → Manifest/Lockfile Bump → Code Adaptation → Security Audit  
+> **Key Output:** Upgraded package manifest and lockfile, clean security scan report  
+> **Verification / Exit Gate:** Full test suite passing, 0 critical/high CVEs remaining, `verification-before-completion`  
+
+---
+
+
 Use this workflow when upgrading frameworks, runtime versions (Node/Python/Go), third-party libraries, or patching CVE security vulnerabilities reported by audit tools (Dependabot, Snyk, Trivy).
 
 ---

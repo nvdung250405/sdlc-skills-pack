@@ -1,17 +1,34 @@
 # Requirements Traceability Matrix (RTM)
 
-Stable IDs: `FR-*`, `NFR-*`, `UC-*`, `ADR-*`, `FEAT-*`, and test IDs are never recycled. Retire entries instead of deleting them.
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Requirements Traceability Matrix (RTM)  
+> **Primary Owner Skill:** `requirements-engineering`  
+> **Canonical Destination Path:** `docs/specs/RTM.md`  
+> **Status:** `<Draft | Baseline | Verified>`  
+> **Last updated:** `<YYYY-MM-DD>`  
 
-| Requirement ID | Requirement summary / status | Use case | Architecture / ADR | Feature / plan | Detailed design / contract | Test / acceptance evidence |
+This matrix maintains bidirectional traceability from stakeholder needs through requirements, architecture design, implementation tasks, and verification test cases.
+
+---
+
+## 1. Traceability Ledger (Required)
+
+| Requirement ID | Requirement Summary | Category | Architecture / Design Seam | Implementation Task | Verification Test Case | Status |
 |---|---|---|---|---|---|---|
-| FR-AREA-001 | [summary; Active/Retired] | UC-001 | ADR-001 | FEAT-001 | [path/section] | [test ID, command, result] |
+| `FR-AUTH-001` | OAuth2 Login flow | Functional | `docs/architecture.md#auth` | `T-001` (`tasks.md`) | `test_oauth_flow.py` | Verified |
+| `NFR-SEC-001` | Encrypted JWT tokens | Security | `ADR-003` | `T-002` (`tasks.md`) | `test_jwt_encryption.py` | Verified |
 
-## Ownership rules
-- Requirements owner: creates IDs and edits requirement text/status.
-- Architecture owner: adds architecture/ADR references; does not rewrite requirement semantics.
-- Planning owner: maps requirements to feature/plan IDs.
-- Detailed design owner: appends design/contract references.
-- QA/acceptance owner: adds test references only after evidence is observed.
+---
 
-## Verification status
-Do not manually mark a requirement “verified” merely because a task is complete. Verification requires an acceptance test/evidence reference and an observed passing result. Record partial coverage or blocked checks explicitly.
+## 2. Verification Status & Evidence Rules (Required)
+- An item is marked `Verified` only when accompanied by passing automated test execution evidence or an approved acceptance report.
+- `Pending`: Implementation or test authoring underway.
+- `Blocked`: Prerequisite task or external dependency failing.
+
+---
+
+## 3. Verification & Traceability Sign-off (Required)
+- [ ] Every in-scope requirement maps to at least one test case or verification command
+- [ ] No orphan design elements or unverified requirements exist
+- [ ] Verification evidence links resolve to valid artifacts or CI test logs
+- **Audited by:** [QA Lead / Requirements Engineer / Date]

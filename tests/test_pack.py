@@ -97,6 +97,46 @@ class PackStaticTests(unittest.TestCase):
         for marker in ("Given:", "When:", "Then:"):
             self.assertIn(marker, template)
 
+    def test_all_11_workflows_and_22_templates_exist_and_have_standard_headers(self) -> None:
+        templates = sorted([p for p in (ROOT / "templates").glob("*.md") if p.name != "README.md"])
+        self.assertEqual(len(templates), 22, f"Expected 22 templates, found {len(templates)}")
+        for t in templates:
+            text = t.read_text(encoding="utf-8")
+            self.assertIn("> **Document type:** Canonical Artifact Contract", text, f"{t.name} missing header")
+
+        workflows = sorted(list((ROOT / "workflows").glob("*.md")))
+        self.assertEqual(len(workflows), 11, f"Expected 11 workflows, found {len(workflows)}")
+        for w in workflows:
+            text = w.read_text(encoding="utf-8")
+            self.assertIn("> **Document type:** Standardized Workflow Definition", text, f"{w.name} missing header")
+
+    def test_router_bundled_assets_are_in_sync_with_root(self) -> None:
+        router_tmpl_dir = ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates"
+        for t in (ROOT / "templates").glob("*.md"):
+            if t.name != "README.md":
+                bundled = router_tmpl_dir / t.name
+                self.assertTrue(bundled.is_file(), f"Missing bundled template {t.name}")
+                self.assertEqual(t.read_bytes(), bundled.read_bytes(), f"Bundled template {t.name} out of sync")
+
+        router_wf_dir = ROOT / "skills" / "using-sdlc-skills" / "assets" / "workflows"
+        for w in (ROOT / "workflows").glob("*.md"):
+            bundled = router_wf_dir / w.name
+            self.assertTrue(bundled.is_file(), f"Missing bundled workflow {w.name}")
+            self.assertEqual(w.read_bytes(), bundled.read_bytes(), f"Bundled workflow {w.name} out of sync")
+
+    def test_scaffold_all_22_artifact_aliases(self) -> None:
+        from scripts.scaffold import ARTIFACT_MAP
+        self.assertEqual(len(ARTIFACT_MAP), 22)
+        with tempfile.TemporaryDirectory() as temp:
+            dest_dir = Path(temp)
+            for alias, (tmpl_file, dest_pattern) in ARTIFACT_MAP.items():
+                target = dest_dir / tmpl_file
+                res = run_script("scaffold.py", alias, "--id", "test-feat", "--target", str(target))
+                self.assertEqual(res.returncode, 0, f"Scaffold failed for {alias}: {res.stderr}")
+                self.assertTrue(target.is_file(), f"Target file was not created for {alias}")
+                content = target.read_text(encoding="utf-8")
+                self.assertIn("> **Document type:** Canonical Artifact Contract", content)
+
     def test_installer_requires_verified_pack_unless_partial_is_allowed(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             dest = Path(temp) / "new-skills"

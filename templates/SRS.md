@@ -1,5 +1,15 @@
 # Software Requirements Specification (SRS)
 
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Formal System Requirements Specification (SRS)  
+> **Primary Owner Skill:** `requirements-engineering`  
+> **Canonical Destination Path:** `docs/specs/SRS.md`  
+> **Status:** `<Draft | In Review | Approved>`  
+> **Last updated:** `<YYYY-MM-DD>`  
+
+---
+
+
 - System: [SYSTEM_NAME]
 - Document ID/version/status: [ID] / [VERSION] / Draft
 - Owner / reviewers: [..]

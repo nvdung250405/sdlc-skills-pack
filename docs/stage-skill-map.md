@@ -56,7 +56,8 @@ Mỗi tạo phẩm chuẩn hóa (canonical artifact) chỉ do một kỹ năng c
 | **Discovery** | Opportunity brief & hypothesis | `templates/opportunity-brief.md` | `docs/discovery/[initiative]/opportunity-brief.md` | `interview-me`, `idea-refine` |
 | **Requirements** | Product Requirements Document | `templates/PRD.md` | `docs/prd.md` | `pm-product-spec` |
 | **Requirements** | Feature Specification (Stories & AC) | `templates/feature-spec.md` | `docs/features/<feature-id>/spec.md` | `spec-driven-development`, `pm-user-story` |
-| **Requirements** | Formal SRS & Traceability Matrix | `templates/SRS.md`, `templates/RTM.md` | `docs/specs/SRS.md`, `docs/specs/RTM.md` | `requirements-engineering` |
+| **Requirements** | Formal System Requirements (SRS) | `templates/SRS.md` | `docs/specs/SRS.md` | `requirements-engineering` |
+| **Requirements** | Requirements Traceability Matrix (RTM) | `templates/RTM.md` | `docs/specs/RTM.md` | `requirements-engineering` |
 | **Architecture** | System Architecture Overview | `templates/architecture-overview.md` | `docs/architecture.md` | `software-architecture` |
 | **Architecture** | Architecture Decision Record | `templates/ADR.md` | `docs/adr/ADR-NNN-[slug].md` | `documentation-and-adrs` |
 | **Architecture** | Detailed Design Specification | `templates/DDS.md` | `docs/features/<feature-id>/design.md` | `software-architecture`, `codebase-design` |

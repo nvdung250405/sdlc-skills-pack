@@ -1,5 +1,16 @@
 # Code refactoring & architectural deepening workflow
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `refactoring`  
+> **Scenario Group:** Maintenance & Optimization  
+> **Trigger / Input:** Technical debt, code smell, module deepening, shallow abstractions  
+> **Primary Stages:** Scope & Invariants → Characterization Tests → Deep Module Seams → Micro-Steps → Regression Verification  
+> **Key Output:** Refactored clean code, deep module seams, architectural ADR if seams change  
+> **Verification / Exit Gate:** 100% behavioral preservation, full test suite passing, zero regression  
+
+---
+
+
 Use this workflow for technical debt reduction, module deepening, code simplification, or architectural cleanup where observable behavior must remain 100% unchanged. Do not manufacture User Stories for purely technical refactoring.
 
 ---

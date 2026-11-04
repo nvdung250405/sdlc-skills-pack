@@ -1,5 +1,16 @@
 # Feature development loop
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `feature-loop`  
+> **Scenario Group:** Construction  
+> **Trigger / Input:** Standard feature request, user story in existing codebase  
+> **Primary Stages:** Spec & Stories → Contract-First Architecture → Planning → Construction (TDD) → Verification & Acceptance  
+> **Key Output:** Working feature slice, automated unit/integration tests, canonical feature spec  
+> **Verification / Exit Gate:** All AC tests green, DoD satisfied, `verification-before-completion` evidence recorded  
+
+---
+
+
 Use for implementing a feature in an existing codebase. Read existing repository context and guidance first. Do not fork a second artifact system.
 
 ---

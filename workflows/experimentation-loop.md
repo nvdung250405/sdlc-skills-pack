@@ -1,5 +1,16 @@
 # Product experimentation & A/B testing loop
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `experimentation-loop`  
+> **Scenario Group:** Product Learning  
+> **Trigger / Input:** Growth hypothesis, competing UX variants, conversion funnel optimization  
+> **Primary Stages:** Hypothesis & Metrics → Telemetry Instrumentation → Variant Construction → Execution → Statistical Evaluation  
+> **Key Output:** Experiment brief with statistical analysis, variant rollout or cleanup commit  
+> **Verification / Exit Gate:** Target sample size achieved, p < 0.05 on primary metric, zero dead code after rollout  
+
+---
+
+
 Use this workflow when testing competing UX variants, optimizing conversion funnels, measuring feature adoption, or running continuous growth experiments (Stage 11: Product Learning & Measurement).
 
 ---
@@ -34,4 +45,3 @@ Use this workflow when testing competing UX variants, optimizing conversion funn
     - **Degraded**: Roll back immediately to Control.
 13. **Verification Gate**: Run `verification-before-completion` after flag removal and cleanup to capture fresh test suite and build evidence, proving zero regressions in production paths.
 14. **Record Learnings**: Document final findings, statistical tables, and next test recommendations in `docs/experiments/[exp-id]-[slug].md`.
-

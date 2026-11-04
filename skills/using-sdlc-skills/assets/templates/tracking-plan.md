@@ -1,62 +1,60 @@
-# Telemetry & Event Tracking Plan: [FEATURE_OR_APPLICATION_NAME]
+# Event Tracking Plan: [PRODUCT_OR_FEATURE_NAME]
 
-- **Status**: Draft | Implemented | Verified
-- **Owner**: [Analytics Lead / Agent]
-- **Date**: [YYYY-MM-DD]
-- **Target Platforms**: Web (GA4 / Mixpanel) | Mobile | Backend API
-- **Canonical Path**: `docs/analytics/tracking-plan.md`
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Event Tracking Plan & Schemas  
+> **Primary Owner Skill:** `analytics`  
+> **Canonical Destination Path:** `docs/analytics/tracking-plan.md`  
+> **Status:** `<Draft | Implemented | Verified>`  
+> **Last updated:** `<YYYY-MM-DD>`  
 
----
-
-## 1. Tracking Principles & Naming Conventions
-- **Naming Pattern**: `noun_action` in lower_snake_case (e.g., `checkout_started`, `button_clicked`).
-- **Standard Global Properties** attached to every event:
-  - `user_id`: Unique persistent identifier (or `null` if anonymous).
-  - `session_id`: Unique session string.
-  - `platform`: `web` | `ios` | `android`.
-  - `app_version`: Semantic version string.
-  - `timestamp_utc`: ISO 8601 UTC timestamp.
+- **Owner:** `[Data Analyst / Product Lead]`
+- **Target Platforms:** `[Web / iOS / Android / Backend]`
 
 ---
 
-## 2. Event Taxonomy & Dictionary
+## 1. Tracking Philosophy & Global Properties (Required)
+All events follow the standard naming convention: `object_action` in snake_case (e.g., `checkout_started`, `button_clicked`).
 
-| Event Name | Trigger Condition | Required Properties | Optional Properties | Destination Tool |
+### Global Context Properties (Sent with every event)
+| Property | Type | Description | Example |
+|---|---|---|---|
+| `user_id` | String | Unique identified user ID | `"usr_12345"` |
+| `session_id` | String | Session identifier | `"ses_98765"` |
+| `platform` | String | Client environment | `"web"` / `"ios"` |
+| `timestamp` | ISO8601 | Event generation time (UTC) | `"2026-11-04T12:00:00Z"` |
+
+---
+
+## 2. Event Taxonomy & Schemas (Required)
+
+### Event: `signup_completed`
+- **Description:** Triggered immediately when a new user successfully confirms their account.
+- **Trigger Location:** `src/auth/signup-service.ts`
+
+| Property | Type | Required | Description | Allowed Values |
 |---|---|---|---|---|
-| `signup_completed` | User finishes registration and confirms email | `method` (email, google, github) | `referral_code` | GA4, Mixpanel, Warehouse |
-| `checkout_initiated`| User clicks "Proceed to Checkout" | `cart_id`, `item_count`, `currency`, `total_amount` | `coupon_applied` | GA4, Mixpanel |
-| `feature_used` | User executes core action (e.g. export report) | `feature_id`, `duration_ms` | `export_format` | Mixpanel, PostHog |
+| `auth_provider` | String | Yes | Method of signup | `email`, `google`, `github` |
+| `referral_source` | String | No | Source campaign | `google_ads`, `organic`, `invite` |
+
+### Event: `feature_used`
+- **Description:** Triggered when the user interacts with the core capability.
+- **Trigger Location:** `src/features/action.ts`
+
+| Property | Type | Required | Description | Allowed Values |
+|---|---|---|---|---|
+| `feature_id` | String | Yes | Identifier of the feature | `"export_csv"`, `"filter_view"` |
+| `duration_ms` | Number | Yes | Latency of the action | Positive integer |
 
 ---
 
-## 3. Detailed Property Schemas
-
-### `checkout_initiated`
-```json
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "cart_id": { "type": "string" },
-    "item_count": { "type": "integer", "minimum": 1 },
-    "currency": { "type": "string", "enum": ["USD", "EUR", "VND"] },
-    "total_amount": { "type": "number", "minimum": 0 },
-    "coupon_applied": { "type": "string" }
-  },
-  "required": ["cart_id", "item_count", "currency", "total_amount"]
-}
-```
+## 3. Privacy & Governance Rules (Required)
+- **Zero PII in Event Payloads:** Never pass email addresses, passwords, credit cards, or phone numbers in event properties.
+- **Data Subject Rights:** All tracked events must support user pseudonymization and GDPR deletion requests.
 
 ---
 
-## 4. Privacy & Compliance Guardrails
-- [x] **No PII in telemetry**: Passwords, email addresses, credit card numbers, and physical addresses must NEVER be passed as event properties.
-- [x] **Consent Enforcement**: Tracking disabled if user rejects cookie/telemetry banner.
-
----
-
-## 5. Verification & Testing Checklist
-- [ ] Events verified via DebugView / Network tab (`collect` payload verified).
-- [ ] Property types match schema (no numbers passed as stringified values).
-- [ ] Duplicate event firing prevented on page reloads or rapid clicks.
-
+## 4. Verification & Testing Checklist (Required)
+- [ ] Telemetry schemas verified with automated schema validator
+- [ ] Staging event dispatch confirmed via debug proxy or test telemetry endpoint
+- [ ] Event volume and payload size verified to prevent client performance regressions
+- **Analytics Sign-off:** [Data Lead / PM / Date]

@@ -1,53 +1,59 @@
-# Implementation Plan: [FEATURE_OR_SYSTEM]
+# Implementation Plan: [FEATURE_NAME]
 
-- Feature(s): [FEAT-NNN, ...]
-- Spec/SRS: [path + version]
-- Owner: [..] | Date: [YYYY-MM-DD]
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Technical Implementation Plan  
+> **Primary Owner Skill:** `spec-driven-development`, `planning-and-task-breakdown`  
+> **Canonical Destination Path:** `docs/features/<feature-id>/plan.md`  
+> **Status:** `<Draft | In Review | Approved>`  
+> **Last updated:** `<YYYY-MM-DD>`  
 
-## Summary
-[Goal and chosen approach.]
+- **Feature ID:** `FEAT-NNN`
+- **Spec / SRS Reference:** `docs/features/<feature-id>/spec.md`
+- **Plan Author:** [Role / Team / Agent]
 
-## Technical context
-- Language/runtime:
-- Frameworks/dependencies:
-- Storage/integrations:
-- Build/test/lint commands:
-- Target environment:
-- Performance/security/availability constraints:
-- Unknowns requiring research:
+---
 
-## Governance/constitution check
-| Rule | Pass? | Evidence / exception approval |
-|---|---|---|
-| [rule] | Yes/No/N/A | [evidence] |
+## 1. Goal, Scope & Context (Required)
+[State the intended engineering outcome, affected codebase areas, and core architectural constraints. Reference existing contracts and schemas.]
 
-## Design summary
-- Architecture decisions and ADRs:
-- Data model/schema:
-- API/events/contracts:
-- Security/privacy:
-- Observability and rollout:
+---
 
-## Project structure
-[Relevant paths and why each exists; match the actual repository.]
+## 2. Key Architecture Seams & Decisions (Required)
+- **Component Seams:** [Which modules, boundaries, or contracts are modified?]
+- **Interface & Schema Contracts:** [OpenAPI, GraphQL, or database migrations needed]
+- **ADR References:** [Link to relevant ADRs in `docs/adr/`]
 
-## Phases / vertical slices
-| Order | Feature ID | Scope | Requirements covered | Depends on | Done when |
-|---|---|---|---|---|---|
-| 1 | FEAT-001 | [thin slice] | FR-... | — | [testable evidence] |
+---
 
-## Verification approach
-- Unit / integration / contract / E2E / non-functional tests:
-- Exact commands and environments:
-- Acceptance owner:
+## 3. Technical Strategy & Slicing (Required)
+Explain the vertical slicing strategy. Work must be delivered in thin, independently verifiable increments.
 
-## Complexity / risks
-| Risk or deviation | Impact | Mitigation | Owner | Gate |
-|---|---|---|---|---|
+- **Slice 1:** [Foundation / Contract / Data migration]
+- **Slice 2:** [Core business logic & domain handling]
+- **Slice 3:** [UI surface / Consumer integration]
 
-## Readiness gate
-- [ ] All Must requirements assigned to a slice or explicitly deferred with approval
-- [ ] Dependencies are ordered and no cycle is unexplained
-- [ ] Interfaces/data decisions are documented
-- [ ] Verification and rollback paths are feasible
-- [ ] Human approval: [name/role/date]
+---
+
+## 4. Verification & Testing Strategy (Required)
+| Level | Scope / Target | Framework / Tool | Success Criteria |
+|---|---|---|---|
+| Unit | Domain logic, entities | Jest / Pytest | 100% pass, covers edge branches |
+| Integration | DB adapters, API routes | Supertest / Testcontainers | DB transactions & wire schemas valid |
+| E2E / Browser | Critical user flow | Playwright | AC Given/When/Then scenarios green |
+
+---
+
+## 5. Dependencies, Risks & Rollback Plan (Required)
+- **Dependencies:** [External services, library upgrades, migrations]
+- **Technical Risks & Mitigations:** [Potential regressions and preventive measures]
+- **Rollback Strategy:** [Feature flag disable, database down-migration procedure]
+
+---
+
+## 6. Readiness Gate & Sign-off (Required)
+- [ ] Scope and acceptance criteria from feature spec are fully mapped
+- [ ] Vertical slices are testable and ordered without circular dependencies
+- [ ] Contract-first design established before persistence changes
+- [ ] Testing strategy includes automated verification commands
+- [ ] Rollback strategy is realistic and documented
+- **Approved by:** [Tech Lead / Date]

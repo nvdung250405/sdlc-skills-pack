@@ -1,195 +1,396 @@
-# Pack Architecture
+# Pack Architecture – Universal SDLC Agent Skills
 
-## 1. Purpose
+> **Document type:** Architectural Source of Truth  
+> **Pack:** Universal SDLC Agent Skills Pack  
+> **Version:** 0.1.0  
+> **Status:** Approved  
+> **Last updated:** 2026-11-04  
 
-The Universal SDLC Agent Skills Pack is a modular, portable system that helps AI coding agents turn software-work requests into well-defined engineering work and verifiable results. It combines curated skills, workflow contracts, artifact templates, package metadata, and runtime adapters.
+---
 
-The governing principle is **flexible input, disciplined output**. A task may begin with a plain-language request, partial context, an existing codebase, a confirmed stack, or a detailed specification. The pack must not require a complete intake form or `STACK.md` before useful work can begin. It must make the expected outcome, constraints, assumptions, and verification status explicit, and must never hide uncertainty or claim checks that were not performed.
+## 1. Purpose and Scope
 
-The pack supports SDLC work; it does not impose every stage or deliverable on every project.
+### 1.1 Purpose
+The **Universal SDLC Agent Skills Pack** is a modular, portable engineering capability system that guides AI coding agents to turn software work requests into well-defined engineering artifacts and verifiable outcomes.
+
+The governing principle of the pack is **flexible input, disciplined output**. A task may begin with a plain-language prompt, partial context, an existing codebase, a confirmed technology stack, or a formal specification. The pack does not require a rigid intake questionnaire or a mandatory `STACK.md` before useful engineering work can begin. It enforces discipline at the output boundary: making expected outcomes, constraints, assumptions, and empirical verification status explicit, while never concealing uncertainty or asserting unverified test claims.
+
+### 1.2 In Scope
+- End-to-end SDLC capability coverage across 16 stages (11 core lifecycle stages and 5 cross-cutting capability areas).
+- Multi-agent runtime portability across Antigravity, Claude Code, Cursor, GitHub Copilot, Codex, and OpenCode.
+- A single canonical router (`using-sdlc-skills`) driving demand-driven skill selection.
+- 22 canonical artifact templates with explicit ownership contracts.
+- 11 standardized workflows covering core development, defect remediation, refactoring, and maintenance scenarios.
+- Strict upstream provenance tracking, content hashing, and transactional sync safety.
+
+### 1.3 Out of Scope
+- Proprietary vendor lock-in or dependency on closed SaaS workflow platforms.
+- Autonomous, unmonitored production deployments without explicit human-in-the-loop approval.
+- Enforcing monolithic waterfall processes on simple, isolated tasks (e.g., bug fixes or quick text edits).
+- Replacing team communication or human architectural stewardship.
+
+### 1.4 Operating Context
+The pack operates within diverse AI agent runtimes, shell environments (Bash, Zsh, PowerShell), and host operating systems (Linux, macOS, Windows). Runtime capabilities differ: some support selective on-demand tool loading, while others load all installed instructions upfront. The architecture defines canonical behavior and provides thin adapters to normalize runtime differences.
+
+---
 
 ## 2. Architectural Principles
 
-- **Input flexibility:** use whatever reliable context is available. Ask for clarification only when missing information materially affects correctness, safety, or acceptance; otherwise proceed with explicit assumptions.
-- **Output contracts:** define observable expectations for the result, relevant deliverables, acceptance criteria, and verification. Incomplete inputs may lead to an assumption, partial result, or blocked status—not fabricated facts or silently weakened criteria.
-- **Modular responsibilities:** keep skills, orchestration, artifact contracts, catalogs, and runtime integration independently maintainable behind clear interfaces.
-- **One source of truth per concern:** each canonical fact has one authoritative owner. Derived views may be duplicated for readability only when consistency can be checked.
-- **Demand-driven task context:** select the smallest sufficient set of skills based on task demands and expand incrementally as needed, rather than enforcing a rigid numerical limit. This is a selection target, not a guarantee that every runtime can load only those skills; runtime behavior must be reported accurately.
-- **Honest implementation status:** distinguish implemented behavior, manual procedure, and target capability. Documentation must not imply automation exists unless the repository actually implements and tests it.
+- **Flexible input, disciplined output:** Accept flexible, partial, or evolving intake context; enforce rigorous verification, explicit assumptions, and strict contract conformance on outputs.
+- **Capability-oriented, not workflow-prescriptive:** The pack describes available capabilities in the Practical Matrix. A task activates only the workflows, stages, and skills relevant to its scope; stages may branch, repeat, or be skipped.
+- **Modular responsibilities:** Maintain clean boundaries between skills (domain procedures), workflows (coordination), contracts (output expectations), templates (scaffolding), tools/adapters (execution), and package metadata.
+- **One source of truth per concern:** Assign one authoritative owner to every canonical fact. Derived views are generated or verified against authoritative sources.
+- **Demand-driven task context:** Discover and load the smallest sufficient set of skill instructions into the agent prompt context. Expand incrementally only when the task requires it. Never enforce an artificial numerical limit.
+- **LLM for judgment, tools for deterministic work:** Reserve LLM reasoning for ambiguity, planning, qualitative evaluation, and synthesis. Delegate deterministic tasks (formatting, linting, compilation, test execution) to CLI tools, scripts, and automated pipelines.
+- **Cost-aware execution:** Manage LLM context window tokens, external API/model credits, and local compute resources as distinct cost dimensions.
+- **Provider and runtime neutrality:** Keep domain skills portable and decoupled from specific model providers or IDE runtimes. Place vendor-specific behavior in thin adapters.
+- **Evidence-based quality:** Require fresh, verifiable execution evidence before asserting that any test, check, or criteria has passed.
+- **Safe and recoverable change:** Ensure all sync, packaging, installation, and code modifications are non-destructive, previewable, and recoverable by default.
+- **Honest implementation status:** Explicitly distinguish implemented components from manual procedures and target capabilities.
+
+---
 
 ## 3. Core Concepts and Sources of Truth
 
-- **Master Matrix** (`sdlc-practical-matrix.md`): a curated reference for important SDLC stages, responsibility groups, artifacts, competencies, and representative skills. It is not the packaged inventory, a mandatory checklist, or a runtime loading list.
-- **Packaged Inventory:** the skills actually distributed by the repository. The manifest is authoritative for machine-readable package identity and metadata; inventory listings are derived views of that data and the package files, not a competing source of truth.
-- **Stable Skill ID:** an identifier that remains stable across changes to display name or source path where continuity is intended. Names and paths are metadata, not reliable identifiers by themselves.
-- **Core / Extras:** classifications of packaged skills. Core identifies baseline capabilities intended for broad use and default installation; Extras identifies context-dependent capabilities for particular stacks, domains, roles, infrastructure, or compliance needs. Neither classification means the skills must all be loaded into every task context.
-- **Project Skill Set:** the skills selected as relevant to a project from its known context. It is useful when project context persists, but it is optional and must not be a prerequisite for handling a standalone task.
-- **Task Active Skills:** the set selected and loaded for the current task based on demand. Selection, runtime availability, context loading, and actual activation/use are distinct states and must not be conflated.
-- **`STACK.md`:** an optional structured input describing a confirmed or proposed stack and related constraints. Other reliable sources, including a user request or repository inspection, may provide enough context without it.
-- **Artifact Contract:** the canonical definition of a deliverable's purpose, required properties, acceptance criteria, and verification. Each artifact type has one authoritative contract. A template instantiates that contract; a workflow coordinates its production and checks; a skill supplies the domain work.
+| Concept | Definition / Responsibility | Authoritative Source |
+|---|---|---|
+| **Practical Matrix** | Curated map of SDLC stages, roles, artifacts, competencies, and candidate skills. Defines capability scope, not runtime loading or mandatory sequence. | [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md) |
+| **Packaged Inventory** | Skills actually distributed by the repository (26 Core, 37 Extras), verified against commit locks and content hashes. | [`upstream.json`](../upstream.json), [`manifests/skill-provenance.json`](../manifests/skill-provenance.json) |
+| **Stable Skill ID** | Canonical identifier that remains stable across upstream renames, file moves, or path refactoring. | [`upstream.json`](../upstream.json), `manifests/skill-map.json` |
+| **Core / Extras** | Tiering policy: Core (26) skills provide universal engineering discipline installed by default; Extras (37) skills provide contextual stack/domain capabilities loaded on demand. | [`docs/stage-skill-map.md`](stage-skill-map.md) |
+| **Task Active Skills** | The minimal subset of skills dynamically selected and loaded into context for the current task step. Distinct from installed skills. | Runtime execution state / `.agent/tasks/<task-id>.md` |
+| **Workflow Definition** | Coordination patterns specifying entry triggers, stages, handoffs, and verification gates without embedding domain skill logic. | [`workflows/`](../workflows/) |
+| **Task Contract** | Lightweight statement of task goal, constraints, assumptions, referenced artifact contracts, and required verification. | Runtime convention / `docs/features/<feature-id>/plan.md` |
+| **Artifact Contract** | Canonical specification of one deliverable's purpose, structure, acceptance criteria, and verification methods. | [`templates/README.md`](../templates/README.md) & [`docs/stage-skill-map.md`](stage-skill-map.md) |
+| **Starter Template** | Pre-structured Markdown/code template instantiating an artifact contract on disk at a canonical project path. | [`templates/`](../templates/) |
+| **Completion Report** | Explicit report of task status (`completed`, `partially completed`, `blocked`, `failed`), deliverables, checks run with evidence, and limitations. | Output response / `docs/features/<feature-id>/acceptance-report.md` |
 
-## 4. Two Related Flows
+### 3.1 Contract Relationship
 
-### 4.1 Pack Development and Distribution
+```text
+User Request + Available Context (Repo, STACK.md, Prompts)
+                      |
+                      v
+                Task Contract
+         - goal, scope, constraints, assumptions
+         - target artifact(s)
+         - acceptance & verification criteria
+                      |
+                      +---- references ----> Artifact Contract(s)
+                      |                     (templates/ & docs/stage-skill-map.md)
+                      v
+             Workflow Definition (workflows/*.md)
+         - coordinates stages, handoffs, and gates
+         - selects Smallest Sufficient Set of Skills
+                      |
+                      v
+           Domain Skill Execution
+         - TDD, Refactoring, Architecture, Security
+         - scaffolds canonical templates into project paths
+                      |
+                      v
+             Produced Artifact(s)
+                      |
+                      v
+          Empirical Verification Gate (verification-before-completion)
+         - test runner, linters, contract checkers
+                      |
+                      v
+              Completion Report
+         - status, evidence, limitations
+```
 
-`Sources → Curation & Verification → Packaged Inventory → Classification → Release / Distribution`
+---
 
-1. **Sources:** upstream or local skills and reference material.
-2. **Curation & Verification:** validate provenance, current content, distinct value, safety, license/usage terms where applicable, and runtime compatibility.
-3. **Packaged Inventory:** record accepted packages and their stable IDs, source/revision metadata, content hashes, and relevant constraints.
-4. **Classification:** assign Core or Extras to packaged skills according to the documented policy.
-5. **Release / Distribution:** package and make the accepted version available for installation or use.
+## 4. Pack Architecture
 
-The Master Matrix informs curation but does not require every listed skill to be packaged. A skill is not available merely because it appears in the matrix or an external catalog.
+### 4.1 Component Breakdown
 
-### 4.2 Project Provisioning and Task Execution
+| Component | Responsibility | Inputs | Outputs | Dependencies / Boundaries | Status |
+|---|---|---|---|---|---|
+| **Skills** (`skills/`, `extras/`) | Domain procedures, engineering heuristics, TDD/architecture guidance. | Task context, prompts | Code changes, artifacts | Tool execution, adapters | Implemented (63 skills) |
+| **Workflows** (`workflows/`) | Multi-step lifecycle coordination, handoffs, routing, and gates. | Task intent | Ordered execution plan | Skills, Contracts | Implemented (11 workflows) |
+| **Contracts & Templates** (`templates/`) | Canonical artifact structures, acceptance criteria, and scaffolds. | Domain requirements | Validated deliverables | Skills, Workflows | Implemented (22 templates) |
+| **Tools & Scripts** (`scripts/`) | Deterministic execution: linting, packaging, syncing, installing. | CLI args, manifest | Formatted files, exit codes | Python runtime, OS shell | Implemented |
+| **Adapters** (`adapters/`) | Agent runtime-specific configuration, directory mapping, and installation. | Generic pack | Target runtime assets | Host IDE / CLI environment | Implemented (6 runtimes) |
+| **Manifests & Registries** (`manifests/`) | Machine-readable provenance, lockfiles, content hashes, and skill maps. | Upstream configs | Verified package state | Repository files | Implemented |
+| **Evaluation & Tests** (`tests/`) | Static validation, sync transaction tests, contract assertions. | Pack files, mock repos | Test reports, CI exit codes | Python `unittest` | Implemented (14 unit tests) |
 
-Project provisioning, when useful:
+### 4.2 Responsibility Boundaries
 
-`Available Project Context + Packaged Inventory → Project Skill Set → Optional Installation`
+- **Agent / LLM:** Context normalization, goal interpretation, architectural trade-off evaluation, task planning, and qualitative synthesis.
+- **Skills:** Domain instructions, BDD/TDD steps, threat modeling criteria, and idiomatic best practices.
+- **Tools / CLI / MCP:** Concrete execution engines (Git, Docker, Playwright, compilers, test runners, linters).
+- **Scripts / Pipelines:** Deterministic batch operations (pack linting, upstream sync transactions, automated installer).
+- **Human:** Final acceptance sign-off, production deployment approvals, and high-impact architectural decisions.
 
-Task execution:
+---
 
-`Task Request + Available Context → Normalized Task Context → Task Contract → Skill & Workflow Selection → Template Scaffolding → Execution → Verification → Completion Report`
+## 5. Pack Development, Curation, and Distribution
 
-- **Normalize context:** identify the goal, constraints, confirmed facts, evidence-based inferences, assumptions, and material unknowns. Reuse known context rather than forcing it into a rigid intake form.
-- **Define the task contract:** state the intended outcome, applicable output contract, acceptance criteria, and needed checks. Keep it lightweight and internal for simple tasks; persist it when the task's complexity or collaboration needs justify it.
-- **Select skills and workflows:** prefer the Project Skill Set when it exists. For a standalone task or a project without a prepared set, select directly from the Packaged Inventory using the task context and determine whether a multi-step coordination workflow (such as `feature-loop` or `bug-fix`) governs the lifecycle.
-- **Scaffold template & provision runtime:** resolve the matching starter template (from canonical `templates/` or router assets) and scaffold the artifact skeleton into the project's target destination path before domain authoring; ensure only relevant skill instructions are activated in the runtime context.
-- **Execute and verify:** use the chosen skills and applicable project conventions, then check the result against the task contract. Revisit selection or earlier steps when new evidence materially changes the task.
-- **Report honestly:** state what was completed, what was checked, the evidence available, and any unresolved limitation. If no suitable skill is available, proceed without pretending one was used, when safe and reasonable; otherwise report the blocker.
+The pack lifecycle follows a strict transactional flow:
 
-This is a logical workflow, not a mandatory linear SDLC process. Steps may be skipped, repeated, or revisited according to the task.
+```text
+Upstream / Local Sources
+           |
+           v
+Discovery & Inspection (upstream.json)
+           |
+           v
+License & Security Review (THIRD_PARTY_NOTICES.md)
+           |
+           v
+Selection & Classification (Direct Reuse / Adaptation / Local Authorship -> Core vs. Extras)
+           |
+           v
+Transactional Sync & Validation (scripts/sync_upstream.py -> scripts/lint_pack.py --strict)
+           |
+           v
+Packaged Inventory (manifests/skill-provenance.json, upstream-lock.json)
+           |
+           v
+Distribution & Installation (scripts/install.py)
+```
 
-### 4.3 Demand-Driven Skill Loading
+For every accepted skill, the repository records:
+- Stable skill ID and destination tier (`skills/` or `extras/`);
+- Upstream Git URL, revision commit SHA, and exact source path;
+- Inheritance method (`Direct reuse`, `Adaptation`, `Local authorship`);
+- License type and required attribution notices;
+- SHA-256 content hashes to guarantee integrity against tampering.
 
-The pack must support demand-driven skill discovery, selection, and loading without a fixed numerical limit on active skills.
+---
 
-Installation determines which skills are available in the target agent environment. Runtime selection determines which skills are relevant to the current task. Context loading and activation load the instructions needed to execute the work. These are separate concerns:
+## 6. Workflow and Orchestration
 
-| Layer | Responsibility |
-| --- | --- |
-| **Installation** | Determines which skills are installed and available in the target agent environment (can install all packaged skills). |
-| **Skill Discovery & Selection** | Identifies and selects skills based on task requirements, context, complexity, dependencies, and scope. |
-| **Context Loading & Activation** | Loads instructions for selected skills; allows incremental loading of additional skills when new subtasks or requirements emerge, if the runtime supports it. |
+### 6.1 Workflow Model
 
-The execution lifecycle operates as a demand-driven feedback loop:
+The pack provides **11 standardized workflows** in [`workflows/`](../workflows/) covering 5 core operational scenarios:
 
-1. **Task Intake:** Ingest task request, available context, confirmed constraints, and target outcomes.
-2. **Discover & Select:** Identify relevant skills from the inventory; determine dependencies and execution boundaries.
-3. **Load & Execute:** Load the smallest sufficient set of skill instructions and proceed with the workflow.
-4. **Reassess & Expand:** If a subtask emerges or a capability gap is encountered, discover and load additional skills dynamically rather than being constrained by an initial guess.
-5. **Verify Output Contract:** Check the final results against the applicable artifact and task contracts.
+| Workflow | Scenario Group | Trigger / Input | Primary Stages | Key Output | Verification / Exit Gate |
+|---|---|---|---|---|---|
+| `full-sdlc.md` | Construction | Complex initiatives, greenfield projects | Discovery → Req → Arch → Plan → Impl → Test → Release | Full feature release & docs | Full test suite, acceptance report |
+| `feature-loop.md` | Construction | Standard feature request | Spec → Plan → TDD Slice → Review → Handoff | Working feature slice | Tests passing, DoD satisfied |
+| `quick-change.md` | Construction | Minor tweak, copy change, isolated fix | Direct TDD edit → Local verification | Atomic commit | Targeted test verification |
+| `bug-fix.md` | Defect | Defect report, failing test | Reproduce (Red) → Isolate → Fix (Green) → Refactor | Bug fix commit | Regression test passing |
+| `incident-response.md` | Defect | Production alert, outage | Triage → Contain → Mitigate → Root Cause → Postmortem | Postmortem & remediation | System SLO recovered |
+| `refactoring.md` | Maintenance | Technical debt, code smell | Characterization tests → Safe refactor → Verify | Cleaned codebase | Zero regression in behavior |
+| `performance-tuning.md` | Maintenance | High latency, bottleneck | Profile baseline → Benchmark → Optimize → Verify | Optimized code & metrics | Benchmark shows latency reduction |
+| `dependency-upgrade.md` | Maintenance | Security advisory, outdated package | Audit deps → Staged bump → Integration tests | Upgraded lockfile | Full test suite & security check |
+| `deprecation-and-migration.md` | Maintenance | Obsolete API/schema | Deprecation notice → Expand/Contract → Sunsetting | Migration scripts & notice | Zero downtime across clients |
+| `experimentation-loop.md` | Learning | Growth hypothesis, A/B test | Hypothesis → Variant code → Telemetry → Evaluation | Experiment brief & data | Statistical significance report |
+| `agent-handoff-contract.md` | Coordination | Long session, agent handoff | State capture → Context summary → Next steps | `.agent/tasks/<task-id>.md` | Task session file updated |
 
-The system should avoid unnecessary context loading, redundant instructions, and conflicting skill guidance. It must not enforce a universal skill-count limit such as one to three skills.
+### 6.2 Orchestration Rules
+- Single pack router: `using-sdlc-skills` is the exclusive pack router.
+- Atomic sequencing: Workflows assemble focused skills dynamically rather than duplicating procedures.
+- Non-linear agility: Any workflow may skip, branch, or return to an earlier phase when new evidence emerges.
 
-Adapters must describe the actual loading and activation capabilities of each runtime. When dynamic loading is unavailable, the pack must use an explicitly documented fallback rather than claiming selective or incremental loading that has not been implemented.
+---
 
-Skill selection and loading do not establish task completion. Final outputs remain subject to their applicable output contracts and verification requirements.
+## 7. Skill Discovery, Selection, and Loading
 
-## 5. Output Contracts
+The architecture strictly decouples physical installation from context loading:
 
-Output contracts are the pack's primary quality control. Their strictness applies to what counts as a valid result—not to how much information the user must provide up front.
+| Layer | Scope | Mechanism |
+|---|---|---|
+| **Installation** | Target environment disk | `scripts/install.py` installs 26 Core skills (or full 63 skills with `--extras`). |
+| **Discovery & Selection** | Task-specific scope | Router identifies the Smallest Sufficient Set from packaged inventory. |
+| **Context Loading & Activation** | Agent working memory | Loads only relevant `SKILL.md` instructions; defers large references until needed. |
 
-### 5.1 Minimum Completion Contract
+### Demand-Driven Feedback Loop
+1. **Task Intake:** Ingest request and available context without requiring rigid intake forms.
+2. **Discover & Select:** Router identifies matching workflow, 1–3 skills, and matching artifact template.
+3. **Load & Scaffold:** Load primary skill instructions; scaffold the starter template to the canonical target path.
+4. **Execute & Expand:** Execute work iteratively. If a new subtask or domain need emerges, load additional skills on demand.
+5. **Verify Output:** Validate deliverables against canonical artifact contracts using fresh verification evidence.
 
-Every task completion report must communicate, at a level proportional to the task:
+---
 
-- **Status:** `completed`, `partially completed`, `blocked`, or `failed`.
-- **Result:** the deliverable or outcome actually produced, with links or paths where applicable.
-- **Acceptance and verification:** the relevant criteria checked and the evidence or test results available. Clearly distinguish checks performed from checks recommended or not run.
-- **Limitations:** material assumptions, unresolved questions, failures, or follow-up required.
+## 8. Tool Execution Architecture
 
-This contract does not require a persistent document for every task. For example, a small code edit may need a concise summary and test result; a design task may need decisions and trade-offs; a research task may need sources and uncertainty; a planning task may need ordered, actionable items.
+### 8.1 Execution Strategy
+- **CLI-First:** Prefer standard, scriptable CLI utilities (Git, npm, pytest, docker, curl) and language toolchains.
+- **Tool-Neutral Skills:** Skills provide engineering methodology, heuristics, and review standards; they do not hardcode vendor lock-in.
+- **Thin Adapters:** Isolate vendor-specific CLI flags, API endpoints, and authentication in dedicated adapters.
 
-### 5.2 Specialized Artifact Contracts
+### 8.2 Execution Abstraction
+- Deterministic multi-step operations are packaged into standalone Python scripts in [`scripts/`](../scripts/) with standard exit codes (0 for success, non-zero for failure).
+- Agents coordinate and inspect high-level operations rather than emitting repetitive low-level commands.
 
-Each important artifact type (for example, a requirements specification, task plan, ADR, or test report) must have one canonical contract defining its required properties and acceptance criteria. The owning contract must be referenced rather than independently redefined by every skill.
+### 8.3 Tool Feedback and Bounded Context
+- Tool output in context should be concise and actionable.
+- Full verbose logs, memory dumps, or build traces must be written to disk files with only summaries and relevant failure snippets returned to agent context.
 
-- **Contract owner:** defines the canonical structure and acceptance requirements for that artifact type.
-- **Template:** provides a reusable starting structure consistent with the contract; it may mark fields required or optional.
-- **Workflow:** coordinates the steps, handoffs, and validation needed to produce the artifact.
-- **Skill:** performs the relevant domain work and produces outputs that satisfy the applicable contract.
-- **Schema or validator:** checks machine-readable structure where feasible; human-readable artifacts are checked against explicit criteria.
+### 8.4 Batching and Safe Caching
+- Cache intermediate validation results where safe (e.g. content hashes).
+- Re-run verification whenever inputs, environment, or source code change.
 
-Contracts may be extended for a specific workflow, but extensions must not silently conflict with canonical requirements. Project conventions may refine defaults unless they violate an explicit task requirement or higher-priority constraint.
+---
 
-## 6. Design and Extension Patterns
+## 9. Context and Cost Efficiency
 
-Use a pattern only when it solves a real coupling, change, or consistency problem. These are design choices, not a checklist of abstractions to implement.
+The architecture treats cost along three independent axes:
+1. **Context Window Tokens:** Consumed by instructions, conversation history, and tool feedback.
+2. **Model / Provider API Credits:** Consumed by LLM inference calls.
+3. **Local Compute & Storage:** Consumed by test runs, builds, and containerization.
 
-- **Ports and Adapters:** keep core concepts and policies independent of agent runtimes, source hosts, and installation destinations. Runtime-specific paths and commands belong in adapters.
-- **Registry / Catalog:** consumers use the authoritative manifest-backed inventory to determine what is packaged and available; they must not infer availability from the Master Matrix or folder names alone.
-- **Strategy:** skill-selection policy can evolve—from manual selection to rule-based or automated selection—without changing the underlying catalog and output contracts.
-- **Workflow orchestration pipeline:** normalize context, form the task contract, select skills, execute, and verify as distinct responsibilities. Allow branching, retries, and returning to earlier steps when new evidence appears. This is a pipeline with control flow, not a mandatory linear process or an assumed Chain of Responsibility implementation.
-- **Composition:** assemble workflows from focused skills, contracts, templates, and checks instead of duplicating procedures in one monolithic skill.
-- **Contract-first validation:** version important machine-readable contracts and validate them against schemas where feasible; test human-readable outputs against acceptance criteria.
-- **Staged, recoverable updates:** stage source syncs, package changes, and installation updates; review diffs and validate before replacing accepted state. Updates and installation should be non-destructive by default.
+### Concrete Cost Controls
+- **Progressive Disclosure:** Core `SKILL.md` files remain concise (< 500 lines); detailed examples, templates, and reference manuals reside in subdirectories and are loaded only on demand.
+- **Anti-Overload Discipline:** Router loads only 1–3 skills per execution step.
+- **Disk Scaffolding:** Starter templates are copied directly onto disk at canonical paths rather than dumped into chat context.
+- **Targeted Diffing:** Avoid reading entire codebases into prompt memory; use targeted line ranges and symbol lookups.
+- **Deterministic Delegation:** Use linters and compilers to catch syntax errors before invoking model reasoning.
 
-Avoid abstractions that have no current consumer. A new runtime or provider should normally require an adapter and configuration, not changes throughout core policy.
+---
 
-## 7. Logical Repository Responsibilities
+## 10. Inputs, Outputs, and Contracts
 
-These describe responsibilities, not a claim that every directory or automation already exists. Keep this map aligned with the actual repository; do not create empty directories merely to match the document.
+### 10.1 Flexible Input
+- The pack accepts loose natural language requests, existing repository code, or partial briefs.
+- When critical constraints (e.g. language version or production environment) are missing, the agent proceeds with explicit, stated assumptions rather than halting, unless the omission threatens security or correctness.
 
-- `skills/`: self-contained skill packages and supporting references/assets. Upstream content stays close to source where practical; local adaptations are explicit.
-- `workflows/`: pack-level coordination, entry conditions, handoffs, transitions, and checks across 11 standardized workflows covering 5 core scenario groups (Construction: `full-sdlc`, `feature-loop`, `quick-change`; Defect Resolution: `bug-fix`, `incident-response`; Refactoring: `refactoring`; Optimization & Maintenance: `performance-tuning`, `dependency-upgrade`, `deprecation-and-migration`; Coordination: `agent-handoff-contract`). Do not copy entire skill procedures into workflows.
-- `templates/`: reusable, agent-neutral artifact structures aligned with canonical contracts.
-- `adapters/`: runtime-specific configuration, capability declarations, path mappings, and installation behavior. Adapters do not own canonical SDLC policy.
-- `manifests/`: authoritative machine-readable records for packaged skills, stable IDs, provenance, revisions, hashes, classifications, and applicable compatibility metadata.
-- `scripts/`: tooling for synchronization, validation, packaging, release, and installation/update operations where implemented.
-- `schemas/` and `tests/` (or equivalent): schemas and checks for manifests, contracts, package integrity, selection behavior, runtime compatibility, and installation safety where present or needed.
+### 10.2 Task Contract
+For each task, the agent establishes:
+- The specific outcome and scope;
+- Stated constraints and working assumptions;
+- The target canonical artifact(s) and applicable contract;
+- Concrete acceptance criteria and verification commands to be run.
 
-When describing a component or capability, mark it as **implemented**, **manual**, or **target** when that distinction is material. Do not document a proposed path or tool as existing without checking the repository.
+### 10.3 Artifact Contracts
+Each of the 22 deliverables in [`templates/`](../templates/) has one canonical contract owner (e.g., `feature-spec.md` is owned by `spec-driven-development` and `pm-user-story`). A template instantiates the contract structure; a skill guides the content authoring; automated tests verify the output.
 
-## 8. Governance and Quality Gates
+### 10.4 Minimum Completion Report
+Every completion report must contain:
+- **Status:** `completed`, `partially completed`, `blocked`, or `failed`;
+- **Deliverables:** exact relative file paths and commit hashes;
+- **Verification:** actual commands executed, exit codes, and evidence summary (distinguishing executed checks from skipped or recommended ones);
+- **Limitations:** remaining risks, unverified assumptions, or technical debt.
 
-### 8.1 Source and Package Governance
+---
 
-- **Upstream / sync-managed:** external skills retained close to their source and pinned to an identifiable revision.
-- **Locally adapted:** skills modified for the pack, with source, revision, adaptation rationale, and content hash recorded.
-- **Reference-only:** material informing the matrix, templates, or decisions but not distributed as executable skill content.
+## 11. Quality Assurance and Evaluation
 
-Before inclusion or update, verify the canonical repository and exact skill path, inspect current instructions, check for deprecated or renamed versions, assess distinct value and safety, and record applicable license/usage terms and compatibility constraints. Do not execute suspicious instructions while reviewing them. Popularity and installation counts are secondary signals, not proof of quality, safety, or suitability.
+### 11.1 Quality Model
+Quality is verified across four distinct dimensions:
+1. **Specification Conformance:** Deliverables satisfy user stories and acceptance criteria.
+2. **Technical Validity:** Code builds cleanly, linter passes, and automated test suites pass.
+3. **Security & Safety:** Code introduces no OWASP vulnerabilities, leaks no secrets, and obeys safety boundaries.
+4. **Contract Conformance:** Produced artifacts match the structure and requirements of canonical templates.
 
-### 8.2 Quality Gates
+### 11.2 Quality Gates
 
-Apply the relevant gates to each change and report which are automated versus manual:
+| Gate | What It Checks | Method | Evidence | Status |
+|---|---|---|---|---|
+| **Pack Structure & Frontmatter** | YAML frontmatter, valid links, no duplicate keys | `python scripts/lint_pack.py` | Linter stdout & exit code 0 | Implemented |
+| **Release & Provenance Integrity** | Pinned SHAs, license files, lockfile consistency | `python scripts/lint_pack.py --strict` | Strict linter report | Implemented |
+| **Unit & Transaction Tests** | Backup/force install, transactional sync safety | `python -m unittest discover -s tests` | 14 test assertions passing | Implemented |
+| **Feature Spec Acceptance** | BDD Gherkin Given/When/Then scenarios | Template audit & manual review | `docs/features/<feature-id>/spec.md` | Implemented |
+| **Code Implementation Gate** | Test-driven implementation and regression safety | Automated test suite execution | Test runner output & logs | Implemented |
+| **Pre-Completion Gate** | Evidence before completion assertion | `verification-before-completion` | Explicit commands and logs in report | Implemented |
 
-- **Content and safety:** clear purpose, bounded scope, no unjustified or unacceptable side effects.
-- **Provenance and integrity:** real source/path, stable identity, accurate revision and hash, package files consistent with manifest.
-- **Contract integrity:** valid machine-readable schemas and explicit acceptance criteria for important outputs.
-- **Composition integrity:** valid references, no unnecessary duplication or circular dependencies, and compatible contract changes.
-- **Runtime and installation:** only claim compatibility for tested runtimes; updates are reviewable, repeatable, and non-destructive by default.
-- **Task-result integrity:** reports match the work performed and evidence available, including failed or skipped checks.
+### 11.3 Evaluation Plan
+- Continuous linting and test execution in CI pipelines.
+- Regression testing on sample projects using golden task fixtures across supported runtimes.
 
-Structural validation does not substitute for a formal security audit, legal clearance, or empirical evaluation across agent runtimes. Never claim a gate passed unless it was actually checked.
+---
 
-## 9. Evolving the Pack Like Software
+## 12. Runtime and Integration
 
-### Add or update a skill
+The pack supports 6 target agent runtimes via configurations in [`adapters/agents.json`](../adapters/agents.json):
+- **Antigravity IDE & Antigravity CLI:** Project-level `.agents/skills` and global `~/.gemini/config/skills`.
+- **Claude Code:** Project-level `.claude/skills` and global `~/.claude/skills`.
+- **Cursor:** Project rules `.cursor/rules` and global instructions.
+- **GitHub Copilot:** Workspace instructions `.github/copilot-instructions.md`.
+- **Codex & OpenCode:** Compatible directory structures.
 
-1. Identify a concrete capability need using the Master Matrix as a reference, not as automatic approval to package a listed skill.
-2. Verify source, exact path, current instructions, revision, usage terms, safety, compatibility, and maintenance status.
-3. Compare with existing packages and record why it adds distinct value or replaces an existing skill.
-4. Stage the change without overwriting the currently accepted version; update the authoritative manifest and affected references.
-5. Run available checks, inspect the content diff, and update relevant tests or documentation.
-6. Review compatibility and migration impact. Release only when required checks pass; record unresolved checks explicitly.
+### Fallback Behavior
+When an agent runtime does not support dynamic on-demand loading, the pack documents that all installed skills reside in the runtime discovery path, and instructs the agent to consult `using-sdlc-skills` to guide internal focus.
 
-### Add a runtime or source provider
+---
 
-Implement the required adapter contract and declare the runtime's actual capabilities, including how skills are discovered, made available, loaded, and invoked. Do not assume all runtimes support selective loading. If a runtime exposes more skills than selected, report that limitation and avoid claiming a strict context limit.
+## 13. Logical Repository Responsibilities
 
-### Change a contract or component
+| Path | Responsibility | Required / Conditional |
+|---|---|---|
+| `skills/` | 26 Core self-contained skill packages installed by default. | Required |
+| `extras/` | 37 Contextual Extras skill packages loaded on demand. | Required |
+| `workflows/` | 11 standardized multi-step coordination workflows. | Required |
+| `templates/` | 22 canonical artifact starter templates. | Required |
+| `adapters/` | Runtime mapping and agent installation configurations. | Required |
+| `manifests/` | Machine-readable provenance, lockfiles, and skill maps. | Required |
+| `scripts/` | Python automation for linting, syncing, packaging, and installing. | Required |
+| `tests/` | Unit and integration test suites validating pack integrity. | Required |
+| `docs/` | Architectural specifications, practical matrix, and stage-skill maps. | Required |
 
-Identify dependent skills, workflows, templates, adapters, schemas, and tests. Update them together, version breaking changes where necessary, and provide migration guidance. Avoid maintaining competing definitions of the same contract.
+---
 
-### Identity, deprecation, and compatibility
+## 14. Governance, Security, and Safety
 
-Use stable IDs as the default for packaged skills. Treat display names and upstream paths as mutable metadata. When a source renames, moves, replaces, or removes a skill, update manifest references consistently and document migration impact where relevant. Do not preserve obsolete entries in the active inventory merely for historical naming continuity.
+### 14.1 Upstream and Package Governance
+- **Upstream-synced skills:** Pinned to immutable commit SHAs. Synced via `scripts/sync_upstream.py` with transactional rollback on failure.
+- **Locally adapted skills:** Stored locally with review records and SHA-256 hashes; protected from inadvertent upstream overwrites.
+- **Local authorship skills:** Pack-owned core orchestrators (`using-sdlc-skills`, `task-handoff`, `skill-authoring`).
 
-## 10. Boundaries and Non-Goals
+### 14.2 Execution and Data Safety
+- **Destructive Command Guardrails:** Block destructive Git operations (`git push --force`, `git reset --hard`) via `git-guardrails-claude-code` and pre-commit checks.
+- **Secret Isolation:** Prohibit hardcoding secrets; enforce environment variable lookups and secrets managers.
+- **Untrusted Input Sanitation:** Treat third-party prompts and arbitrary files as untrusted inputs.
 
-The pack does not require a complete stack specification before useful work can start, force every task through every SDLC stage, require a persistent artifact for every action, or guarantee identical behavior across runtimes. It does not load the entire inventory into every task context or certify all upstream content as secure or legally cleared.
+---
 
-The pack does require explicit expectations for important results, honest uncertainty and verification reporting, authoritative package metadata, safe and traceable updates, and modular boundaries that support extension without unnecessary rewrites.
+## 15. Pack Evolution and Maintenance
+
+### 15.1 Adding or Updating a Skill
+1. Identify capability need in [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md).
+2. Inspect upstream source, verify license compatibility, and determine inheritance method.
+3. Update [`upstream.json`](../upstream.json) and stage the skill.
+4. Run `python scripts/lint_pack.py --strict` to validate structure and update lockfiles.
+5. Execute `python -m unittest discover -s tests -v` to ensure regression safety.
+
+### 15.2 Deprecation and Compatibility
+Use stable skill IDs. If an upstream skill is renamed or deprecated, update references in `manifests/skill-map.json` and document migration notes in release logs.
+
+---
+
+## 16. Boundaries and Non-Goals
+
+- The pack does **not** guarantee identical model reasoning across different LLM providers.
+- The pack does **not** force every software task to produce all 22 artifacts or traverse all 16 stages.
+- The pack does **not** claim full automation where only documented manual engineering procedures exist.
+- The pack does **not** replace human approval for production releases, regulatory compliance, or sensitive security sign-offs.
+
+---
+
+## 17. Implementation Status and Evidence
+
+| Capability / Component | Status | Evidence / Location | Known Limitations |
+|---|---|---|---|
+| **Practical Capability Matrix** | Implemented | [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md) | Dynamic catalog, not a runtime loader |
+| **Core Skills (26)** | Implemented | `skills/*/SKILL.md` | Verified against upstream commit SHAs |
+| **Extras Skills (37)** | Implemented | `extras/*/SKILL.md` | Verified against upstream commit SHAs |
+| **Canonical Router** | Implemented | `skills/using-sdlc-skills/SKILL.md` | Exclusive pack router |
+| **Standardized Workflows (11)** | Implemented | `workflows/*.md` | Documented coordination procedures |
+| **Artifact Templates (22)** | Implemented | `templates/*.md` | Canonical starter structures |
+| **Runtime Adapters (6)** | Implemented | `adapters/agents.json` | Path mappings for major agent environments |
+| **Linter & Packaging Tools** | Implemented | `scripts/lint_pack.py`, `scripts/install.py` | Validated by unit tests |
+| **Upstream Sync Automation** | Implemented | `scripts/sync_upstream.py` | Transactional rollback verified |
+| **Automated Contract Testing** | Manual / Target | `extras/api-contract-testing` | Requires local mock/Pact runner setup |
+| **Visual Headless Regression** | Target | `extras/webapp-testing` | Requires external browser environment |
+
+---
+
+## 18. Architecture Review and Cross-Validation
+
+- [x] The architecture directly supports the capability coverage defined in the Practical Matrix.
+- [x] All 16 stages and cross-cutting areas have explicit skills, templates, and ownership contracts.
+- [x] Workflows select only relevant stages and avoid forcing full waterfall lifecycles on small tasks.
+- [x] Physical installation, dynamic discovery, and context loading are strictly decoupled.
+- [x] Skills are clearly separated from CLI execution tools, runtime adapters, and artifact contracts.
+- [x] Task Contracts and Artifact Contracts have non-overlapping, distinct responsibilities.
+- [x] Deterministic execution is delegated to CLI tools, Python scripts, and automated test runners.
+- [x] Context loading and cost controls (token, API credit, compute) are explicitly defined.
+- [x] Quality gates and evidence expectations are enforceable and verified by unit tests.
+- [x] Upstream provenance, licensing, commit pinning, and content hashes are fully traceable.
+- [x] Destructive commands and secret boundaries are hardened.
+- [x] All implementation statuses in Section 17 are supported by verifiable repository evidence.

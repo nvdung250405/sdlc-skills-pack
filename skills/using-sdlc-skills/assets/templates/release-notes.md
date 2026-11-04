@@ -1,63 +1,53 @@
 # Release Notes: v[X.Y.Z]
 
-- **Release Date**: [YYYY-MM-DD]
-- **Release Owner / Lead**: [Name / Agent]
-- **Target Environment**: Production | Staging
-- **Semver Type**: Major (breaking) | Minor (new features) | Patch (bugfixes)
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Release Notes & Changelog  
+> **Primary Owner Skill:** `shipping-and-launch`  
+> **Canonical Destination Path:** `docs/releases/v[X.Y.Z].md`  
+> **Status:** `<Draft | Published>`  
+> **Last updated:** `<YYYY-MM-DD>`  
+
+- **Release Date:** `[YYYY-MM-DD]`
+- **Release Owner / Lead:** `[Name / Role]`
+- **Target Environment:** `[Staging / Production]`
+- **Semver Type:** `Major` | `Minor` | `Patch`
 
 ---
 
-## 1. Release Highlights
-[A 2-3 sentence executive summary of the most important capabilities or fixes delivered in this release.]
+## 1. Highlights & Summary (Required)
+[Concise executive summary of key user-facing features, improvements, and business value delivered in this release.]
 
 ---
 
-## 2. Detailed Changelog
+## 2. Changelog (Required)
 
-### 🚀 Features & Enhancements
-- **[Feature Name]**: [Description of what is new and how users benefit] ([#PR](https://github.com/org/repo/pull/123))
-- **[Feature Name]**: [Description] ([#PR](https://github.com/org/repo/pull/124))
+### 🚀 New Features
+- **[Feature Name]:** [Summary of capability, linking to `docs/features/<feature-id>/spec.md`]
 
 ### 🐛 Bug Fixes
-- **[Fix Title]**: [What issue was fixed and impact] ([#PR](https://github.com/org/repo/pull/125))
+- **[Bug Title]:** [Summary of fix, linking to issue ticket and root cause]
 
-### ⚡ Performance & Reliability
-- [Optimization description, benchmark improvement, or latency reduction]
-
-### 🔒 Security & Compliance
-- [Dependency patch, vulnerability fix, or hardening change]
+### ⚡ Performance & Maintenance
+- **[Optimization]:** [Latency reduction, dependency upgrades, refactoring]
 
 ---
 
-## 3. Breaking Changes & Deprecations
-> [!WARNING]
-> Highlight any breaking API changes, dropped configs, or schema migrations requiring operator intervention.
-
-- [None or specific breaking change details]
+## 3. Breaking Changes & Upgrade Path (Optional / When Applicable)
+- **Breaking Change:** [Description of contract change]
+- **Action Required:** [Exact steps consumers must take to migrate]
 
 ---
 
-## 4. Deployment & Migration Procedures
-
-### Pre-Deployment Checklist
-- [ ] Database backup confirmed.
-- [ ] Secrets and environment variables configured in target environment.
-
-### Deployment Steps
-```bash
-# Example migration & deploy commands
-migrate up
-deploy --version v[X.Y.Z]
-```
-
-### Verification & Smoke Tests
-- [ ] Healthcheck endpoint returns HTTP 200: `GET /healthz`
-- [ ] Critical user journeys verified in production (login, checkout, core workflow).
+## 4. Deployment & Migration Procedures (Required)
+- **Pre-deployment Steps:** [Database migrations, cache priming]
+- **Deployment Command:** `[e.g., helm upgrade ... / terraform apply]`
+- **Post-deployment Verification:** [Smoke test commands and health checks]
+- **Rollback Procedure:** [Exact commands to revert to previous stable tag]
 
 ---
 
-## 5. Rollback Procedure
-If p95 latency spikes > 500ms or 5xx error rate exceeds 0.5% during canary:
-1. Revert deploy traffic to previous revision `v[X.Y.Z-1]`.
-2. Run database rollback if schema migration was backward-incompatible: `migrate down 1`.
-3. Notify incident response channel: `#incident-response`.
+## 5. Release Verification Sign-off (Required)
+- [ ] Build artifacts and container images signed and verified
+- [ ] Smoke tests verified in target environment
+- [ ] Error budgets and latency metrics within healthy limits
+- **Release Published by:** [Release Lead / Date]

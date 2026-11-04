@@ -1,80 +1,55 @@
-# Operational Runbook: [SERVICE_OR_SUBSYSTEM_NAME]
+# Operational Runbook: [SERVICE_OR_SYSTEM_NAME]
 
-- **Service / Component**: [Name]
-- **Primary Owner / Team**: [Team / Contact Channel]
-- **Repository**: [Repo URL / Local Path]
-- **Last Verified**: [YYYY-MM-DD]
-- **Canonical Path**: `docs/runbooks/[service-name].md`
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Operational Runbook  
+> **Primary Owner Skill:** `observability-and-instrumentation`  
+> **Canonical Destination Path:** `docs/runbooks/[service-name].md`  
+> **Status:** `<Active | Under Review | Deprecated>`  
+> **Last updated:** `<YYYY-MM-DD>`  
 
----
-
-## 1. System Overview & Architecture
-
-### Service Purpose
-[What does this service do? Which core user journeys depend on it?]
-
-### Key Dependencies & Upstreams / Downstreams
-- **Upstreams**: [Services calling this component]
-- **Downstreams**: [Databases, queues, external APIs called by this component]
+- **Service / Component:** `[service-name]`
+- **Primary Owner / Team:** `[Team / On-Call Rotation]`
+- **Repository:** `[Repo URL / path]`
+- **Last Verified Date:** `[YYYY-MM-DD]`
 
 ---
 
-## 2. Service Health & SLOs
+## 1. System Overview & Architecture (Required)
+[Concise summary of what this service does, its critical upstream callers, downstream dependencies, datastores, and SLAs.]
 
-| Metric | Target (SLO) | Alert Threshold | Dashboard Link |
-|---|---|---|---|
-| Availability | 99.9% uptime | < 99.5% over 5m | [Dashboard URL] |
-| Latency (p95) | < 200 ms | > 500 ms over 5m | [Dashboard URL] |
-| Error Rate | < 0.1% HTTP 5xx | > 1.0% HTTP 5xx | [Dashboard URL] |
-
----
-
-## 3. Common Alerts & Triage Procedures
-
-### Alert: `HighErrorRate5xx`
-- **Symptom**: HTTP 5xx response rate spikes above 1%.
-- **Initial Diagnostics**:
-  ```bash
-  # Check recent error logs
-  kubectl logs -l app=[service-name] --tail=100 | grep "ERROR"
-  # Check database connection pool health
-  curl -s http://localhost:8080/metrics | grep "db_pool"
-  ```
-- **Immediate Mitigation**:
-  1. If related to recent deployment: Initiate immediate rollback.
-  2. If caused by downstream timeout: Enable circuit breaker flag via config.
-
-### Alert: `HighMemoryUsage / OOMKilled`
-- **Symptom**: Pods restart frequently with exit code 137.
-- **Immediate Mitigation**:
-  1. Temporarily increase replica count or memory limit in deployment manifest.
-  2. Capture heap dump for investigation: `kill -3 <pid>` or runtime profiler.
+- **Health Check Endpoint:** `GET /healthz` (Expects HTTP 200 `{"status": "ok"}`)
+- **Metrics Dashboard:** `[Link to Grafana / Datadog dashboard]`
+- **Alert Channel:** `[Slack #alerts-channel / PagerDuty service]`
 
 ---
 
-## 4. Routine Operations & Maintenance
+## 2. Common Alerts & Triage Procedures (Required)
 
-### Graceful Restart
-```bash
-kubectl rollout restart deployment/[service-name]
-```
+### Alert: High Error Rate (HTTP 5xx > 1%)
+1. **Diagnosis:** Check recent deployments, error logs, and downstream database latency.
+   ```bash
+   # View recent error logs
+   kubectl logs -l app=service-name --tail=100 | grep "ERROR"
+   ```
+2. **Mitigation:** If correlated with recent release, rollback to previous image tag.
+3. **Escalation:** If database latency is elevated, page On-Call DBA.
 
-### Database Migration Execution
-```bash
-./scripts/run-migrations.sh --dry-run
-./scripts/run-migrations.sh --execute
-```
-
-### Drain & Traffic Shift
-```bash
-# Shift traffic away from unhealthy canary or node
-kubectl cordon [node-name]
-```
+### Alert: High Memory / OOMKilled
+1. **Diagnosis:** Check pod restart counts and heap memory utilization graph.
+2. **Mitigation:** Scale replica count horizontally; increase memory limit if traffic surged.
 
 ---
 
-## 5. Escalation Contacts
-- **Primary On-Call**: PagerDuty / Slack: `#[team-oncall]`
-- **Secondary / Lead Engineer**: [Contact info]
-- **Security Escalation**: `security@[domain.com]`
+## 3. Routine Operational Procedures (Required)
+- **Service Restart:** `[Safe restart command]`
+- **Cache Clearing:** `[Cache flush command with safety precautions]`
+- **Database Backup Verification:** `[Backup inspection command]`
 
+---
+
+## 4. Runbook Validation & Drill Gate (Required)
+- [ ] Diagnostic queries and metrics dashboards verified against live monitoring
+- [ ] Mitigation and recovery procedures tested in staging/drill environment
+- [ ] Escalation contacts and on-call rotation up to date
+- [ ] Last verified date updated
+- **Verified by:** [SRE / On-Call Engineer / Date]

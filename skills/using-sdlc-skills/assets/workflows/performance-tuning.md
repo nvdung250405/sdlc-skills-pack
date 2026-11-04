@@ -1,5 +1,16 @@
 # Performance profiling & optimization workflow
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `performance-tuning`  
+> **Scenario Group:** Maintenance & Optimization  
+> **Trigger / Input:** Latency regressions, high CPU/memory/IO, Core Web Vitals degradation  
+> **Primary Stages:** Baseline Measurement → Profiling & Bottlenecks → Surgical Optimization → Comparative Benchmark  
+> **Key Output:** Optimized code, comparative before/after benchmark delta table  
+> **Verification / Exit Gate:** Target SLA goal achieved without metric regressions, empirical benchmark evidence  
+
+---
+
+
 Use this workflow when diagnosing latency regressions, high resource consumption (CPU/memory/IO), database bottlenecks, slow web page loads (Core Web Vitals), or throughput limits. Never optimize without empirical baseline measurements.
 
 ---

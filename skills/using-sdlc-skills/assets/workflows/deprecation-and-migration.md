@@ -1,5 +1,16 @@
 # Deprecation & migration workflow
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `deprecation-and-migration`  
+> **Scenario Group:** Maintenance & Optimization  
+> **Trigger / Input:** Sunsetting legacy API, database schema evolution without downtime, replacing core subsystem  
+> **Primary Stages:** Deprecation Notice → Expand (Dual-Write) → Backfill & Parity → Contract (Read-Switch) → Purge & Retire  
+> **Key Output:** Deprecation notice, migration scripts, zero-downtime data transition  
+> **Verification / Exit Gate:** Telemetry confirms 0 active calls, full test suite passing, legacy schema safely purged  
+
+---
+
+
 Use this workflow when removing legacy systems, migrating database schemas in production without downtime (Expand/Contract), phasing out public APIs, or replacing core dependencies (Stage 10: Maintenance & Evolution).
 
 ---
@@ -36,4 +47,3 @@ Use this workflow when removing legacy systems, migrating database schemas in pr
 11. **Drop Legacy Schema**: Execute safe drop commands (`ALTER TABLE ... DROP COLUMN ...`) during low-traffic windows.
 12. **Prune Dead Code**: Use `code-simplification` to delete obsolete adapters, dual-write logic, and legacy branches.
 13. **Final Verification**: Run `verification-before-completion` to confirm test suites, monitoring dashboards, and build pipelines remain 100% green. Mark migration status as `Retired` in `docs/migrations/[slug]-deprecation.md`.
-

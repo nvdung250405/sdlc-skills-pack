@@ -211,16 +211,45 @@ def main() -> int:
                 errors.append(f"manifests/skill-map.json: precedence entry for {owner!r} needs an explanation")
 
     required_files = [
+        # 11 Standardized Workflows
         "workflows/full-sdlc.md", "workflows/feature-loop.md", "workflows/bug-fix.md",
         "workflows/quick-change.md", "workflows/agent-handoff-contract.md",
+        "workflows/incident-response.md", "workflows/refactoring.md",
+        "workflows/performance-tuning.md", "workflows/dependency-upgrade.md",
+        "workflows/deprecation-and-migration.md", "workflows/experimentation-loop.md",
+        # 22 Canonical Artifact Templates
         "templates/constitution.md", "templates/feature-spec.md", "templates/SRS.md",
         "templates/DDS.md", "templates/ADR.md", "templates/RTM.md", "templates/plan.md",
         "templates/tasks.md", "templates/acceptance-report.md", "templates/release-checklist.md",
+        "templates/architecture-overview.md", "templates/deprecation-notice.md",
+        "templates/experiment-brief.md", "templates/incident-postmortem.md",
+        "templates/opportunity-brief.md", "templates/PRD.md", "templates/pull-request.md",
+        "templates/release-notes.md", "templates/runbook.md", "templates/task-handoff.md",
+        "templates/threat-model.md", "templates/tracking-plan.md",
+        # Pack-owned assets
         "skills/task-handoff/assets/task-template.md",
     ]
     for rel in required_files:
         if not (ROOT / rel).is_file():
             errors.append(f"missing pack contract file: {rel}")
+
+    # Check synchronization of router bundled assets
+    router_templates = ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates"
+    for tmpl in (ROOT / "templates").glob("*.md"):
+        if tmpl.name != "README.md":
+            bundled = router_templates / tmpl.name
+            if not bundled.is_file():
+                errors.append(f"router bundled template missing: {bundled.relative_to(ROOT)}")
+            elif bundled.read_bytes() != tmpl.read_bytes():
+                errors.append(f"router bundled template out of sync with root: {tmpl.name}")
+
+    router_workflows = ROOT / "skills" / "using-sdlc-skills" / "assets" / "workflows"
+    for wf in (ROOT / "workflows").glob("*.md"):
+        bundled = router_workflows / wf.name
+        if not bundled.is_file():
+            errors.append(f"router bundled workflow missing: {bundled.relative_to(ROOT)}")
+        elif bundled.read_bytes() != wf.read_bytes():
+            errors.append(f"router bundled workflow out of sync with root: {wf.name}")
 
     lock_path = ROOT / "manifests" / "upstream-lock.json"
     provenance_path = ROOT / "manifests" / "skill-provenance.json"

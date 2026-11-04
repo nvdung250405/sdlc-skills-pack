@@ -1,5 +1,15 @@
 # Product Requirements Document (PRD): [PRODUCT_OR_INITIATIVE_NAME]
 
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Product Requirements Document (PRD)  
+> **Primary Owner Skill:** `pm-product-spec`  
+> **Canonical Destination Path:** `docs/prd.md`  
+> **Status:** `<Draft | In Review | Approved | Superseded>`  
+> **Last updated:** `<YYYY-MM-DD>`  
+
+---
+
+
 > Purpose: describe the problem, intended outcomes, scope, and product-level requirements. Tailor this document to the initiative's size and risk. Keep unsupported details explicit as assumptions or open questions; do not invent user research, market data, baselines, or targets.
 
 ## Document control

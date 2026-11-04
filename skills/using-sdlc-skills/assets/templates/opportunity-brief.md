@@ -1,25 +1,27 @@
 # Opportunity Brief: [INITIATIVE_NAME]
 
-- **Status**: Draft | Validated | Discarded | Committed
-- **Author(s)**: [Name / Role / Agent]
-- **Date**: [YYYY-MM-DD]
-- **Canonical Path**: `docs/discovery/[initiative-slug]/opportunity-brief.md`
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Opportunity Brief  
+> **Primary Owner Skill:** `interview-me`, `idea-refine`  
+> **Canonical Destination Path:** `docs/discovery/[initiative]/opportunity-brief.md`  
+> **Status:** `<Draft | Validated | Discarded | Committed>`  
+> **Last updated:** `<YYYY-MM-DD>`  
 
 ---
 
-## 1. Problem Framing
+## 1. Problem Framing (Required)
 
 ### The Observed Problem
 [Describe the specific user pain point, market friction, or business inefficiency. Ground this in real observations, quotes, or customer friction, not hypothetical assumptions.]
 
 ### Who Has This Problem?
-- **Target Persona / User Segment**: [Specific audience description]
-- **Current Workaround**: [How do users solve or endure this problem today?]
-- **Cost of Inaction**: [What happens if we do nothing? Churn, lost revenue, engineering toil, competitor gain?]
+- **Target Persona / User Segment:** [Specific audience description]
+- **Current Workaround:** [How do users solve or endure this problem today?]
+- **Cost of Inaction:** [What happens if we do nothing? Churn, lost revenue, engineering toil, competitor gain?]
 
 ---
 
-## 2. Evidence & Research Findings
+## 2. Evidence & Research Findings (Required)
 
 ### Qualitative Signals
 - Customer interview insights: [Key takeaway or quote]
@@ -31,7 +33,7 @@
 
 ---
 
-## 3. Proposed Value Proposition & Hypothesis
+## 3. Proposed Value Proposition & Hypothesis (Required)
 
 ### Core Value Proposition
 [One-sentence statement: For (target users) who (struggle with problem), our initiative provides (solution capability) so that (measurable benefit).]
@@ -44,7 +46,7 @@
 
 ---
 
-## 4. Initial Scope Boundaries
+## 4. Initial Scope Boundaries (Required)
 
 ### In Scope for Initial Exploration
 - [Feature or capability 1]
@@ -56,9 +58,14 @@
 
 ---
 
-## 5. Next Steps & Decision Gate
+## 5. Decision Gate & Sign-off (Required)
+- **Recommended Decision:** `Proceed to PRD / Requirements` | `Iterate Hypothesis` | `Archive / Discard`
+- **Sponsor / PM Sign-off:** [Name / Date]
+- **Handoff Target:** `docs/prd.md` or `docs/features/<feature-id>/spec.md`
 
-- **Recommended Decision**: Proceed to PRD / Requirements | Iterate Hypothesis | Archive / Discard
-- **Sponsor / PM Sign-off**: [Name / Date]
-- **Handoff Target**: `docs/prd.md` or `docs/features/[feature-id]/spec.md`
-
+### Discovery Review Checklist
+- [ ] Problem is grounded in observed evidence, not unverified opinion
+- [ ] User persona and current workarounds are explicitly documented
+- [ ] Hypotheses have measurable validation methods and clear success criteria
+- [ ] Scope boundary excludes non-essential complexity
+- **Approved by:** [Product Lead / Date]

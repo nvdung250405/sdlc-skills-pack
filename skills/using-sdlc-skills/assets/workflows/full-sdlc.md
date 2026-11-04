@@ -1,5 +1,16 @@
 # Full SDLC workflow (System & Initiative Lifecycle)
 
+> **Document type:** Standardized Workflow Definition  
+> **Workflow:** `full-sdlc`  
+> **Scenario Group:** Construction  
+> **Trigger / Input:** Complex initiatives, greenfield projects, system establishment, multi-team features  
+> **Primary Stages:** Discovery → Requirements → Architecture → Planning → Implementation → Testing → Review → Release → Operations  
+> **Key Output:** Full feature release, system architecture overview, validated production deliverables  
+> **Verification / Exit Gate:** Full test suite passing, empirical acceptance report, release checklist approved  
+
+---
+
+
 Use for new systems, major capabilities, complex integrations, or material-risk initiatives. This workflow coordinates foundational system establishment, enforces cross-cutting stage-gate reviews at every hand-off, delegates individual capabilities to `workflows/feature-loop.md`, and governs system-level release, observability, and operations.
 
 Activities are iterative, overlapping, and non-linear. Skip artifacts that add no value and record why.

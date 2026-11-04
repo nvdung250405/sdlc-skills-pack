@@ -1,23 +1,42 @@
-# Release readiness checklist
+# Release Readiness Gate & Checklist
 
-## Quality and security
-- [ ] Required tests, build, lint and type checks ran; exact results are recorded.
-- [ ] Acceptance report is Verified or approved exceptions are documented.
-- [ ] Code review findings are resolved or explicitly accepted.
-- [ ] Security/dependency/secret checks ran when applicable.
+> **Document type:** Canonical Artifact Contract  
+> **Artifact:** Release Readiness Gate  
+> **Primary Owner Skill:** `shipping-and-launch`  
+> **Canonical Destination Path:** `docs/releases/release-checklist.md`  
+> **Status:** `<Draft | Pre-Release | Approved | Released>`  
+> **Last updated:** `<YYYY-MM-DD>`  
 
-## Deployment safety
-- [ ] Version, scope, migrations and dependencies are known.
-- [ ] Backward compatibility and configuration changes are understood.
-- [ ] Rollback/roll-forward plan has been exercised or reviewed.
-- [ ] Secrets are provisioned through approved channels, not committed.
-- [ ] Human approval for production/destructive action is recorded.
+Target Release: `v[X.Y.Z]`  
+Release Owner: `[Name / Role]`  
+Target Date: `[YYYY-MM-DD]`  
 
-## Operations
-- [ ] Logs/metrics/traces and health checks cover critical paths.
-- [ ] Alerts and rollback triggers have owners and thresholds.
-- [ ] Runbook/support notes and release notes are available.
-- [ ] Post-deploy smoke test is defined and has an owner.
+---
 
-## Decision
-- [ ] GO / NO-GO is recorded with owner, time, evidence and known risks.
+## 1. Quality & Verification Gates (Required)
+- [ ] All feature acceptance criteria verified with fresh empirical test reports
+- [ ] Full regression test suite passing in CI (`100% green`)
+- [ ] Linters, static analysis, and type-checking pass with zero errors
+- [ ] Performance and load benchmarks meet required SLO thresholds
+
+## 2. Security & Compliance Gates (Required)
+- [ ] Vulnerability scan (SAST / SCA) passing with 0 critical or high CVEs
+- [ ] Threat model mitigations verified (`docs/security/threat-model-*.md`)
+- [ ] No secrets, keys, or development certificates present in build artifacts
+- [ ] Data privacy, retention, and GDPR compliance rules satisfied
+
+## 3. Deployment & Operational Readiness (Required)
+- [ ] Database migrations tested in staging; rollback script verified
+- [ ] Monitoring dashboards, alerts, and distributed tracing confirmed active
+- [ ] Operational runbook updated for new services or endpoints
+- [ ] Release notes and changelog finalized (`docs/releases/v[X.Y.Z].md`)
+- [ ] Rollback strategy and responsible engineer designated
+
+---
+
+## 4. Go / No-Go Decision Gate (Required)
+- **Verdict:** `GO` | `NO-GO`
+- **Approver Sign-off:**
+  - Product Lead: `[Approved / Date]`
+  - Tech Lead / Architect: `[Approved / Date]`
+  - SRE / Ops Lead: `[Approved / Date]`
