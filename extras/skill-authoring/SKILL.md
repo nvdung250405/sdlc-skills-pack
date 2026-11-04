@@ -1,6 +1,6 @@
 ---
 name: skill-authoring
-description: Creates, audits, or adapts agent skills while preserving upstream provenance and cross-agent portability. Use when adding a role/workflow, changing skill triggers, reviewing a vendor-specific skill, or maintaining this curated pack.
+description: Use when creating, auditing, or maintaining agent skills while ensuring portability and clean provenance.
 ---
 
 # Skill authoring for a curated multi-agent pack

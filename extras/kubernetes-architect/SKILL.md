@@ -1,6 +1,6 @@
 ---
 name: kubernetes-architect
-description: Expert Kubernetes architect specializing in cloud-native infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise container orchestration. Use when authoring Kubernetes manifests, Helm charts, ArgoCD/Flux GitOps pipelines, or configuring cluster ingress and network policies.
+description: Use when authoring Kubernetes manifests, Helm charts, ArgoCD GitOps pipelines, and ingress configurations.
 license: MIT
 ---
 

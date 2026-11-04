@@ -1,6 +1,6 @@
 ---
 name: pm-user-story
-description: Write, split, or critique value-focused User Stories and Acceptance Criteria for a feature. Use when an epic or product requirement must become testable feature-level behavior; avoid manufacturing stories for pure technical work that is clearer as a technical spec or ADR.
+description: Use when writing, splitting, or refining value-focused User Stories and BDD Acceptance Criteria (Gherkin).
 license: MIT
 ---
 

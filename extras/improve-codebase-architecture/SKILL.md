@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick. Use when reviewing codebase modularity, finding shallow modules, or planning architectural refactorings.
+description: Use when scanning codebases for shallow modules, architecture debt, and deepening opportunities.
 ---
 
 # Improve Codebase Architecture

@@ -1,6 +1,6 @@
 ---
 name: database-design
-description: Database design principles and decision-making. Schema design, indexing strategy, ORM selection, serverless databases. Use when designing database schemas, table indexing strategies, selecting ORMs, or planning safe data persistence.
+description: Use when designing database schemas, normalization, indexing strategies, or planning zero-downtime migrations.
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: writing-guidelines
-description: Review docs/prose for Writing Guidelines compliance. Use when asked to "review my docs", "check writing style", "audit prose", "review docs voice and tone", or "check this page against the writing handbook".
+description: Use when reviewing technical prose, documentation voice, and style against editorial writing standards.
 metadata:
   author: vercel
   version: "1.0.0"

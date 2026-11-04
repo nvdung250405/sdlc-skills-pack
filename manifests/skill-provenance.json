@@ -304,7 +304,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "cda3268edecdcf71115eff3ba92665e4c90fa45093425fe713ab4cf69439e1b8"
+      "content_sha256": "8858af26e4f3a2fce99b42807de9200e850dbfca11d431a4e7aab615c0deed92"
     },
     "skills/software-architecture": {
       "upstream": "agentic-sdlc-kit",
@@ -317,7 +317,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "801175158691c02652975e036dd7acd9527a1a76e363ad62ab49ebd9d2a28e40"
+      "content_sha256": "355c76828c662e52c8f34a960ec3ce09293b016f751633e499d1121ccf1d7c34"
     },
     "skills/using-sdlc-skills": {
       "upstream": "pack-owned",
@@ -350,7 +350,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "7e96b6add4c57f061bc91b5330a84c2a31e4b46bab27cebdc406e64b250749d1"
+      "content_sha256": "63db1f070298932b502bfa3fe1466c253fdebf8f028a4e7eaac467c7b914f653"
     },
     "extras/docker-expert": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -363,7 +363,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "90e2d8adae47b9db9f571dc31edbdc5f18ac87e1216255cc4bf92b851db6e48a"
+      "content_sha256": "5f7b6bc14c35f427e630a997cc75ef42c2f32a8b7f0074fcc6155b95be7fc0c5"
     },
     "extras/k6-load-testing": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -376,7 +376,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "485474c7a6863267f69c556173a98aa6072f51f4c912c2ff25b38e6a640d22b8"
+      "content_sha256": "29a808e73b4e7fe7880ed5595e526e4916d43fef2bdfd2cbacf8c7cea99b0c63"
     },
     "extras/terraform-specialist": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -389,7 +389,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "45b2677aada1e072e40c09aadc4013b75ac86fc76402eb2677818c7bfa7e8910"
+      "content_sha256": "77a5db1664abdbd106746bc5f3f153d18641d9c3ccc5b97f05535ee2122d7396"
     },
     "extras/kubernetes-architect": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -402,7 +402,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "a118e7e17239862be75800f9a76c53740ebf9a97949762b92dbff0b27bbb8a8a"
+      "content_sha256": "35f172260d7958ed97a00d1c911a725491508158943bc079ea02a52ea0c168d2"
     },
     "extras/screen-reader-testing": {
       "upstream": "wshobson-agents",
@@ -415,7 +415,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "f2688d28fe5e6638fdc219d2313d94c3a5f7b7e6d0ca2933b9bb4849cab8ede3"
+      "content_sha256": "9b2d8fa67e89b635e773decc158ff1838a89a32d4d2d3f6f52af2d40ad03fedf"
     },
     "extras/browser-testing-with-devtools": {
       "upstream": "addyosmani-agent-skills",
@@ -460,7 +460,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "57400d125a892bb6d2cb9d7e5683210da7676b975061759ae794d2bb04070eb8"
+      "content_sha256": "97dcb7f710f7129fcab42d3094335a59dd89be6622d35e91f340f5b8018f241e"
     },
     "skills/pm-user-story": {
       "upstream": "uxcel-product-skills",
@@ -473,7 +473,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "f82065a439058f1da9310d2289dbac438936f357c4a416f462ccdd1e0b75c859"
+      "content_sha256": "48ea8e037d84848666e5c49e98dab231cb1273d92bc6443ad27a5ac8c4092865"
     },
     "skills/pm-spec-quality-audit": {
       "upstream": "uxcel-product-skills",
@@ -486,7 +486,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "919b39627997a84cbc416b802271099f289ae6e061af47427794744071e27e62"
+      "content_sha256": "a5167702394551b4770703a71743c85040ba8bd6845c491a7ecae095574cced3"
     },
     "extras/secrets-management": {
       "upstream": "wshobson-agents",
@@ -499,7 +499,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "6fae38c092e9d22115eeefba1b7dae8ec51cfac0c997ebe76238c14b4b3857e6"
+      "content_sha256": "f4127f545f22948a4fcd4f8824b885029adc1adfb853690bc4d77c085f8ac6c6"
     },
     "extras/auth-implementation-patterns": {
       "upstream": "wshobson-agents",
@@ -512,7 +512,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "4a910f2fef60dc2cb89d1d812d5cad9fdcdc1e5e07551b3770b1ac28251273d4"
+      "content_sha256": "79f7a7172c192ddaf9a04e07914b31e2a3fd753125a88e237b7d48c705228c7c"
     },
     "extras/skill-authoring": {
       "upstream": "pack-owned",
@@ -535,7 +535,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "067b04fb9fa9fde7fa1fc09636aac99e7b4079354fdbc1f16cd330c32596caaf"
+      "content_sha256": "bba8728733d6a99abbcebd72f5ab83e5a07497e41a5e16114f8954ec54f1bc7d"
     },
     "extras/cost-optimization": {
       "upstream": "wshobson-agents",
@@ -548,7 +548,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "1a60e8208d9da4805d104141061cbba3f05fd1ebae71b309eebf6ddbc617a075"
+      "content_sha256": "a1c2789754fc5cefed6bcb92d2a45e2bb6af832dd8055f7d0d9571b75aeb5d8d"
     },
     "extras/subagent-driven-development": {
       "upstream": "obra-superpowers",

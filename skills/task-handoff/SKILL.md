@@ -1,6 +1,6 @@
 ---
 name: task-handoff
-description: Create and maintain a task file that carries goal, decisions, failed attempts and next steps so work survives context limits and passes cleanly between roles, sessions or different agents. Use when starting any multi-step task, when context is getting long, when switching agent or role, or when resuming earlier work.
+description: Use when saving multi-step progress, decisions, and next steps to survive context limits or hand off work.
 ---
 
 # Task handoff

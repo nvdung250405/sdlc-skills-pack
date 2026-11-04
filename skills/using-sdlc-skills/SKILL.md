@@ -1,6 +1,6 @@
 ---
 name: using-sdlc-skills
-description: Routes a software task through the selected portable SDLC workflows and skills. Use at the start of a non-trivial feature, bug fix, refactor, requirements/design task, release, incident, handoff, or when selecting the next skill.
+description: Use when routing software tasks through standardized SDLC workflows, templates, and specialized engineering skills.
 ---
 
 # Using the SDLC skill pack

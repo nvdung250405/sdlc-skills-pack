@@ -1,6 +1,6 @@
 ---
 name: requirements-engineering
-description: Elicit, structure, and maintain system-level functional and non-functional requirements when a project needs formal specification, use cases, stable requirement IDs, or traceability. Optional for small feature work.
+description: Use when formalizing functional/non-functional requirements, use cases, and maintaining requirements traceability (RTM).
 license: Apache-2.0
 ---
 

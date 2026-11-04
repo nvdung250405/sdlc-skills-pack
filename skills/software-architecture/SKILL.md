@@ -1,6 +1,6 @@
 ---
 name: software-architecture
-description: Define or review system architecture for a new system or a material technical change. Use when component boundaries, data ownership, integration contracts, quality attributes, security boundaries, or deployment topology need explicit design; skip for trivial local changes.
+description: Use when designing system boundaries, component decomposition, data ownership, or integration architecture.
 license: Apache-2.0
 ---
 

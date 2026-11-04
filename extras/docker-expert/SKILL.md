@@ -1,6 +1,6 @@
 ---
 name: docker-expert
-description: Advanced Docker containerization expert with knowledge of container optimization, security hardening, multi-stage builds, orchestration patterns, and production deployment strategies. Use when writing Dockerfiles, docker-compose, optimizing image size, or hardening container runtime security.
+description: Use when authoring Dockerfiles, optimizing multi-stage container builds, and hardening runtime security.
 license: MIT
 ---
 

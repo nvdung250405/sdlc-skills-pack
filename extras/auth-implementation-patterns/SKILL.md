@@ -1,6 +1,6 @@
 ---
 name: auth-implementation-patterns
-description: Implement or review authentication and authorization with explicit token, session and resource-access boundaries. Use when designing login flows, JWT/OAuth2/OIDC, session lifecycles, RBAC policies, or auditing auth security.
+description: Use when implementing authentication, JWT/OAuth2 flows, session lifecycles, and RBAC authorization policies.
 license: MIT
 ---
 

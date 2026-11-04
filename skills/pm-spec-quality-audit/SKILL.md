@@ -1,6 +1,6 @@
 ---
 name: pm-spec-quality-audit
-description: Audit a PRD, feature specification, User Story, or requirements document for build-damaging gaps. Use when reviewing specs before coding to identify untestable requirements, missing flows, scope ambiguity, hidden assumptions, and traceability gaps.
+description: Use when auditing PRDs, User Stories, or specifications for missing edge cases and untestable requirements.
 license: MIT
 ---
 
