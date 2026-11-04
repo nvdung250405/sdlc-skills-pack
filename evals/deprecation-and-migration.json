@@ -1,0 +1,45 @@
+{
+  "id": "eval-deprecation-migration-01",
+  "name": "Zero-Downtime Migration from XML Export to JSON Stream",
+  "workflow": "workflows/deprecation-and-migration.md",
+  "task_description": "Execute a 4-phase Expand/Contract zero-downtime migration replacing legacy GET /v1/export.xml with paginated streaming JSON endpoint, issuing a deprecation notice and dual-write database adapter.",
+  "expected_stages": [
+    "Expand Phase (Add New Endpoint & Dual Write)",
+    "Contract Phase (Migrate Callers & Track Usage)",
+    "Deprecation Notice & Sunset Window",
+    "Retirement of Legacy Path"
+  ],
+  "expected_skills": [
+    "api-and-interface-design",
+    "database-design",
+    "test-driven-development",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "deprecation",
+      "canonical_path": "docs/migrations/v1-xml-export-deprecation.md",
+      "must_contain": ["Sunset Date", "Migration Path", "Breaking Changes"]
+    },
+    {
+      "alias": "openapi",
+      "canonical_path": "contracts/openapi.yaml",
+      "must_contain": ["deprecated: true", "/v1/export.json"]
+    },
+    {
+      "alias": "migration",
+      "canonical_path": "migrations/20261104_add_export_format_flag_migration.sql",
+      "must_contain": ["ALTER TABLE", "ADD COLUMN"]
+    },
+    {
+      "alias": "completion",
+      "canonical_path": "docs/features/migration-xml-to-json/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "No breaking API change without backward-compatible deprecation window",
+    "Database schema migration must support concurrent running versions",
+    "Contract verification passes before completion"
+  ]
+}

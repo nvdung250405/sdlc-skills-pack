@@ -308,16 +308,6 @@
       "revision_status": "reviewed-main-unpinned",
       "refresh_policy": "manual-review-only",
       "note": "Selected engineering skills from sickn33/agentic-awesome-skills covering database design, docker containerization, k6 load testing, terraform IaC, and kubernetes orchestration. Code is MIT licensed, documentation CC BY 4.0."
-    },
-    {
-      "id": "api-contract-testing",
-      "url": "https://github.com/nvdung250405/sdlc-skills-pack",
-      "license": "MIT",
-      "license_file": "LICENSE",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "refresh_policy": "manual-review-only",
-      "note": "Locally adapted API contract testing skill for consumer-provider compatibility, wire-level schema validation, and fixture-driven regressions. Categorized in extras tier."
     }
   ],
   "derived_skills": [
@@ -391,18 +381,6 @@
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
         "Preserved database selection, schema normalization, indexing strategies, migrations guides, and schema_validator.py helper script."
-      ]
-    },
-    {
-      "name": "api-contract-testing",
-      "tier": "extras",
-      "source_id": "api-contract-testing",
-      "source_path": "skills/api-contract-testing/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into extras tier; adapted API contract testing for consumer-provider compatibility, synthetic fixtures, wire-level verification, and regression tests."
       ]
     },
     {

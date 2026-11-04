@@ -1,0 +1,39 @@
+{
+  "id": "eval-experimentation-loop-01",
+  "name": "A/B Experiment on Single-Page Checkout Conversion",
+  "workflow": "workflows/experimentation-loop.md",
+  "task_description": "Design and execute an A/B growth experiment testing a single-page checkout variant against multi-step checkout, defining telemetry tracking schemas and statistical evaluation criteria.",
+  "expected_stages": [
+    "Experiment Brief & Hypothesis Formulation",
+    "Telemetry Tracking Schema Authoring",
+    "Variant Implementation & Feature Flagging",
+    "Experiment Verification & Completion"
+  ],
+  "expected_skills": [
+    "incremental-implementation",
+    "test-driven-development",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "experiment",
+      "canonical_path": "docs/experiments/exp-102-single-page-checkout.md",
+      "must_contain": ["Hypothesis", "Sample Size", "Primary Metric"]
+    },
+    {
+      "alias": "tracking",
+      "canonical_path": "docs/analytics/tracking-plan.md",
+      "must_contain": ["checkout_started", "checkout_step_completed", "order_completed"]
+    },
+    {
+      "alias": "completion",
+      "canonical_path": "docs/features/exp-checkout/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "Experiment must declare explicit null hypothesis and primary metric prior to code edits",
+    "Telemetry event names and schemas must adhere to canonical tracking format",
+    "Feature flag must fail-open to default control flow in case of configuration errors"
+  ]
+}

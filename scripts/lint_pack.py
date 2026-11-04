@@ -87,23 +87,11 @@ def check_distribution_hygiene(errors: list[str]) -> None:
 
 
 def check_doc_metrics(errors: list[str]) -> None:
-    """Ensure key documentation files do not state obsolete skill or template numbers."""
+    """Ensure key documentation files state exactly the actual skill, template, and workflow counts."""
     core_count = len([p for p in (ROOT / "skills").iterdir() if p.is_dir()])
     extras_count = len([p for p in (ROOT / "extras").iterdir() if p.is_dir()])
     tmpl_count = len([p for p in (ROOT / "templates").rglob("*") if p.is_file() and p.name != "README.md"])
-
-    obsolete_patterns = [
-        (re.compile(r"\b26\s+(?:[A-Za-z-]+\s+)?Core\b", re.I), f"found obsolete '26 Core' (actual: {core_count} Core)"),
-        (re.compile(r"\bCore\s*\(26\b", re.I), f"found obsolete 'Core (26' (actual: Core ({core_count}))"),
-        (re.compile(r"\b37\s+(?:[A-Za-z-]+\s+)?Extras\b", re.I), f"found obsolete '37 Extras' (actual: {extras_count} Extras)"),
-        (re.compile(r"\bExtras\s*\(37\b", re.I), f"found obsolete 'Extras (37' (actual: Extras ({extras_count}))"),
-        (re.compile(r"\b22\s+(?:canonical\s+)?(?:artifact\s+)?templates\b", re.I), f"found obsolete '22 templates' (actual: {tmpl_count} templates)"),
-        (re.compile(r"\b22\s+deliverables\b", re.I), f"found obsolete '22 deliverables' (actual: {tmpl_count} deliverables)"),
-        (re.compile(r"\btemplates\s*\(22\)", re.I), f"found obsolete 'templates (22)' (actual: templates ({tmpl_count}))"),
-        (re.compile(r"--extras\b"), "found obsolete flag '--extras' (actual: '--with-extras')"),
-        (re.compile(r"\b(?:Runtime\s+Adapters|runtimes)\s*\(6\)", re.I), "found obsolete 'Adapters/runtimes (6)' (actual: 8 runtime targets)"),
-        (re.compile(r"\b(?:17|19)\s+(?:test\s+assertions|unit\s+tests?)\b", re.I), "found obsolete test count (actual: 20 unit tests)"),
-    ]
+    wf_count = len([p for p in (ROOT / "workflows").glob("*.md") if p.is_file()])
 
     target_docs = [
         ROOT / "README.md",
@@ -113,10 +101,35 @@ def check_doc_metrics(errors: list[str]) -> None:
         ROOT / "skills" / "using-sdlc-skills" / "SKILL.md",
     ]
 
+    # Dynamic positive checks that extract stated numbers and compare with actual counts:
+    positive_checks = [
+        (re.compile(r"\bCore\s*\(\s*(\d+)\s*(?:skills?)?\s*\)", re.I), core_count, "Core count"),
+        (re.compile(r"\b(\d+)\s+(?:Lean\s+)?Core\s+skills?\b", re.I), core_count, "Core count"),
+        (re.compile(r"\bExtras\s*\(\s*(\d+)\s*(?:skills?)?\s*\)"), extras_count, "Extras count"),
+        (re.compile(r"(?<![0-9]–)(?<![0-9]-)\b(\d+)\s+(?:Contextual\s+)?Extras\s+skills?\b"), extras_count, "Extras count"),
+        (re.compile(r"\b(\d+)\s+(?:canonical\s+)?(?:artifact\s+)?(?:starter\s+)?templates\b", re.I), tmpl_count, "templates count"),
+        (re.compile(r"\btemplates\s*\(\s*(\d+)\s*\)", re.I), tmpl_count, "templates count"),
+        (re.compile(r"\b(\d+)\s+(?:standardized\s+)?workflows\b", re.I), wf_count, "workflows count"),
+        (re.compile(r"\bworkflows\s*\(\s*(\d+)\s*\)", re.I), wf_count, "workflows count"),
+    ]
+
+    obsolete_patterns = [
+        (re.compile(r"--extras\b"), "found obsolete flag '--extras' (actual: '--with-extras')"),
+        (re.compile(r"\b(?:Runtime\s+Adapters|runtimes)\s*\(6\)", re.I), "found obsolete 'Adapters/runtimes (6)' (actual: 8 runtime targets)"),
+        (re.compile(r"\b(?:17|19)\s+(?:test\s+assertions|unit\s+tests?)\b", re.I), "found obsolete test count (actual: 20 unit tests)"),
+    ]
+
     for doc in target_docs:
         if not doc.is_file():
             continue
         text = doc.read_text(encoding="utf-8")
+        for pattern, expected_val, label in positive_checks:
+            for match in pattern.finditer(text):
+                val = int(match.group(1))
+                if val != expected_val:
+                    errors.append(
+                        f"{doc.relative_to(ROOT)}: doc metrics inconsistency - stated {label} '{val}' does not match actual {expected_val}"
+                    )
         for pattern, msg in obsolete_patterns:
             if pattern.search(text):
                 errors.append(f"{doc.relative_to(ROOT)}: doc metrics inconsistency - {msg}")
@@ -254,7 +267,7 @@ def main() -> int:
 
         # A pack-owned skill directory is a legitimate installed skill as well.
         expected_by_tier["skills"].update({"using-sdlc-skills", "task-handoff"})
-        expected_by_tier["extras"].add("skill-authoring")
+        expected_by_tier["extras"].update({"skill-authoring", "api-contract-testing"})
         for tier_name, expected in expected_by_tier.items():
             missing = sorted(expected - available_by_tier[tier_name])
             if missing:
@@ -289,6 +302,51 @@ def main() -> int:
                 errors.append(f"manifests/skill-map.json: precedence owner {owner!r} is not a selected skill")
             if not isinstance(rule, str) or not rule.strip():
                 errors.append(f"manifests/skill-map.json: precedence entry for {owner!r} needs an explanation")
+
+        # Validate profiles in manifests/skill-map.json
+        profiles = skill_map.get("profiles", {})
+        if not profiles:
+            errors.append("manifests/skill-map.json: missing 'profiles' section")
+        else:
+            for prof_name, skill_list in profiles.items():
+                if not isinstance(skill_list, list):
+                    errors.append(f"manifests/skill-map.json: profile '{prof_name}' must be a list of skills")
+                    continue
+                unknown_prof_skills = sorted(set(skill_list) - known)
+                if unknown_prof_skills:
+                    errors.append(f"manifests/skill-map.json: profile '{prof_name}' contains unknown skills: {', '.join(unknown_prof_skills)}")
+            # Core profile must match skills/
+            core_prof = set(profiles.get("core", []))
+            actual_core = {p.name for p in (ROOT / "skills").iterdir() if p.is_dir()}
+            if core_prof != actual_core:
+                errors.append(f"manifests/skill-map.json: profile 'core' does not match skills/ (diff: {sorted(core_prof ^ actual_core)})")
+            # Full profile must match all skills
+            full_prof = set(profiles.get("full", []))
+            actual_all = {p.name for root in [ROOT / "skills", ROOT / "extras"] for p in root.iterdir() if p.is_dir()}
+            if full_prof != actual_all:
+                errors.append(f"manifests/skill-map.json: profile 'full' does not match all skills on disk (diff: {sorted(full_prof ^ actual_all)})")
+
+        # Validate workflow_dependencies in manifests/skill-map.json
+        wf_deps = skill_map.get("workflow_dependencies", {})
+        if not wf_deps:
+            errors.append("manifests/skill-map.json: missing 'workflow_dependencies' section")
+        else:
+            actual_wfs = {p.stem for p in (ROOT / "workflows").glob("*.md")}
+            missing_wf_deps = sorted(actual_wfs - set(wf_deps.keys()))
+            if missing_wf_deps:
+                errors.append(f"manifests/skill-map.json: missing workflow_dependencies for: {', '.join(missing_wf_deps)}")
+            for wf_name, dep_spec in wf_deps.items():
+                if not isinstance(dep_spec, dict):
+                    errors.append(f"manifests/skill-map.json: workflow_dependencies[{wf_name}] must be a dict")
+                    continue
+                reqs = dep_spec.get("requires", [])
+                opts = dep_spec.get("optional", [])
+                unknown_reqs = sorted(set(reqs) - known)
+                if unknown_reqs:
+                    errors.append(f"manifests/skill-map.json: workflow '{wf_name}' requires unknown skills: {', '.join(unknown_reqs)}")
+                unknown_opts = sorted(set(opts) - known)
+                if unknown_opts:
+                    errors.append(f"manifests/skill-map.json: workflow '{wf_name}' optional lists unknown skills: {', '.join(unknown_opts)}")
 
     required_files = [
         # 11 Standardized Workflows

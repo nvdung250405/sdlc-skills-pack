@@ -68,7 +68,7 @@ class PackStaticTests(unittest.TestCase):
     def test_selected_skill_map_has_no_unknown_or_duplicate_skill(self) -> None:
         manifest = json.loads((ROOT / "upstream.json").read_text(encoding="utf-8"))
         skill_map = json.loads((ROOT / "manifests" / "skill-map.json").read_text(encoding="utf-8"))
-        known = {"using-sdlc-skills", "task-handoff", "skill-authoring"}
+        known = {"using-sdlc-skills", "task-handoff", "skill-authoring", "api-contract-testing"}
         for upstream in manifest["upstreams"]:
             for item in upstream.get("items", []):
                 name = item.get("name", Path(item["src"]).name)
@@ -258,7 +258,7 @@ class PackStaticTests(unittest.TestCase):
     def test_eval_fixtures_are_valid_and_executable(self) -> None:
         result = run_script("run_evals.py")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("Successfully verified 4 golden evaluation fixtures", result.stdout)
+        self.assertIn("Verified 11 golden evaluation fixtures across all 11 workflows", result.stdout)
 
 
 @unittest.skipUnless(shutil.which("git"), "Git is required for local sync transaction tests")

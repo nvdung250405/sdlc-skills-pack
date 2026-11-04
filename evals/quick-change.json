@@ -16,7 +16,7 @@
   ],
   "expected_artifacts": [
     {
-      "alias": "completion-report",
+      "alias": "completion",
       "canonical_path": "docs/features/password-length/completion-report.md",
       "must_contain": ["Status", "Verification", "Limitations"]
     }
@@ -27,4 +27,3 @@
     "Evidence-backed pass report"
   ]
 }
-

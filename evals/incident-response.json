@@ -1,0 +1,46 @@
+{
+  "id": "eval-incident-response-01",
+  "name": "Mitigate and Postmortem Database Connection Outage",
+  "workflow": "workflows/incident-response.md",
+  "task_description": "Triage and mitigate production outage caused by connection pool exhaustion during traffic spike, update connection pool alert rules, and author a blameless postmortem.",
+  "expected_stages": [
+    "Immediate Triage & Mitigation",
+    "Service Restoration",
+    "Root Cause Investigation",
+    "Corrective Action & Runbook Update",
+    "Blameless Postmortem"
+  ],
+  "expected_skills": [
+    "systematic-debugging",
+    "observability-and-instrumentation",
+    "database-design",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "alert-rules",
+      "canonical_path": "deploy/alerts/database-pool-rules.yaml",
+      "must_contain": ["DatabaseConnectionSaturation", "expr", "severity: critical"]
+    },
+    {
+      "alias": "runbook",
+      "canonical_path": "docs/runbooks/database-failover.md",
+      "must_contain": ["Triage", "Remediation Steps", "Escalation Path"]
+    },
+    {
+      "alias": "postmortem",
+      "canonical_path": "docs/incidents/20261104-db-pool-exhaustion/postmortem.md",
+      "must_contain": ["Timeline", "Root Cause", "Action Items"]
+    },
+    {
+      "alias": "completion",
+      "canonical_path": "docs/features/incident-db-pool-exhaustion/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "Mitigation and traffic restoration take precedence over deep root-cause digging",
+    "Postmortem must be strictly blameless and focus on systemic safeguards",
+    "Alert rules must be verified with syntactically valid YAML"
+  ]
+}

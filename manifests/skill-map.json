@@ -175,6 +175,16 @@
     "secrets-management": "Secures secrets retrieval, CI credentials, and rotation workflows; does not grant permission to inspect production secrets."
   },
   "profiles": {
+    "eager-lean": [
+      "code-review-and-quality",
+      "incremental-implementation",
+      "planning-and-task-breakdown",
+      "systematic-debugging",
+      "task-handoff",
+      "test-driven-development",
+      "using-sdlc-skills",
+      "verification-before-completion"
+    ],
     "core": [
       "api-and-interface-design",
       "ci-cd-and-automation",

@@ -292,9 +292,10 @@ Quality is verified across four distinct dimensions:
 | **Pre-Completion Gate** | Evidence before completion assertion | `verification-before-completion` | Explicit commands and logs in report | Implemented |
 
 ### 11.3 Evaluation Plan and Current Status
-- **Continuous Validation:** Strict linting (`scripts/lint_pack.py --strict`) and 20 unit tests (`tests/test_pack.py`) execute in local runs and GitHub Actions CI.
+- **Continuous Static Validation:** Strict linting (`scripts/lint_pack.py --strict`) and 20 unit tests (`tests/test_pack.py`) execute in local runs and GitHub Actions CI.
 - **Contract & Guardrail Verification:** Automated AST validation for all machine-readable contract fixtures (`scripts/verify_contracts.py`).
-- **Cross-Runtime Status:** Verified on Claude Code and Antigravity IDE (both validated for `lazy` loading). Golden task fixtures for third-party unknown-mode runtimes (Codex, Cursor, Copilot) are provided in `evals/` for community benchmarks.
+- **Golden Evaluation Fixtures Gate:** Semantic validation for 11 golden task fixtures covering all 11 workflows (`scripts/run_evals.py`).
+- **Cross-Runtime Compatibility Status:** Directory mapping adapters are configured and tested for 8 runtimes in `adapters/agents.json`. Lazy loading mechanism is documented for Claude Code and Antigravity IDE. Full multi-agent execution benchmarks (comparing with-pack vs without-pack runs across models) are tracked under `evals/results/`; comprehensive multi-agent live testing remains an active roadmap target.
 
 ---
 
@@ -310,8 +311,9 @@ The pack supports target agent runtimes configured in [`adapters/agents.json`](.
 
 ### Fallback Behavior & Context Protection
 When installing into runtimes with `eager` or `unknown` loading mode, all installed skills may be ingested into prompt context at startup. For such targets:
-1. `scripts/install.py` defaults to the **Core profile** (29 skills) and emits a contextual notice advising against installing all 63 skills unless specifically needed.
-2. The agent is directed to consult `using-sdlc-skills` as an internal guide, and to offload heavy artifacts to disk rather than keeping them active in conversation memory.
+1. `scripts/install.py` provides an **`eager-lean` profile** (8 meta-skills, ~15k tokens) to minimize prompt context consumption.
+2. The default **`core` profile** (29 skills, ~70k tokens) is recommended for general development when eager loading limits allow.
+3. The agent is directed to consult `using-sdlc-skills` as an internal guide, and to offload heavy artifacts to disk rather than keeping them active in conversation memory.
 
 ---
 
@@ -382,6 +384,7 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 | **Bounded Context Runner** | Implemented | `scripts/bounded_run.py` | Head/tail truncated output, raw logs on disk |
 | **Unified Contract Gate** | Implemented | `scripts/verify_contracts.py` | Validates OpenAPI, AsyncAPI, STOMP, Proto, GraphQL, JSON Schema, SQL |
 | **Runtime Adapters (8)** | Implemented | `adapters/agents.json` | Path mappings for major agent environments |
+| **Golden Task Fixtures (11)** | Implemented | `evals/*.json`, `scripts/run_evals.py` | Fixture schema, workflow paths, and artifact aliases validated |
 | **Linter & Packaging Tools** | Implemented | `scripts/lint_pack.py`, `scripts/install.py` | Validated by unit tests |
 | **Upstream Sync Automation** | Implemented | `scripts/sync_upstream.py` | Transactional rollback verified |
 | **Automated Contract Testing** | Manual / Target | `extras/api-contract-testing` | Requires local mock/Pact runner setup |
@@ -398,8 +401,8 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 - [x] Skills are clearly separated from CLI execution tools, runtime adapters, and artifact contracts.
 - [x] Task Contracts and Artifact Contracts have non-overlapping, distinct responsibilities.
 - [x] Deterministic execution is delegated to CLI tools, Python scripts, and automated test runners.
-- [x] Context loading and cost controls (token, API credit, compute) are explicitly defined.
-- [x] Quality gates and evidence expectations are enforceable and verified by unit tests.
+- [x] Context loading and cost controls (token, API credit, compute) are explicitly defined (profiles: `eager-lean`, `core`, `core+web`, `full`).
+- [x] Quality gates and evidence expectations are enforceable and verified by unit tests (20 unit tests, strict pack linter).
 - [x] Upstream provenance, licensing, commit pinning, and content hashes are fully traceable.
 - [x] Destructive commands and secret boundaries are hardened.
-- [x] All implementation statuses in Section 17 are supported by verifiable repository evidence.
+- [ ] Multi-agent empirical runtime benchmarks: Live execution logs across all 8 agent runtimes are in progress (11 golden task fixtures and schema gates validated; multi-agent execution transcripts tracked in `evals/results/`).

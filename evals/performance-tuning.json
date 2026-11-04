@@ -1,0 +1,40 @@
+{
+  "id": "eval-performance-tuning-01",
+  "name": "Remediate Dashboard API N+1 Query Bottleneck",
+  "workflow": "workflows/performance-tuning.md",
+  "task_description": "Diagnose and optimize GET /v1/dashboard latency from 4200ms to sub-500ms p95 SLA by replacing an N+1 query loop with batch eager-loading and composite database indexing.",
+  "expected_stages": [
+    "Baseline Benchmark Measurement",
+    "Bottleneck Profiling & EXPLAIN Plan Analysis",
+    "Surgical Optimization (Batch Fetch & Index)",
+    "Comparative Verification"
+  ],
+  "expected_skills": [
+    "database-design",
+    "systematic-debugging",
+    "test-driven-development",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "adr",
+      "canonical_path": "docs/adr/ADR-089-dashboard-batch-query-optimization.md",
+      "must_contain": ["Context", "Decision", "Performance Evidence"]
+    },
+    {
+      "alias": "acceptance",
+      "canonical_path": "docs/features/perf-dashboard-opt/acceptance-report.md",
+      "must_contain": ["Latency SLA", "Before/After Comparison", "Verification Commands"]
+    },
+    {
+      "alias": "completion",
+      "canonical_path": "docs/features/perf-dashboard-opt/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "Baseline benchmark must precede any code or query changes",
+    "Preserve 100% existing domain and contract behavior",
+    "Evidence-backed before/after latency comparison required"
+  ]
+}

@@ -56,8 +56,14 @@ def expected_skill_names(include_extras: bool = False) -> set[str]:
             tier = item.get("tier", "skills")
             if tier == "skills" or (include_extras and tier == "extras"):
                 expected.add(item.get("name", Path(item["src"]).name))
+    for item in data.get("derived_skills", []):
+        tier = item.get("tier", "skills")
+        if tier == "skills" or (include_extras and tier == "extras"):
+            expected.add(item.get("name", Path(item["src"]).name if "src" in item else ""))
     # Pack-owned skills are installed too but are not upstream-managed.
     expected.update({p.name for p in (ROOT / "skills").iterdir() if p.is_dir()})
+    if include_extras:
+        expected.update({"skill-authoring", "api-contract-testing"})
     return expected
 
 
@@ -233,7 +239,7 @@ def main() -> int:
     parser.add_argument("target", help="claude, codex, gemini, cursor, copilot, custom, or agents-md")
     parser.add_argument("--global", dest="global_scope", action="store_true", help="install into the configured user-level directory")
     parser.add_argument("--link", action="store_true", help="create symlinks instead of copying skill folders")
-    parser.add_argument("--profile", choices=["core", "core+web", "full"], default=None, help="installation profile: core (29 skills), core+web (36 skills), or full (63 skills)")
+    parser.add_argument("--profile", choices=["eager-lean", "core", "core+web", "full"], default=None, help="installation profile: eager-lean (8 skills, ~15k tokens), core (29 skills), core+web (36 skills), or full (63 skills)")
     parser.add_argument("--with-extras", action="store_true", help="also install skills from extras/ (equivalent to --profile full)")
     parser.add_argument("--dest", help="skill install directory; for agents-md, path to installed skill folders")
     parser.add_argument("--asset-root", help="for agents-md, project-relative path to the pack copy containing workflows/ and templates/")
@@ -253,8 +259,11 @@ def main() -> int:
         adapters = json.loads(ADAPTER_FILE.read_text(encoding="utf-8"))
         dest_root = resolve_destination(target_name, args, adapters)
         mode = adapters.get("agents", {}).get(target_name, {}).get("loading_mode", "unknown")
-        if mode in ("eager", "unknown") and args.with_extras:
-            print(f"TIP: Target '{target_name}' has '{mode}' skill loading behavior. Installing all 63 skills may consume substantial prompt context. Default Core (29 skills) is recommended unless specialist skills are actively needed.", file=sys.stderr)
+        if mode in ("eager", "unknown"):
+            if args.with_extras or args.profile == "full":
+                print(f"TIP: Target '{target_name}' has '{mode}' loading behavior. Installing all 63 skills consumes substantial context (~139k tokens). Consider --profile eager-lean (8 skills, ~15k tokens) or --profile core (29 skills).", file=sys.stderr)
+            elif not args.profile:
+                print(f"TIP: Target '{target_name}' has '{mode}' loading. Default Core installs 29 skills (~70k tokens). For an ultra-light context footprint, use --profile eager-lean (8 skills, ~15k tokens).", file=sys.stderr)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

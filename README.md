@@ -69,8 +69,11 @@ Yêu cầu Python 3.10+; Git chỉ cần khi muốn đồng bộ các upstream �
 python scripts/lint_pack.py --strict
 python -m unittest discover -s tests -v
 
-# Cài đặt mặc định (Core 29 skills)
-python scripts/install.py codex
+# Cài đặt theo Profile (tối ưu footprint context):
+# 1. Profile 'eager-lean' (8 skills, ~15k tokens) — tối ưu cho runtime nạp eager
+python scripts/install.py codex --profile eager-lean
+
+# 2. Profile mặc định 'core' (29 skills, ~70k tokens)
 python scripts/install.py claude
 python scripts/install.py gemini
 python scripts/install.py cursor
@@ -78,8 +81,11 @@ python scripts/install.py copilot
 python scripts/install.py antigravity
 python scripts/install.py antigravity-cli
 
-# Cài đặt toàn bộ kèm extras (63 skills)
-python scripts/install.py codex --with-extras
+# 3. Profile 'core+web' (36 skills, ~82k tokens) — bổ sung frontend & browser verification
+python scripts/install.py claude --profile core+web
+
+# 4. Profile 'full' (63 skills, ~139k tokens gồm 29 Core + 34 Extras)
+python scripts/install.py codex --profile full
 python scripts/install.py custom --dest ./my-agent/skills --with-extras
 ```
 

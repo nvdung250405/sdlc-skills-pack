@@ -1,0 +1,42 @@
+{
+  "id": "eval-dependency-upgrade-01",
+  "name": "Upgrade PyYAML to Resolve CVE and Adapt Deprecated Loaders",
+  "workflow": "workflows/dependency-upgrade.md",
+  "task_description": "Upgrade PyYAML dependency to patch security vulnerability CVE-2020-14343, migrate dangerous yaml.load() calls to yaml.safe_load(), and open an evidence-backed Pull Request.",
+  "expected_stages": [
+    "Security Advisory Audit & Blast-Radius Assessment",
+    "Isolated Git Worktree Setup",
+    "Manifest & Lockfile Version Bump",
+    "Deprecated API Call Migration",
+    "Regression Test Run & Pull Request"
+  ],
+  "expected_skills": [
+    "security-and-hardening",
+    "using-git-worktrees",
+    "test-driven-development",
+    "git-workflow-and-versioning",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "handoff",
+      "canonical_path": ".agent/tasks/dep-upgrade-pyyaml.md",
+      "must_contain": ["Vulnerability Audit", "Worktree Branch", "Changed Manifests"]
+    },
+    {
+      "alias": "pr",
+      "canonical_path": ".github/pull_request_template.md",
+      "must_contain": ["Security Fix", "Test Verification", "Breaking Changes"]
+    },
+    {
+      "alias": "completion",
+      "canonical_path": "docs/features/upgrade-pyyaml/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "Execute upgrade in an isolated git worktree",
+    "Verify regression test suite passes cleanly before opening PR",
+    "Replace all unsafe loader calls without silently weakening parser behavior"
+  ]
+}

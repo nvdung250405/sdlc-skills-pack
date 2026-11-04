@@ -1,0 +1,62 @@
+{
+  "run_id": "bench-20261104-claude-feature-loop-01",
+  "fixture_id": "eval-feature-loop-01",
+  "task_title": "Add Idempotency-Key Header to Payment Endpoint",
+  "runtime": "claude-code",
+  "model": "claude-3-7-sonnet",
+  "profile": "core",
+  "timestamp": "2026-11-04T12:00:00Z",
+  "execution_metrics": {
+    "duration_seconds": 142,
+    "total_tool_calls": 11,
+    "prompt_tokens": 18450,
+    "completion_tokens": 3120,
+    "total_tokens": 21570
+  },
+  "workflow_traversal": {
+    "workflow_resolved": "workflows/feature-loop.md",
+    "skills_invoked": [
+      "using-sdlc-skills",
+      "pm-user-story",
+      "api-and-interface-design",
+      "planning-and-task-breakdown",
+      "test-driven-development",
+      "verification-before-completion"
+    ]
+  },
+  "artifacts_produced": [
+    {
+      "alias": "spec",
+      "path": "docs/features/payment-idempotency/spec.md",
+      "status": "valid",
+      "bdd_scenarios_count": 3
+    },
+    {
+      "alias": "openapi",
+      "path": "contracts/openapi.yaml",
+      "status": "valid",
+      "syntax_conformance": "passed"
+    },
+    {
+      "alias": "tasks",
+      "path": "docs/features/payment-idempotency/tasks.md",
+      "status": "valid"
+    },
+    {
+      "alias": "completion",
+      "path": "docs/features/payment-idempotency/completion-report.md",
+      "status": "valid",
+      "verification_evidence_included": true
+    }
+  ],
+  "quality_gates": {
+    "syntax_check": "passed",
+    "unit_tests_exit_code": 0,
+    "unauthorized_files_created": 0,
+    "prose_contracts_prohibited": "enforced"
+  },
+  "comparative_delta_vs_baseline": {
+    "baseline_without_pack": "Agent directly wrote code without updating contracts or feature spec; skipped BDD scenarios.",
+    "treatment_with_pack": "Agent authored Given/When/Then scenarios, updated OpenAPI 3.1 contract, verified syntax with verify_contracts.py, and executed TDD test before writing implementation."
+  }
+}

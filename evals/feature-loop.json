@@ -19,12 +19,12 @@
   ],
   "expected_artifacts": [
     {
-      "alias": "feature-spec",
+      "alias": "spec",
       "canonical_path": "docs/features/payment-idempotency/spec.md",
       "must_contain": ["US-01", "AC-01", "Given", "When", "Then"]
     },
     {
-      "alias": "contract-openapi",
+      "alias": "openapi",
       "canonical_path": "contracts/openapi.yaml",
       "must_contain": ["Idempotency-Key", "201", "409"]
     },
@@ -34,7 +34,7 @@
       "must_contain": ["[ ]", "Task 1"]
     },
     {
-      "alias": "completion-report",
+      "alias": "completion",
       "canonical_path": "docs/features/payment-idempotency/completion-report.md",
       "must_contain": ["Status", "Verification", "Limitations"]
     }
@@ -45,4 +45,3 @@
     "All assertions backed by fresh test run exit codes"
   ]
 }
-

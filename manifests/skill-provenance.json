@@ -440,16 +440,13 @@
       "content_sha256": "53f3127ae26f727675089e0cca295436df7b20af4cf4e78206e59c4b9e153afd"
     },
     "extras/api-contract-testing": {
-      "upstream": "api-contract-testing",
-      "source_path": "skills/api-contract-testing/SKILL.md",
-      "commit": "main",
+      "upstream": "pack-owned",
+      "source_path": "extras/api-contract-testing",
+      "commit": "local-pack",
       "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into extras tier; adapted API contract testing for consumer-provider compatibility, synthetic fixtures, wire-level verification, and regression tests."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
+      "transformations": [],
+      "kind": "pack-owned",
+      "refresh_policy": "local",
       "content_sha256": "63311bf6ac659dc19ba5255cf548cfb84ad4ef847dd1f2c8f967096fb4f891f2"
     },
     "skills/pm-product-spec": {

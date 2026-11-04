@@ -22,7 +22,7 @@
       "must_contain": ["Context", "Decision", "Consequences"]
     },
     {
-      "alias": "completion-report",
+      "alias": "completion",
       "canonical_path": "docs/features/refactor-tax-calculator/completion-report.md",
       "must_contain": ["Status", "Verification", "Limitations"]
     }
@@ -33,4 +33,3 @@
     "Run verification after every discrete micro-step"
   ]
 }
-
