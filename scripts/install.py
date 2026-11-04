@@ -239,7 +239,7 @@ def main() -> int:
     parser.add_argument("target", help="claude, codex, gemini, cursor, copilot, custom, or agents-md")
     parser.add_argument("--global", dest="global_scope", action="store_true", help="install into the configured user-level directory")
     parser.add_argument("--link", action="store_true", help="create symlinks instead of copying skill folders")
-    parser.add_argument("--profile", choices=["eager-lean", "core", "core+web", "full"], default=None, help="installation profile: eager-lean (8 skills, ~15k tokens), core (29 skills), core+web (36 skills), or full (63 skills)")
+    parser.add_argument("--profile", choices=["eager-lean", "canonical-32", "core", "core+web", "full"], default=None, help="installation profile: eager-lean (8 skills, ~15k tokens), canonical-32 (32 skills, ~1.7k tokens catalog), core (29 skills), core+web (36 skills), or full (63 skills)")
     parser.add_argument("--with-extras", action="store_true", help="also install skills from extras/ (equivalent to --profile full)")
     parser.add_argument("--dest", help="skill install directory; for agents-md, path to installed skill folders")
     parser.add_argument("--asset-root", help="for agents-md, project-relative path to the pack copy containing workflows/ and templates/")
