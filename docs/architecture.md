@@ -159,6 +159,12 @@ For every accepted skill, the repository records:
 - License type and required attribution notices;
 - SHA-256 content hashes to guarantee integrity against tampering.
 
+### 5.1 Skill Consolidation and Context Budget Strategy
+To protect agent prompt budgets against context degradation, the pack maintains a strict token economy:
+- **Upstream Harvest vs. Packaged Footprint:** Upstream collection gathers granular skills across specialized domains (63 entries), which are mapped into 32 Canonical Competency Centers to avoid functional redundancy and overlap.
+- **Description Budgeting:** Frontmatter `description` fields are strictly budgeted under 25 words with explicit trigger phrases (`Use when...`, `Use for...`), eliminating keyword spamming and keeping total catalog metadata under ~2.5k tokens.
+- **Hierarchical Modularization:** Specialized secondary skills are integrated as progressive disclosure sub-modules, runbooks, or reference playbooks inside their parent primary skills rather than polluting top-level agent discovery.
+
 ---
 
 ## 6. Workflow and Orchestration
