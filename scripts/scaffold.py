@@ -62,6 +62,8 @@ def resolve_template(name: str) -> Path | None:
         Path("templates"),
         ROOT / "templates",
         ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates",
+        Path(__file__).resolve().parent.parent / "assets" / "templates",
+        Path(__file__).resolve().parent / "templates",
     ]
     for r in roots:
         if not r.is_dir():

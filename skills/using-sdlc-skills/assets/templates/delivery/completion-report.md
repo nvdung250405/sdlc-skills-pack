@@ -47,3 +47,4 @@ Commands actually executed, exit codes observed, and empirical proof (Evidence-B
 - **Unverified Assumptions:** [None | List any boundary condition not tested]
 - **Environment Caveats:** [e.g., Run on mock payment gateway in staging]
 - **Technical Debt & Follow-up Items:** [List any deferred cleanups or future optimizations]
+

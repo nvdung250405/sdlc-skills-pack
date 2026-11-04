@@ -75,30 +75,41 @@ Task Intake ──► Discover & Select ──► Load & Scaffold ──► Exec
 
 Use repository-native conventions if equivalent artifacts already exist. Otherwise prefer:
 
-- `docs/discovery/[initiative]/opportunity-brief.md`: problem framing, target users, validation findings and initial hypothesis (seeded from `templates/opportunity-brief.md`).
-- `docs/constitution.md` (or `AGENTS.md`): context, constraints, engineering policies and Definition of Done (seeded from `templates/constitution.md`).
-- `docs/prd.md`: product intent, problem/evidence, goals/metrics, non-goals, epics, risks and assumptions; optional for small changes (seeded from `templates/PRD.md`).
-- `docs/features/<feature-id>/spec.md`: canonical feature specification, containing User Stories, stable `US-*` IDs, `AC-*` Given/When/Then scenarios where appropriate, rules, edge cases, dependencies and open questions (seeded from `templates/feature-spec.md`).
-- `docs/specs/SRS.md` (or `docs/srs.md`): optional formal system requirements for complex or compliance-heavy work (seeded from `templates/SRS.md`).
-- `docs/specs/RTM.md` (or `docs/rtm.md`): optional requirement-to-design/task/test traceability ledger for projects that need it (seeded from `templates/RTM.md`).
-- `docs/architecture.md`: system architecture overview, boundaries, C4 models, and data ownership (seeded from `templates/architecture-overview.md`).
-- `docs/adr/ADR-NNN-[slug].md`: architecture decision records with trade-offs and options considered (seeded from `templates/ADR.md`).
-- `docs/features/<feature-id>/design.md` (or `technical-design.md`): detailed design specification only when needed (seeded from `templates/DDS.md`).
-- `docs/features/<feature-id>/plan.md`: implementation plan and execution strategy (seeded from `templates/plan.md`).
-- `docs/features/<feature-id>/tasks.md`: the single authoritative final task list for that feature (seeded from `templates/tasks.md`).
-- `.agent/tasks/<task-id>.md`: active task session state, progress, and role handoffs (seeded from `templates/task-handoff.md`).
-- `docs/features/<feature-id>/acceptance-report.md`: verification evidence for non-trivial features/releases (seeded from `templates/acceptance-report.md`).
-- `.github/pull_request_template.md` (or PR body): pull request description, motivation, and verification evidence (seeded from `templates/pull-request.md`).
-- `docs/releases/v[X.Y.Z].md`: release notes, changelog, and migration procedures (seeded from `templates/release-notes.md`).
-- `docs/releases/release-checklist.md`: pre-deployment quality, security, and rollback readiness gates (seeded from `templates/release-checklist.md`).
-- `docs/incidents/[YYYYMMDD-slug]/postmortem.md`: root cause investigations and corrective actions (seeded from `templates/incident-postmortem.md`).
-- `docs/runbooks/[service-name].md`: operational runbooks, triage procedures, and health metrics (seeded from `templates/runbook.md`).
-- `docs/migrations/[slug]-deprecation.md`: deprecation notices and 4-phase Expand/Contract zero-downtime guides (seeded from `templates/deprecation-notice.md`).
-- `docs/experiments/[exp-id]-[slug].md`: growth experimentation briefs and hypothesis metrics (seeded from `templates/experiment-brief.md`).
-- `docs/analytics/tracking-plan.md`: telemetry event tracking taxonomy and schemas (seeded from `templates/tracking-plan.md`).
-- `docs/security/threat-model-[system].md`: STRIDE-A threat modeling and risk mitigations (seeded from `templates/threat-model.md`).
+- `docs/discovery/[initiative]/opportunity-brief.md`: problem framing, target users, validation findings and initial hypothesis (seeded from `templates/specs/opportunity-brief.md`).
+- `docs/constitution.md` (or `AGENTS.md`): context, constraints, engineering policies and Definition of Done (seeded from `templates/governance/constitution.md`).
+- `docs/prd.md`: product intent, problem/evidence, goals/metrics, non-goals, epics, risks and assumptions; optional for small changes (seeded from `templates/specs/PRD.md`).
+- `docs/features/<feature-id>/spec.md`: canonical feature specification, containing User Stories, stable `US-*` IDs, `AC-*` Given/When/Then scenarios where appropriate, rules, edge cases, dependencies and open questions (seeded from `templates/specs/feature-spec.md`).
+- `docs/specs/SRS.md` (or `docs/srs.md`): optional formal system requirements for complex or compliance-heavy work (seeded from `templates/specs/SRS.md`).
+- `docs/specs/RTM.md` (or `docs/rtm.md`): optional requirement-to-design/task/test traceability ledger for projects that need it (seeded from `templates/specs/RTM.md`).
+- `docs/architecture.md`: system architecture overview, boundaries, C4 models, and data ownership (seeded from `templates/specs/architecture-overview.md`).
+- `docs/adr/ADR-NNN-[slug].md`: architecture decision records with trade-offs, FinOps cost impact, and options considered (seeded from `templates/specs/ADR.md`).
+- `docs/features/<feature-id>/design.md` (or `technical-design.md`): detailed design specification only when needed (seeded from `templates/specs/DDS.md`).
+- `contracts/openapi.yaml`, `contracts/asyncapi.yaml`, `contracts/stomp-websocket.yaml`, `contracts/service.proto`, `contracts/schema.graphql`, `contracts/data-contract.json`, `migrations/*.sql`: machine-executable interface contracts (seeded from `templates/contracts/`).
+- `docs/features/<feature-id>/plan.md`: implementation plan and execution strategy (seeded from `templates/delivery/plan.md`).
+- `docs/features/<feature-id>/tasks.md`: the single authoritative final task list for that feature (seeded from `templates/delivery/tasks.md`).
+- `.agent/tasks/<task-id>.md`: active task session state, progress, and role handoffs (seeded from `templates/delivery/task-handoff.md`).
+- `docs/features/<feature-id>/acceptance-report.md`: verification evidence for non-trivial features/releases (seeded from `templates/delivery/acceptance-report.md`).
+- `docs/features/<feature-id>/completion-report.md`: minimal completion report with Status, Deliverables, Verification command log, and Limitations (seeded from `templates/delivery/completion-report.md`).
+- `.github/pull_request_template.md` (or PR body): pull request description, motivation, and verification evidence (seeded from `templates/delivery/pull-request.md`).
+- `docs/releases/v[X.Y.Z].md`: release notes, changelog, and migration procedures (seeded from `templates/delivery/release-notes.md`).
+- `docs/releases/release-checklist.md`: pre-deployment quality, security, and rollback readiness gates (seeded from `templates/delivery/release-checklist.md`).
+- `docs/incidents/[YYYYMMDD-slug]/postmortem.md`: root cause investigations and corrective actions (seeded from `templates/platform/incident-postmortem.md`).
+- `docs/runbooks/[service-name].md`: operational runbooks, triage procedures, and health metrics (seeded from `templates/platform/runbook.md`).
+- `deploy/alerts/[service]-rules.yaml`: monitoring alert rules and latency/error thresholds (seeded from `templates/platform/alert-rules.yaml`).
+- `docs/migrations/[slug]-deprecation.md`: deprecation notices and 4-phase Expand/Contract zero-downtime guides (seeded from `templates/delivery/deprecation-notice.md`).
+- `docs/experiments/[exp-id]-[slug].md`: growth experimentation briefs and hypothesis metrics (seeded from `templates/governance/experiment-brief.md`).
+- `docs/analytics/tracking-plan.md`: telemetry event tracking taxonomy and schemas (seeded from `templates/governance/tracking-plan.md`).
+- `analytics/schemas/[event].json`: telemetry event JSON schemas (seeded from `templates/governance/event-schema.json`).
+- `docs/security/threat-model-[system].md`: STRIDE-A threat modeling and risk mitigations (seeded from `templates/governance/threat-model.md`).
 
-For the complete 22-row contract mapping table and CLI scaffolding aliases, see [references/artifact-contracts.md](references/artifact-contracts.md) or `templates/README.md`.
+For the complete 32-row contract mapping table and CLI scaffolding aliases, see [references/artifact-contracts.md](references/artifact-contracts.md) or `templates/README.md`.
+
+## Deterministic Execution Scripts
+
+To protect agent context windows and enforce strict quality verification, use the deterministic helper scripts located in `scripts/` (or bundled under `<skill-dir>/scripts/`):
+- **Scaffold Artifacts (`scripts/scaffold.py <alias> [--id <id>]`)**: Quickly copies any of the 32 canonical templates to its standard destination path on disk.
+- **Bounded Command Runner (`scripts/bounded_run.py <command>`)**: Executes tests, lints, or builds; saves full raw output to `.agent/logs/<stamp>_<cmd>.log`; and returns a bounded summary (head + tail, max 50 lines) to avoid context blowup.
+- **Unified Contract Gate (`scripts/verify_contracts.py [--dir contracts]`)**: Validates syntax and structural conformance of all machine-executable contracts (OpenAPI, AsyncAPI, STOMP, Protobuf, GraphQL, JSON Schema, SQL Migration) before completion.
 
 Templates in `templates/` (and router assets `assets/templates/`) are starters, not required extra documents. Do not create both `feature-spec.md` and `spec.md` for the same feature; copy the selected template into the canonical path instead of maintaining two authoritative files.
 

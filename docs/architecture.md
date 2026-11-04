@@ -19,7 +19,7 @@ The governing principle of the pack is **flexible input, disciplined output**. A
 - End-to-end SDLC capability coverage across 16 stages (11 core lifecycle stages and 5 cross-cutting capability areas).
 - Multi-agent runtime portability across Antigravity, Claude Code, Cursor, GitHub Copilot, Codex, and OpenCode.
 - A single canonical router (`using-sdlc-skills`) driving demand-driven skill selection.
-- 22 canonical artifact templates with explicit ownership contracts.
+- 32 canonical artifact templates across 5 functional groups (`contracts/`, `specs/`, `delivery/`, `platform/`, `governance/`) with explicit ownership contracts.
 - 11 standardized workflows covering core development, defect remediation, refactoring, and maintenance scenarios.
 - Strict upstream provenance tracking, content hashing, and transactional sync safety.
 
@@ -110,11 +110,11 @@ User Request + Available Context (Repo, STACK.md, Prompts)
 |---|---|---|---|---|---|
 | **Skills** (`skills/`, `extras/`) | Domain procedures, engineering heuristics, TDD/architecture guidance. | Task context, prompts | Code changes, artifacts | Tool execution, adapters | Implemented (63 skills) |
 | **Workflows** (`workflows/`) | Multi-step lifecycle coordination, handoffs, routing, and gates. | Task intent | Ordered execution plan | Skills, Contracts | Implemented (11 workflows) |
-| **Contracts & Templates** (`templates/`) | Canonical artifact structures, acceptance criteria, and scaffolds. | Domain requirements | Validated deliverables | Skills, Workflows | Implemented (22 templates) |
-| **Tools & Scripts** (`scripts/`) | Deterministic execution: linting, packaging, syncing, installing. | CLI args, manifest | Formatted files, exit codes | Python runtime, OS shell | Implemented |
+| **Contracts & Templates** (`templates/`) | Canonical artifact structures, acceptance criteria, and scaffolds across 5 functional directories. | Domain requirements | Validated deliverables | Skills, Workflows | Implemented (32 templates) |
+| **Tools & Scripts** (`scripts/`) | Deterministic execution: linting, packaging, syncing, installing, bounded execution, and contract verification. | CLI args, manifest | Formatted files, exit codes | Python runtime, OS shell | Implemented |
 | **Adapters** (`adapters/`) | Agent runtime-specific configuration, directory mapping, and installation. | Generic pack | Target runtime assets | Host IDE / CLI environment | Implemented (6 runtimes) |
 | **Manifests & Registries** (`manifests/`) | Machine-readable provenance, lockfiles, content hashes, and skill maps. | Upstream configs | Verified package state | Repository files | Implemented |
-| **Evaluation & Tests** (`tests/`) | Static validation, sync transaction tests, contract assertions. | Pack files, mock repos | Test reports, CI exit codes | Python `unittest` | Implemented (14 unit tests) |
+| **Evaluation & Tests** (`tests/`) | Static validation, sync transaction tests, contract assertions. | Pack files, mock repos | Test reports, CI exit codes | Python `unittest` | Implemented (17 unit tests) |
 
 ### 4.2 Responsibility Boundaries
 
@@ -221,6 +221,7 @@ The architecture strictly decouples physical installation from context loading:
 ### 8.3 Tool Feedback and Bounded Context
 - Tool output in context should be concise and actionable.
 - Full verbose logs, memory dumps, or build traces must be written to disk files with only summaries and relevant failure snippets returned to agent context.
+- Implemented via `scripts/bounded_run.py`: persists full raw logs to `.agent/logs/<timestamp>_<cmd>.log`, streams up to 50 lines (head + tail) to active context, and preserves process exit codes. Also bundled in `skills/using-sdlc-skills/scripts/bounded_run.py` for installed runtimes.
 
 ### 8.4 Batching and Safe Caching
 - Cache intermediate validation results where safe (e.g. content hashes).
@@ -258,10 +259,10 @@ For each task, the agent establishes:
 - Concrete acceptance criteria and verification commands to be run.
 
 ### 10.3 Artifact Contracts
-Each of the 22 deliverables in [`templates/`](../templates/) has one canonical contract owner (e.g., `feature-spec.md` is owned by `spec-driven-development` and `pm-user-story`). A template instantiates the contract structure; a skill guides the content authoring; automated tests verify the output.
+Each of the 32 deliverables in [`templates/`](../templates/) (organized into 5 functional directories: `contracts/`, `specs/`, `delivery/`, `platform/`, `governance/`) has one canonical contract owner (e.g., `feature-spec.md` is owned by `spec-driven-development` and `pm-user-story`, `openapi.yaml` by `api-and-interface-design`). A template instantiates the contract structure; a skill guides the content authoring; automated tests verify the output. Freeform markdown like `api.md` is explicitly prohibited in favor of machine-executable contract definitions.
 
 ### 10.4 Minimum Completion Report
-Every completion report must contain:
+Every completion report must contain (instantiated via `templates/delivery/completion-report.md` or `templates/delivery/acceptance-report.md`):
 - **Status:** `completed`, `partially completed`, `blocked`, or `failed`;
 - **Deliverables:** exact relative file paths and commit hashes;
 - **Verification:** actual commands executed, exit codes, and evidence summary (distinguishing executed checks from skipped or recommended ones);
@@ -284,7 +285,8 @@ Quality is verified across four distinct dimensions:
 |---|---|---|---|---|
 | **Pack Structure & Frontmatter** | YAML frontmatter, valid links, no duplicate keys | `python scripts/lint_pack.py` | Linter stdout & exit code 0 | Implemented |
 | **Release & Provenance Integrity** | Pinned SHAs, license files, lockfile consistency | `python scripts/lint_pack.py --strict` | Strict linter report | Implemented |
-| **Unit & Transaction Tests** | Backup/force install, transactional sync safety | `python -m unittest discover -s tests` | 14 test assertions passing | Implemented |
+| **Unit & Transaction Tests** | Backup/force install, transactional sync safety, 32 scaffold aliases | `python -m unittest discover -s tests` | 17 test assertions passing | Implemented |
+| **Unified Contract Gate** | Syntax & structure of OpenAPI, AsyncAPI, STOMP, Proto, GraphQL, JSON Schema, SQL | `python scripts/verify_contracts.py` | Automated syntax validation & exit code 0 | Implemented |
 | **Feature Spec Acceptance** | BDD Gherkin Given/When/Then scenarios | Template audit & manual review | `docs/features/<feature-id>/spec.md` | Implemented |
 | **Code Implementation Gate** | Test-driven implementation and regression safety | Automated test suite execution | Test runner output & logs | Implemented |
 | **Pre-Completion Gate** | Evidence before completion assertion | `verification-before-completion` | Explicit commands and logs in report | Implemented |
@@ -316,7 +318,7 @@ When an agent runtime does not support dynamic on-demand loading, the pack docum
 | `skills/` | 26 Core self-contained skill packages installed by default. | Required |
 | `extras/` | 37 Contextual Extras skill packages loaded on demand. | Required |
 | `workflows/` | 11 standardized multi-step coordination workflows. | Required |
-| `templates/` | 22 canonical artifact starter templates. | Required |
+| `templates/` | 32 canonical artifact starter templates across 5 functional directories. | Required |
 | `adapters/` | Runtime mapping and agent installation configurations. | Required |
 | `manifests/` | Machine-readable provenance, lockfiles, and skill maps. | Required |
 | `scripts/` | Python automation for linting, syncing, packaging, and installing. | Required |
@@ -356,7 +358,7 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 ## 16. Boundaries and Non-Goals
 
 - The pack does **not** guarantee identical model reasoning across different LLM providers.
-- The pack does **not** force every software task to produce all 22 artifacts or traverse all 16 stages.
+- The pack does **not** force every software task to produce all 32 artifacts or traverse all 16 stages.
 - The pack does **not** claim full automation where only documented manual engineering procedures exist.
 - The pack does **not** replace human approval for production releases, regulatory compliance, or sensitive security sign-offs.
 
@@ -371,7 +373,9 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 | **Extras Skills (37)** | Implemented | `extras/*/SKILL.md` | Verified against upstream commit SHAs |
 | **Canonical Router** | Implemented | `skills/using-sdlc-skills/SKILL.md` | Exclusive pack router |
 | **Standardized Workflows (11)** | Implemented | `workflows/*.md` | Documented coordination procedures |
-| **Artifact Templates (22)** | Implemented | `templates/*.md` | Canonical starter structures |
+| **Artifact Templates (32)** | Implemented | `templates/` (5 functional groups) | Canonical starter structures & executable contracts |
+| **Bounded Context Runner** | Implemented | `scripts/bounded_run.py` | Head/tail truncated output, raw logs on disk |
+| **Unified Contract Gate** | Implemented | `scripts/verify_contracts.py` | Validates OpenAPI, AsyncAPI, STOMP, Proto, GraphQL, JSON Schema, SQL |
 | **Runtime Adapters (6)** | Implemented | `adapters/agents.json` | Path mappings for major agent environments |
 | **Linter & Packaging Tools** | Implemented | `scripts/lint_pack.py`, `scripts/install.py` | Validated by unit tests |
 | **Upstream Sync Automation** | Implemented | `scripts/sync_upstream.py` | Transactional rollback verified |

@@ -20,7 +20,7 @@ This reference document defines the complete mapping and ownership rules for the
 
 ---
 
-## 2. Complete Artifact & Template Mapping Table (31 Lean Canonical Artifacts)
+## 2. Complete Artifact & Template Mapping Table (32 Lean Canonical Artifacts)
 
 | Stage | Starter Template | Native Format | Canonical Destination Path | Primary Owner Skill | Purpose / Description |
 |---|---|---|---|---|---|
@@ -43,6 +43,7 @@ This reference document defines the complete mapping and ownership rules for the
 | **4. Planning** | `templates/delivery/tasks.md` | `.md` | `docs/features/<feature-id>/tasks.md` | `planning-and-task-breakdown` | Single authoritative task list with dependency edges, files, and verification commands. |
 | **4. Planning** | `templates/delivery/task-handoff.md` | `.md` | `.agent/tasks/<task-id>.md` | `task-handoff` | Active session state, progress log, and cross-agent / cross-session handoff notes. |
 | **6. Verification** | `templates/delivery/acceptance-report.md` | `.md` | `docs/features/<feature-id>/acceptance-report.md` | `verification-before-completion` | Consolidated empirical verification: tests, contract lint, security scans & SLAs. |
+| **6. Verification** | `templates/delivery/completion-report.md` | `.md` | `docs/features/<feature-id>/completion-report.md` | `verification-before-completion`, `task-handoff` | Minimum Completion Report: Status, Deliverables, Verification commands/evidence, Limitations. |
 | **7. Review** | `templates/delivery/pull-request.md` | `.md` | `.github/pull_request_template.md` *(or PR body)* | `code-review-and-quality` | PR description, change motivation, test evidence, and reviewer checklist. |
 | **8. Release** | `templates/delivery/release-notes.md` | `.md` | `docs/releases/v[X.Y.Z].md` | `shipping-and-launch` | Release highlights, detailed changelog, breaking changes, and deployment procedures. |
 | **8. Release** | `templates/delivery/release-checklist.md` | `.md` | `docs/releases/release-checklist.md` | `shipping-and-launch` | Pre-deployment quality, security, operations, and rollback readiness gates. |
@@ -65,9 +66,9 @@ To scaffold any canonical artifact instantly, use the CLI tool:
 python scripts/scaffold.py <alias> [--id <id>] [--title <title>]
 ```
 
-Supported aliases (31 aliases across 5 groups):
+Supported aliases (32 aliases across 5 groups):
 - **Specs (`specs/`):** `brief`, `prd`, `spec`, `srs`, `rtm`, `arch`, `adr`, `design`
 - **Contracts (`contracts/`):** `openapi`, `asyncapi`, `stomp`, `proto`, `graphql`, `data-contract`, `migration`
-- **Delivery (`delivery/`):** `plan`, `tasks`, `handoff`, `acceptance`, `pr`, `release`, `checklist`, `deprecation`
+- **Delivery (`delivery/`):** `plan`, `tasks`, `handoff`, `acceptance`, `completion`, `pr`, `release`, `checklist`, `deprecation`
 - **Platform (`platform/`):** `alert-rules`, `runbook`, `postmortem`
 - **Governance (`governance/`):** `constitution`, `threat-model`, `tracking`, `event-schema`, `experiment`

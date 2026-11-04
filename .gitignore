@@ -3,3 +3,5 @@ __pycache__/
 .sync-staging-*/
 .sdlc-sync-*/
 .sdlc-upstream-backups/
+.sdlc-skill-backups/
+.agent/
