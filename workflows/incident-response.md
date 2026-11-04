@@ -21,7 +21,7 @@ Use this workflow for active production or staging incidents affecting service s
    - `SEV-1 (Critical)`: Full customer outage, critical data corruption, or active security exploit.
    - `SEV-2 (Major)`: High error rate or degraded performance on core revenue/business paths.
    - `SEV-3 (Minor)`: Isolated non-critical failure with available workaround.
-3. **Check Service Runbook**: Follow triage instructions in `docs/runbooks/[service-name].md` (from `templates/runbook.md`).
+3. **Check Service Runbook**: Follow triage instructions in `docs/runbooks/[service-name].md` (from `templates/platform/runbook.md`).
 4. **Prioritize Mitigation Over Root Cause**: Restore user service immediately before deep investigation:
    - Revert recent deploy: Roll back to last-known-good version.
    - Shift traffic: Reroute traffic away from unhealthy instances or regions.
@@ -35,7 +35,7 @@ Use this workflow for active production or staging incidents affecting service s
 9. **Verification Gate**: Execute `verification-before-completion` to document build, test, and health check pass logs before promoting the fix to production or declaring recovery.
 
 ## 3. Postmortem, Action Items & Prevention
-10. **Author Blameless Postmortem**: Scaffold and publish `docs/incidents/[YYYYMMDD-slug]/postmortem.md` (from `templates/incident-postmortem.md`) within 48 hours:
+10. **Author Blameless Postmortem**: Scaffold and publish `docs/incidents/[YYYYMMDD-slug]/postmortem.md` (from `templates/platform/incident-postmortem.md`) within 48 hours:
    - Summary and customer impact (duration, % requests affected).
    - Detailed timeline in UTC.
    - Root cause analysis using 5 Whys.

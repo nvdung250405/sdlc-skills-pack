@@ -18,7 +18,7 @@ Use this workflow when removing legacy systems, migrating database schemas in pr
 ## 1. Announcement & Deprecation Notice
 1. **Define Deprecation Scope & Sunset Timeline**:
    - Establish deprecation milestones: Announcement Date $\rightarrow$ Brownout Windows $\rightarrow$ Hard Sunset Date.
-2. **Publish Deprecation Guide**: Scaffold and commit `docs/migrations/[slug]-deprecation.md` (from `templates/deprecation-notice.md`).
+2. **Publish Deprecation Guide**: Scaffold and commit `docs/migrations/[slug]-deprecation.md` (from `templates/delivery/deprecation-notice.md`).
 3. **Emit Early Warnings**:
    - For APIs: Add standard HTTP `Deprecation: @<timestamp>` and `Sunset: <date>` response headers.
    - For SDKs/Modules: Emit non-blocking compiler/runtime warnings (`@deprecated`) directing users to the replacement.

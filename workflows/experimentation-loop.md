@@ -19,13 +19,13 @@ Use this workflow when testing competing UX variants, optimizing conversion funn
 1. **Grounded Observation**: Anchor the experiment in qualitative feedback (`customer-research`, user interviews) or analytics friction (`analytics` funnel drop-offs).
 2. **Formulate Falsifiable Hypothesis**:
    > *Because [observation], we believe that [variant change] will cause [expected behavioral outcome] for [target audience]. We will know this is true when [primary metric reaches significance].*
-3. **Define Metrics in `docs/experiments/[exp-id]-[slug].md`** (scaffold from `templates/experiment-brief.md`):
+3. **Define Metrics in `docs/experiments/[exp-id]-[slug].md`** (scaffold from `templates/governance/experiment-brief.md`):
    - **Primary Metric (Overall Evaluation Criterion - OEC)**: The single decision metric (e.g., checkout completion rate).
    - **Secondary & Guardrail Metrics**: Metrics that must not degrade (e.g., page load latency, error rate, refund requests).
    - **Target Parameters**: Minimum Detectable Effect (MDE), 95% confidence level ($p < 0.05$), 80% statistical power.
 
 ## 2. Telemetry & Tracking Instrumentation
-4. **Define Event Taxonomy**: Use `analytics` to specify event triggers, parameters, and property schemas in `docs/analytics/tracking-plan.md` (from `templates/tracking-plan.md`).
+4. **Define Event Taxonomy**: Use `analytics` to specify event triggers, parameters, and property schemas in `docs/analytics/tracking-plan.md` (from `templates/governance/tracking-plan.md`).
 5. **Implement Event Telemetry**: Instrument frontend/backend event tracking. Verify in debug mode that payloads match schema and contain no PII.
 
 ## 3. Variant Construction & Traffic Allocation

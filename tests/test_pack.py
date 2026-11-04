@@ -132,6 +132,9 @@ class PackStaticTests(unittest.TestCase):
             self.assertTrue(bundled.is_file(), f"Missing bundled script {script_name}")
             self.assertEqual(src.read_bytes(), bundled.read_bytes(), f"Bundled script {script_name} out of sync")
 
+        res_check = run_script("build_assets.py", "--check")
+        self.assertEqual(res_check.returncode, 0, f"build_assets.py --check failed: {res_check.stderr}")
+
     def test_scaffold_all_32_artifact_aliases(self) -> None:
         from scripts.scaffold import ARTIFACT_MAP
         self.assertEqual(len(ARTIFACT_MAP), 32)
@@ -173,6 +176,29 @@ class PackStaticTests(unittest.TestCase):
             res_missing = run_script("verify_contracts.py", "--dir", str(bad_dir))
             self.assertNotEqual(res_missing.returncode, 0, "OpenAPI missing version must fail verification gate")
             self.assertIn("FAILED", res_missing.stdout + res_missing.stderr)
+
+    def test_linter_strict_guardrails_detect_metric_mismatch_broken_paths_and_hygiene(self) -> None:
+        from scripts.lint_pack import check_doc_metrics, check_doc_path_references, check_distribution_hygiene
+        
+        # 1. Broken path reference detection
+        test_errors: list[str] = []
+        dummy_wf = ROOT / "workflows" / "tmp_broken_ref_test.md"
+        try:
+            dummy_wf.write_text("See [broken](templates/specs/nonexistent-spec-file.md) for details.", encoding="utf-8")
+            check_doc_path_references(test_errors)
+            self.assertTrue(any("nonexistent-spec-file.md" in e for e in test_errors), "Linter must catch broken template references")
+        finally:
+            dummy_wf.unlink(missing_ok=True)
+
+        # 2. Hygiene violation detection
+        test_hygiene_errors: list[str] = []
+        junk_file = ROOT / "templates" / "junk.pyc"
+        try:
+            junk_file.write_bytes(b"\0\0")
+            check_distribution_hygiene(test_hygiene_errors)
+            self.assertTrue(any("junk.pyc" in e for e in test_hygiene_errors), "Linter must catch compiled bytecode in distribution folders")
+        finally:
+            junk_file.unlink(missing_ok=True)
 
     def test_installer_requires_verified_pack_unless_partial_is_allowed(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

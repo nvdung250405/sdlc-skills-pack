@@ -54,7 +54,7 @@ scripts/scaffold.py        # Khởi tạo nhanh canonical artifacts từ templat
 - `skills/using-sdlc-skills/SKILL.md` là **router mặc định duy nhất**. Không bật router upstream khác làm entry point cạnh tranh.
 - `workflows/feature-loop.md` dành cho feature trong repo hiện hữu; `full-sdlc.md` cho sản phẩm/hệ thống mới hoặc thay đổi lớn; `bug-fix.md`, `quick-change.md` và `incident-response.md` dùng theo loại việc.
 - PRD chính: `docs/prd.md` (khi cần).
-- Story và AC chính thức: `docs/features/<feature-id>/spec.md` theo `templates/feature-spec.md`. Không duy trì một bản Story/AC độc lập khác cho cùng feature.
+- Story và AC chính thức: `docs/features/<feature-id>/spec.md` theo `templates/specs/feature-spec.md`. Không duy trì một bản Story/AC độc lập khác cho cùng feature.
 - SRS, use cases và RTM chỉ dùng khi độ phức tạp/rủi ro/tuân thủ đòi hỏi.
 - Architecture, ADR, API contracts và detailed design chỉ sinh khi quyết định hoặc thay đổi tương ứng cần được ghi lại.
 - `planning-and-task-breakdown` là chủ sở hữu duy nhất của task list cuối cho một feature; các skill/workflow khác không được tạo danh sách task cạnh tranh.

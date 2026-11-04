@@ -57,7 +57,7 @@ The pack operates within diverse AI agent runtimes, shell environments (Bash, Zs
 | **Practical Matrix** | Curated map of SDLC stages, roles, artifacts, competencies, and candidate skills. Defines capability scope, not runtime loading or mandatory sequence. | [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md) |
 | **Packaged Inventory** | Skills actually distributed by the repository (29 Core, 34 Extras), verified against commit locks and content hashes. | [`upstream.json`](../upstream.json), [`manifests/skill-provenance.json`](../manifests/skill-provenance.json) |
 | **Stable Skill ID** | Canonical identifier that remains stable across upstream renames, file moves, or path refactoring. | [`upstream.json`](../upstream.json), `manifests/skill-map.json` |
-| **Core / Extras** | Tiering policy: Core (29) skills provide universal engineering and PM discipline installed by default; Extras (34) skills provide contextual stack/domain capabilities loaded on demand. | [`docs/stage-skill-map.md`](stage-skill-map.md) |
+| **Core / Extras** | Tiering policy: Core (29) skills provide universal engineering discipline installed by default; Extras (34) skills provide contextual stack/domain capabilities loaded on demand. | [`docs/stage-skill-map.md`](stage-skill-map.md) |
 | **Task Active Skills** | The minimal subset of skills dynamically selected and loaded into context for the current task step. Distinct from installed skills. | Runtime execution state / `.agent/tasks/<task-id>.md` |
 | **Workflow Definition** | Coordination patterns specifying entry triggers, stages, handoffs, and verification gates without embedding domain skill logic. | [`workflows/`](../workflows/) |
 | **Task Contract** | Lightweight statement of task goal, constraints, assumptions, referenced artifact contracts, and required verification. | Runtime convention / `docs/features/<feature-id>/plan.md` |
@@ -112,9 +112,9 @@ User Request + Available Context (Repo, STACK.md, Prompts)
 | **Workflows** (`workflows/`) | Multi-step lifecycle coordination, handoffs, routing, and gates. | Task intent | Ordered execution plan | Skills, Contracts | Implemented (11 workflows) |
 | **Contracts & Templates** (`templates/`) | Canonical artifact structures, acceptance criteria, and scaffolds across 5 functional directories. | Domain requirements | Validated deliverables | Skills, Workflows | Implemented (32 templates) |
 | **Tools & Scripts** (`scripts/`) | Deterministic execution: linting, packaging, syncing, installing, bounded execution, and contract verification. | CLI args, manifest | Formatted files, exit codes | Python runtime, OS shell | Implemented |
-| **Adapters** (`adapters/`) | Agent runtime-specific configuration, directory mapping, and installation. | Generic pack | Target runtime assets | Host IDE / CLI environment | Implemented (7 runtimes) |
+| **Adapters** (`adapters/`) | Agent runtime-specific configuration, directory mapping, and installation. | Generic pack | Target runtime assets | Host IDE / CLI environment | Implemented (6 runtimes) |
 | **Manifests & Registries** (`manifests/`) | Machine-readable provenance, lockfiles, content hashes, and skill maps. | Upstream configs | Verified package state | Repository files | Implemented |
-| **Evaluation & Tests** (`tests/`) | Static validation, sync transaction tests, contract assertions. | Pack files, mock repos | Test reports, CI exit codes | Python `unittest` | Implemented (18 unit tests) |
+| **Evaluation & Tests** (`tests/`) | Static validation, sync transaction tests, contract assertions. | Pack files, mock repos | Test reports, CI exit codes | Python `unittest` | Implemented (17 unit tests) |
 
 ### 4.2 Responsibility Boundaries
 
@@ -299,13 +299,12 @@ Quality is verified across four distinct dimensions:
 
 ## 12. Runtime and Integration
 
-The pack supports 7 target agent runtimes via configurations in [`adapters/agents.json`](../adapters/agents.json):
-- **Antigravity IDE & Antigravity CLI:** Project-level `.agents/skills` and global `~/.gemini/config/skills` / `~/.gemini/antigravity-cli/skills`.
+The pack supports 6 target agent runtimes via configurations in [`adapters/agents.json`](../adapters/agents.json):
+- **Antigravity IDE & Antigravity CLI:** Project-level `.agents/skills` and global `~/.gemini/config/skills`.
 - **Claude Code:** Project-level `.claude/skills` and global `~/.claude/skills`.
-- **Cursor:** Project-level `.cursor/skills` (and `.cursor/rules` instructions) and global `~/.cursor/skills`.
-- **GitHub Copilot:** Project-level `.github/skills` (and `.github/copilot-instructions.md`) and global `~/.copilot/skills`.
-- **Codex & Gemini CLI:** Compatible directories `.agents/skills` and `.gemini/skills`.
-- **OpenCode:** Project-level `.opencode/skills` and global `~/.opencode/skills`.
+- **Cursor:** Project rules `.cursor/rules` and global instructions.
+- **GitHub Copilot:** Workspace instructions `.github/copilot-instructions.md`.
+- **Codex & OpenCode:** Compatible directory structures.
 
 ### Fallback Behavior
 When an agent runtime does not support dynamic on-demand loading, the pack documents that all installed skills reside in the runtime discovery path, and instructs the agent to consult `using-sdlc-skills` to guide internal focus.
@@ -370,19 +369,18 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 | Capability / Component | Status | Evidence / Location | Known Limitations |
 |---|---|---|---|
 | **Practical Capability Matrix** | Implemented | [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md) | Dynamic catalog, not a runtime loader |
-| **Core Skills (29)** | Implemented | `skills/*/SKILL.md` | Universal engineering & PM discipline, verified against commit SHAs |
-| **Extras Skills (34)** | Implemented | `extras/*/SKILL.md` | Stack & contextual capabilities, loaded on demand |
+| **Core Skills (26)** | Implemented | `skills/*/SKILL.md` | Verified against upstream commit SHAs |
+| **Extras Skills (37)** | Implemented | `extras/*/SKILL.md` | Verified against upstream commit SHAs |
 | **Canonical Router** | Implemented | `skills/using-sdlc-skills/SKILL.md` | Exclusive pack router |
 | **Standardized Workflows (11)** | Implemented | `workflows/*.md` | Documented coordination procedures |
 | **Artifact Templates (32)** | Implemented | `templates/` (5 functional groups) | Canonical starter structures & executable contracts |
-| **Bounded Context Runner** | Implemented | `scripts/bounded_run.py` | Configurable timeout, head/tail truncation, disk logs |
-| **Unified Contract Gate** | Implemented | `scripts/verify_contracts.py` | Zero-dep AST parser fallback, validates 7 contract types |
-| **Runtime Adapters (7)** | Implemented | `adapters/agents.json` | Path mappings for 7 runtimes including OpenCode |
-| **Linter & Packaging Tools** | Implemented | `scripts/lint_pack.py`, `scripts/install.py` | Validated by unit tests with preflight backup |
+| **Bounded Context Runner** | Implemented | `scripts/bounded_run.py` | Head/tail truncated output, raw logs on disk |
+| **Unified Contract Gate** | Implemented | `scripts/verify_contracts.py` | Validates OpenAPI, AsyncAPI, STOMP, Proto, GraphQL, JSON Schema, SQL |
+| **Runtime Adapters (6)** | Implemented | `adapters/agents.json` | Path mappings for major agent environments |
+| **Linter & Packaging Tools** | Implemented | `scripts/lint_pack.py`, `scripts/install.py` | Validated by unit tests |
 | **Upstream Sync Automation** | Implemented | `scripts/sync_upstream.py` | Transactional rollback verified |
 | **Automated Contract Testing** | Manual / Target | `extras/api-contract-testing` | Requires local mock/Pact runner setup |
 | **Visual Headless Regression** | Target | `extras/webapp-testing` | Requires external browser environment |
-| **Multi-Agent E2E Eval** | Target / In-progress | `tests/` | Static/unit testing complete; live multi-agent golden fixtures are ongoing |
 
 ---
 
@@ -396,8 +394,7 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 - [x] Task Contracts and Artifact Contracts have non-overlapping, distinct responsibilities.
 - [x] Deterministic execution is delegated to CLI tools, Python scripts, and automated test runners.
 - [x] Context loading and cost controls (token, API credit, compute) are explicitly defined.
-- [x] Quality gates and evidence expectations are enforceable and verified by 18 unit tests.
+- [x] Quality gates and evidence expectations are enforceable and verified by unit tests.
 - [x] Upstream provenance, licensing, commit pinning, and content hashes are fully traceable.
 - [x] Destructive commands and secret boundaries are hardened.
-- [ ] End-to-end multi-agent golden test fixtures executed on all 7 live runtime agents (Target capability; simulated installer and contract validation are verified, live agent traces remain in progress).
 - [x] All implementation statuses in Section 17 are supported by verifiable repository evidence.

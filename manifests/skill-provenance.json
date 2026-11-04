@@ -350,7 +350,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "56a7ffb7b4a4531be93a4d0376b52c378ca003fb8a48dc8ed038cdea7c895efc"
+      "content_sha256": "7e96b6add4c57f061bc91b5330a84c2a31e4b46bab27cebdc406e64b250749d1"
     },
     "extras/docker-expert": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -437,7 +437,7 @@
       "transformations": [],
       "kind": "vendored-upstream",
       "refresh_policy": "pinned-sync",
-      "content_sha256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2"
+      "content_sha256": "53f3127ae26f727675089e0cca295436df7b20af4cf4e78206e59c4b9e153afd"
     },
     "extras/api-contract-testing": {
       "upstream": "api-contract-testing",
@@ -621,7 +621,7 @@
       "transformations": [],
       "kind": "vendored-upstream",
       "refresh_policy": "pinned-sync",
-      "content_sha256": "e22a94e43beeda9e41087a9f3cd6d654fb3ad4c4de1ad1b4986221481f4f7c4b"
+      "content_sha256": "6fc62e310fdefa5589fd5c1ebb28dc988484202b4e9f78bf7a98196e4f355ee8"
     },
     "extras/setup-pre-commit": {
       "upstream": "mattpocock-skills",

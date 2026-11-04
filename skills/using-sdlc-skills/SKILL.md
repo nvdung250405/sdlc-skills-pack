@@ -9,7 +9,7 @@ This is the **only default pack-level router**. Classify the task, select the sm
 
 ## Demand-Driven Skill Loading
 
-The pack separates installation from active prompt loading. With **26 Core skills** (default engineering discipline) and **37 Extras skills** (specialized domain/stack capabilities), agents follow a 5-step demand-driven lifecycle:
+The pack separates installation from active prompt loading. With **29 Core skills** (default engineering discipline) and **34 Extras skills** (specialized domain/stack capabilities), agents follow a 5-step demand-driven lifecycle:
 
 ```
 Task Intake ──► Discover & Select ──► Load & Scaffold ──► Execute Work ──► Verify & Handoff
@@ -43,7 +43,7 @@ Task Intake ──► Discover & Select ──► Load & Scaffold ──► Exec
 | Architecture review & deep modules | `software-architecture` for component boundaries and C4 models → `codebase-design` for deep module design → `domain-modeling` for ubiquitous language and glossaries → `documentation-and-adrs` for decisions with trade-offs. |
 | Codebase architecture improvement | `improve-codebase-architecture` to scan for shallow modules, leaky abstractions, or architectural drift → propose incremental remedies. |
 | Tracer-bullet ticket breakdown | `to-tickets` to convert plans or specifications into self-contained tracer-bullet task tickets declaring explicit dependency edges. |
-| API/schema/integration change | `api-and-interface-design` plus `software-architecture` when system boundaries or major data ownership change. **Contract-First Rule:** Scaffold the machine-executable contract matching your project's technology stack (`contracts/openapi.yaml` for REST, `contracts/asyncapi.yaml` for event-driven messaging, `contracts/service.proto` for gRPC RPCs, `contracts/schema.graphql` for GraphQL, `contracts/data-contract.json` / `migration.sql` for data/persistence, or `contracts/stomp-websocket.yaml` only when using STOMP frames); **never** generate unstructured prose markdown such as `api.md` → `api-contract-testing` for wire-level consumer-provider compatibility and regression fixtures → ADR only for meaningful trade-offs → plan and implementation. |
+| API/schema/integration change | `api-and-interface-design` plus `software-architecture` when system boundaries or major data ownership change. **Contract-First Rule:** Always scaffold executable contracts (`contracts/openapi.yaml`, `contracts/asyncapi.yaml`, `contracts/stomp-websocket.yaml`, `contracts/service.proto`, `contracts/schema.graphql`, `contracts/data-contract.json`); **never** generate unstructured prose markdown such as `api.md` → `api-contract-testing` for wire-level consumer-provider compatibility and regression fixtures → ADR only for meaningful trade-offs → plan and implementation. |
 | System / schema / API migration | Follow `workflows/deprecation-and-migration.md`: use `deprecation-and-migration` and `database-design` for 4-phase Expand/Contract zero-downtime transition; coordinate with `code-simplification`. |
 | Database schema / persistence design | `database-design` to select database/ORM, design normalized tables, indexing strategy and safe migrations; coordinate with `software-architecture`. |
 | React / Next.js web application | `vercel-react-best-practices` for eliminating waterfalls, optimizing RSC boundaries, bundle size, and rendering performance; coordinate with `frontend-ui-engineering` and `frontend-design`. |

@@ -22,26 +22,26 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
 ### Discovery
 1. Read repository context, architectural constraints, and constitution (`AGENTS.md` / `constitution.md`).
 2. Run `interview-me` and `idea-refine` when problem framing or target users are ambiguous; use `customer-research` for user insight synthesis.
-3. Scaffold `docs/discovery/[initiative]/opportunity-brief.md` (from `templates/opportunity-brief.md`) to capture problem framing, target persona, and initial hypotheses.
+3. Scaffold `docs/discovery/[initiative]/opportunity-brief.md` (from `templates/specs/opportunity-brief.md`) to capture problem framing, target persona, and initial hypotheses.
 4. **Stage-Gate Review (Discovery Hand-off):** Verify problem clarity and evidence validity. If the problem framing remains speculative or ungrounded, pause and revisit `interview-me` before authoring product requirements.
 
 ### Requirements
-5. Author or update `docs/prd.md` (from `templates/PRD.md`) with `pm-product-spec` (evidence, measurable outcomes, epic breakdowns, non-goals, and identified risks). Run formal `requirements-engineering` (`docs/specs/SRS.md`, `docs/specs/RTM.md`) only when regulatory traceability is mandatory.
+5. Author or update `docs/prd.md` (from `templates/specs/PRD.md`) with `pm-product-spec` (evidence, measurable outcomes, epic breakdowns, non-goals, and identified risks). Run formal `requirements-engineering` (`docs/specs/SRS.md`, `docs/specs/RTM.md`) only when regulatory traceability is mandatory.
 6. **Stage-Gate Review (Requirements Hand-off via Cross-Cutting Audit):**
    - Run `pm-spec-quality-audit` on `docs/prd.md` to identify build-damaging ambiguities, missing alternative flows, hidden assumptions, or unmeasurable acceptance criteria.
    - Run `writing-guidelines` / `writing-for-agents` to ensure requirements are clear, concise, and unambiguous for autonomous agents.
    - **Gate Decision:** If *Critical* or *High-severity* gaps are uncovered, do not proceed to Architecture. Return to Step 5 to resolve requirements deficiencies first.
 
 ### Architecture & System Design
-7. Establish component boundaries, C4 models, subsystem responsibilities, and data ownership in `docs/architecture.md` (from `templates/architecture-overview.md`) using `software-architecture`.
+7. Establish component boundaries, C4 models, subsystem responsibilities, and data ownership in `docs/architecture.md` (from `templates/specs/architecture-overview.md`) using `software-architecture`.
 8. **Establish Centralized System Contracts (Contract-First):**
    - Use `api-and-interface-design` to define top-level inter-service contracts, public API gateway specifications (OpenAPI/REST, GraphQL, gRPC `.proto`), and shared asynchronous event schemas before designing internal storage.
    - Use `domain-modeling` to unify domain entities, value objects, and ubiquitous language across all subsystem boundaries.
    - Use `codebase-design` to define deep module seams and interface segregation.
    - Apply `api-contract-testing` to generate wire-level compatibility fixtures and provider-consumer contract tests based on these centralized specifications.
-9. Define persistence architecture with `database-design`: select database engines (relational/document/time-series), ORM/data access layers, replication, connection pooling, and data partitioning strategies. Align persistence schemas and indexing models to support the established system contracts. Record architectural decisions and trade-offs in `docs/adr/ADR-NNN-[slug].md` (from `templates/ADR.md`) using `documentation-and-adrs`.
+9. Define persistence architecture with `database-design`: select database engines (relational/document/time-series), ORM/data access layers, replication, connection pooling, and data partitioning strategies. Align persistence schemas and indexing models to support the established system contracts. Record architectural decisions and trade-offs in `docs/adr/ADR-NNN-[slug].md` (from `templates/specs/ADR.md`) using `documentation-and-adrs`.
 10. **Stage-Gate Review (Architecture Hand-off via Security & FinOps):**
-    - Run `threat-model-analyst` to produce a STRIDE-A threat model, data flow diagram (DFD), and abuse case mitigations in `docs/security/threat-model-[system].md` (from `templates/threat-model.md`). Coordinate with `security-and-hardening` to verify trust boundaries.
+    - Run `threat-model-analyst` to produce a STRIDE-A threat model, data flow diagram (DFD), and abuse case mitigations in `docs/security/threat-model-[system].md` (from `templates/governance/threat-model.md`). Coordinate with `security-and-hardening` to verify trust boundaries.
     - Run `cost-optimization` to evaluate infrastructure sizing, token budgets, and multi-cloud architectural cost feasibility.
     - **Gate Decision:** If unmitigated critical security risks or unsustainable cost projections exist, halt progression. Revise architecture and ADRs in Step 7–9 before delegating construction.
 
@@ -76,21 +76,21 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
 
 ### Review & Acceptance
 18. Conduct multi-axis code review with `code-review-and-quality`; invoke `receiving-code-review` when processing human or reviewer feedback.
-19. Generate the pull request description from `templates/pull-request.md` with explicit summary, motivation, and commands run.
+19. Generate the pull request description from `templates/delivery/pull-request.md` with explicit summary, motivation, and commands run.
 20. **Stage-Gate Review (Acceptance Gate):**
     - Run `verification-before-completion` to gather fresh, empirical test evidence across the whole system.
-    - Record overall acceptance verification in `docs/features/<feature-id>/acceptance-report.md` (from `templates/acceptance-report.md`).
+    - Record overall acceptance verification in `docs/features/<feature-id>/acceptance-report.md` (from `templates/delivery/acceptance-report.md`).
     - **Gate Decision:** If any required check fails, regressions appear, or test evidence is missing, do not proceed to release. Loop back to Implementation or Testing to resolve issues.
 
 ### Release & Deployment
-21. Prepare release notes and changelog in `docs/releases/v[X.Y.Z].md` (from `templates/release-notes.md`) using `git-workflow-and-versioning` for semantic tagging.
-22. Validate deployment safety, migration readiness, and rollback procedures against `templates/release-checklist.md` with `shipping-and-launch` and `ci-cd-and-automation`.
+21. Prepare release notes and changelog in `docs/releases/v[X.Y.Z].md` (from `templates/delivery/release-notes.md`) using `git-workflow-and-versioning` for semantic tagging.
+22. Validate deployment safety, migration readiness, and rollback procedures against `templates/delivery/release-checklist.md` with `shipping-and-launch` and `ci-cd-and-automation`.
 23. Audit cloud spending and resource rightsizing with `cost-optimization` before production rollout.
 24. Production deployments and destructive actions require explicit human authorization.
 
 ### Operations & Incident Response
 25. Configure dashboards, error alert thresholds, and SLO tracking with `observability-and-instrumentation` and `service-mesh-observability`.
-26. Publish operational runbook in `docs/runbooks/[service-name].md` (from `templates/runbook.md`).
+26. Publish operational runbook in `docs/runbooks/[service-name].md` (from `templates/platform/runbook.md`).
 27. For production anomalies or outages, transition immediately to `workflows/incident-response.md`.
 
 ### Product Learning & Measurement

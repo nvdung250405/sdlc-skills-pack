@@ -11,7 +11,7 @@
 ---
 
 ## 1. Hand-off Responsibilities
-Every stage, role, or agent handing work to another must record in `.agent/tasks/<task-id>.md` (seeded from `templates/task-handoff.md` via `task-handoff`):
+Every stage, role, or agent handing work to another must record in `.agent/tasks/<task-id>.md` (seeded from `templates/delivery/task-handoff.md` via `task-handoff`):
 
 1. **Task ID & Goal:** Clear, one-sentence statement of what is being accomplished and confirmed tech stack facts.
 2. **Authoritative Artifact Pointers:** Strict relative file paths to authoritative documents (`docs/features/<feature-id>/spec.md`, `docs/architecture.md`, `tasks.md`). Do not copy large document bodies into context.

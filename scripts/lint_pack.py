@@ -74,6 +74,81 @@ def read_json(path: Path, label: str, errors: list[str]) -> dict[str, Any] | Non
     return value
 
 
+def check_distribution_hygiene(errors: list[str]) -> None:
+    """Ensure no junk files or temporary directories pollute the pack distribution."""
+    prohibited_names = {".agent", "__pycache__", ".git", ".DS_Store", ".pytest_cache"}
+    for search_dir in ("skills", "extras", "workflows", "templates", "manifests", "adapters"):
+        dir_path = ROOT / search_dir
+        if not dir_path.is_dir():
+            continue
+        for item in dir_path.rglob("*"):
+            if item.name in prohibited_names or item.suffix in (".pyc", ".pyo"):
+                errors.append(f"hygiene violation: prohibited file/folder in distribution: {item.relative_to(ROOT)}")
+
+
+def check_doc_metrics(errors: list[str]) -> None:
+    """Ensure key documentation files do not state obsolete skill or template numbers."""
+    core_count = len([p for p in (ROOT / "skills").iterdir() if p.is_dir()])
+    extras_count = len([p for p in (ROOT / "extras").iterdir() if p.is_dir()])
+    tmpl_count = len([p for p in (ROOT / "templates").rglob("*") if p.is_file() and p.name != "README.md"])
+
+    obsolete_patterns = [
+        (re.compile(r"\b26\s+Core\b", re.I), f"found obsolete '26 Core' (actual: {core_count} Core)"),
+        (re.compile(r"\bCore\s*\(26\b", re.I), f"found obsolete 'Core (26' (actual: Core ({core_count}))"),
+        (re.compile(r"\b37\s+Extras\b", re.I), f"found obsolete '37 Extras' (actual: {extras_count} Extras)"),
+        (re.compile(r"\bExtras\s*\(37\b", re.I), f"found obsolete 'Extras (37' (actual: Extras ({extras_count}))"),
+        (re.compile(r"\b22\s+(?:canonical\s+)?(?:artifact\s+)?templates\b", re.I), f"found obsolete '22 templates' (actual: {tmpl_count} templates)"),
+        (re.compile(r"\b22\s+deliverables\b", re.I), f"found obsolete '22 deliverables' (actual: {tmpl_count} deliverables)"),
+        (re.compile(r"\btemplates\s*\(22\)", re.I), f"found obsolete 'templates (22)' (actual: templates ({tmpl_count}))"),
+        (re.compile(r"--extras\b"), "found obsolete flag '--extras' (actual: '--with-extras')"),
+    ]
+
+    target_docs = [
+        ROOT / "README.md",
+        ROOT / "docs" / "architecture.md",
+        ROOT / "docs" / "stage-skill-map.md",
+        ROOT / "docs" / "sdlc-practical-matrix.md",
+        ROOT / "skills" / "using-sdlc-skills" / "SKILL.md",
+    ]
+
+    for doc in target_docs:
+        if not doc.is_file():
+            continue
+        text = doc.read_text(encoding="utf-8")
+        for pattern, msg in obsolete_patterns:
+            if pattern.search(text):
+                errors.append(f"{doc.relative_to(ROOT)}: doc metrics inconsistency - {msg}")
+
+
+def check_doc_path_references(errors: list[str]) -> None:
+    """Ensure all template and workflow path references in documentation and workflows resolve on disk."""
+    tmpl_pattern = re.compile(r"templates/([a-zA-Z0-9_\-/\.]+\.(?:md|yaml|yml|json|proto|graphql|sql))")
+    wf_pattern = re.compile(r"workflows/([a-zA-Z0-9_\-]+\.md)")
+
+    scan_dirs = ["workflows", "docs", "templates"]
+    scan_files = [ROOT / "README.md", ROOT / "skills" / "using-sdlc-skills" / "SKILL.md"]
+    for d in scan_dirs:
+        folder = ROOT / d
+        if folder.is_dir():
+            scan_files.extend(folder.rglob("*.md"))
+
+    for file_path in scan_files:
+        if not file_path.is_file():
+            continue
+        text = file_path.read_text(encoding="utf-8", errors="replace")
+        for match in tmpl_pattern.finditer(text):
+            tmpl_rel = "templates/" + match.group(1)
+            if "[" in tmpl_rel or "<" in tmpl_rel or "*" in tmpl_rel:
+                continue
+            if not (ROOT / tmpl_rel).is_file():
+                errors.append(f"{file_path.relative_to(ROOT)}: broken template reference '{tmpl_rel}' (file does not exist on disk)")
+
+        for match in wf_pattern.finditer(text):
+            wf_rel = "workflows/" + match.group(1)
+            if not (ROOT / wf_rel).is_file():
+                errors.append(f"{file_path.relative_to(ROOT)}: broken workflow reference '{wf_rel}' (file does not exist on disk)")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--strict", action="store_true", help="fail if sync/provenance/resources are incomplete")
@@ -116,6 +191,9 @@ def main() -> int:
                 errors.append(f"{tier_name}/{skill_dir.name}: empty description")
             if len(description) > 1024:
                 errors.append(f"{tier_name}/{skill_dir.name}: description exceeds 1024 characters")
+            desc_lower = description.lower()
+            if args.strict and not any(k in desc_lower for k in ("use when", "use for", "when ")):
+                errors.append(f"{tier_name}/{skill_dir.name}: description lacks clear activation trigger ('Use when...', 'Use for...', or 'When...')")
             if len(text.splitlines()) > 1200:
                 warnings.append(f"{tier_name}/{skill_dir.name}: SKILL.md exceeds 1200 lines; consider progressive disclosure")
             for doc in skill_dir.rglob("*.md"):
@@ -395,6 +473,11 @@ def main() -> int:
                             errors.append(f"provenance content hash mismatch for {destination}; update provenance after a reviewed edit")
                     elif args.strict:
                         errors.append(f"provenance content hash missing for {destination}")
+
+    if args.strict:
+        check_distribution_hygiene(errors)
+        check_doc_metrics(errors)
+        check_doc_path_references(errors)
 
     print(f"Checked {skill_count} materialized skills across skills/ and extras/.")
     for warning in warnings:
