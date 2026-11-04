@@ -90,7 +90,7 @@ class PackStaticTests(unittest.TestCase):
             self.assertIn(item["name"], skill_dirs if item.get("tier") == "skills" else extra_dirs)
 
     def test_feature_spec_has_canonical_story_and_gherkin_contract(self) -> None:
-        template = (ROOT / "templates" / "feature-spec.md").read_text(encoding="utf-8")
+        template = (ROOT / "templates" / "specs" / "feature-spec.md").read_text(encoding="utf-8")
         self.assertIn("canonical feature artifact", template.lower())
         self.assertIn("US-FEAT-NNN-001", template)
         self.assertIn("AC-FEAT-NNN-001", template)
@@ -98,7 +98,7 @@ class PackStaticTests(unittest.TestCase):
             self.assertIn(marker, template)
 
     def test_all_11_workflows_and_templates_exist_and_have_standard_headers(self) -> None:
-        templates = sorted([p for p in (ROOT / "templates").glob("*.md") if p.name != "README.md"])
+        templates = sorted([p for p in (ROOT / "templates").rglob("*.md") if p.name != "README.md"])
         self.assertEqual(len(templates), 27, f"Expected 27 markdown templates, found {len(templates)}")
         for t in templates:
             text = t.read_text(encoding="utf-8")
@@ -112,11 +112,12 @@ class PackStaticTests(unittest.TestCase):
 
     def test_router_bundled_assets_are_in_sync_with_root(self) -> None:
         router_tmpl_dir = ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates"
-        for t in (ROOT / "templates").iterdir():
+        for t in (ROOT / "templates").rglob("*"):
             if t.is_file() and t.name != "README.md":
-                bundled = router_tmpl_dir / t.name
-                self.assertTrue(bundled.is_file(), f"Missing bundled template {t.name}")
-                self.assertEqual(t.read_bytes(), bundled.read_bytes(), f"Bundled template {t.name} out of sync")
+                rel = t.relative_to(ROOT / "templates")
+                bundled = router_tmpl_dir / rel
+                self.assertTrue(bundled.is_file(), f"Missing bundled template {rel}")
+                self.assertEqual(t.read_bytes(), bundled.read_bytes(), f"Bundled template {rel} out of sync")
 
         router_wf_dir = ROOT / "skills" / "using-sdlc-skills" / "assets" / "workflows"
         for w in (ROOT / "workflows").glob("*.md"):

@@ -1,0 +1,166 @@
+# ==============================================================================
+# Canonical Artifact Template: Realtime & WebSocket Contract (STOMP 1.2 Protocol)
+# Stage: 3. Architecture & System Design
+# Primary Owner Skill: api-and-interface-design
+# Purpose: Machine-executable contract for STOMP over WebSocket real-time message exchange.
+# Verification Gate: Contract assertion against STOMP frames & JSON Schema payload verification
+# ==============================================================================
+
+protocol: "STOMP"
+version: "1.2"
+transport: "WebSocket"
+endpoint: "/ws/connect"
+
+info:
+  title: "[SERVICE_NAME] Realtime Interface"
+  description: |
+    Defines connection negotiation, heartbeat parameters, destination channels,
+    supported frames, and message schemas for STOMP over WebSocket communications.
+  version: "1.0.0"
+
+connection:
+  heartbeat:
+    client_send_interval_ms: 10000
+    server_send_interval_ms: 10000
+  headers:
+    connect:
+      required:
+        - "accept-version"
+        - "host"
+      optional:
+        - "Authorization" # Bearer token for WebSocket handshake authentication
+  security:
+    type: "bearer_token"
+    passcode_header: "Authorization"
+
+destinations:
+  # Client -> Server Destinations (SEND frames)
+  inbound:
+    - address: "/app/chat/{roomId}/send"
+      summary: "Client sends a message to a specific room"
+      command: "SEND"
+      headers:
+        required:
+          - "destination"
+          - "content-type"
+        properties:
+          content-type: "application/json"
+      payload:
+        $ref: "#/components/schemas/InboundChatMessage"
+
+    - address: "/app/typing"
+      summary: "Client broadcasts typing activity indicator"
+      command: "SEND"
+      headers:
+        required:
+          - "destination"
+      payload:
+        $ref: "#/components/schemas/TypingIndicator"
+
+  # Server -> Client Broadcast Channels (SUBSCRIBE & MESSAGE frames)
+  outbound:
+    - address: "/topic/rooms/{roomId}"
+      summary: "Broadcast stream of messages within a chat room"
+      command: "SUBSCRIBE"
+      ack_mode: "auto" # auto | client | client-individual
+      message_payload:
+        $ref: "#/components/schemas/OutboundChatMessage"
+
+    - address: "/user/queue/notifications"
+      summary: "Point-to-point private notifications targeted to the authenticated user"
+      command: "SUBSCRIBE"
+      ack_mode: "client-individual"
+      message_payload:
+        $ref: "#/components/schemas/UserNotification"
+
+  # System Error Handling
+  error:
+    command: "ERROR"
+    headers:
+      required:
+        - "message"
+    payload:
+      $ref: "#/components/schemas/StompErrorPayload"
+
+components:
+  schemas:
+    InboundChatMessage:
+      type: "object"
+      required:
+        - "text"
+      properties:
+        text:
+          type: "string"
+          minLength: 1
+          maxLength: 4000
+        clientMessageId:
+          type: "string"
+          format: "uuid"
+
+    OutboundChatMessage:
+      type: "object"
+      required:
+        - "messageId"
+        - "senderId"
+        - "text"
+        - "sentAt"
+      properties:
+        messageId:
+          type: "string"
+          format: "uuid"
+        senderId:
+          type: "string"
+        senderName:
+          type: "string"
+        text:
+          type: "string"
+        sentAt:
+          type: "string"
+          format: "date-time"
+
+    TypingIndicator:
+      type: "object"
+      required:
+        - "isTyping"
+        - "roomId"
+      properties:
+        isTyping:
+          type: "boolean"
+        roomId:
+          type: "string"
+
+    UserNotification:
+      type: "object"
+      required:
+        - "notificationId"
+        - "title"
+        - "type"
+        - "timestamp"
+      properties:
+        notificationId:
+          type: "string"
+          format: "uuid"
+        title:
+          type: "string"
+        body:
+          type: "string"
+        type:
+          type: "string"
+          enum: ["info", "alert", "action_required"]
+        timestamp:
+          type: "string"
+          format: "date-time"
+
+    StompErrorPayload:
+      type: "object"
+      required:
+        - "code"
+        - "description"
+      properties:
+        code:
+          type: "string"
+          example: "UNAUTHORIZED_CHANNEL"
+        description:
+          type: "string"
+          example: "User does not have permission to subscribe to this room."
+

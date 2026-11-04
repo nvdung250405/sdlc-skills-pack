@@ -217,23 +217,33 @@ def main() -> int:
         "workflows/incident-response.md", "workflows/refactoring.md",
         "workflows/performance-tuning.md", "workflows/dependency-upgrade.md",
         "workflows/deprecation-and-migration.md", "workflows/experimentation-loop.md",
-        # 41 Canonical Artifact Templates
-        "templates/constitution.md", "templates/feature-spec.md", "templates/SRS.md",
-        "templates/DDS.md", "templates/ADR.md", "templates/RTM.md", "templates/plan.md",
-        "templates/tasks.md", "templates/acceptance-report.md", "templates/release-checklist.md",
-        "templates/architecture-overview.md", "templates/deprecation-notice.md",
-        "templates/experiment-brief.md", "templates/incident-postmortem.md",
-        "templates/opportunity-brief.md", "templates/PRD.md", "templates/pull-request.md",
-        "templates/release-notes.md", "templates/runbook.md", "templates/task-handoff.md",
-        "templates/threat-model.md", "templates/tracking-plan.md",
-        # New Matrix Canonical Artifacts
-        "templates/research-synthesis.md", "templates/openapi.yaml", "templates/asyncapi.yaml",
-        "templates/stomp-websocket.yaml", "templates/service.proto", "templates/schema.graphql",
-        "templates/data-contract.json", "templates/design-tokens.json", "templates/migration.sql",
-        "templates/env.example", "templates/benchmark-report.md", "templates/ci-pipeline.yaml",
-        "templates/alert-rules.yaml", "templates/event-schema.json", "templates/security-assessment.md",
-        "templates/devcontainer.json", "templates/pre-commit-config.yaml", "templates/model-card.md",
-        "templates/cost-attribution-report.md",
+        # 41 Canonical Artifact Templates across 5 Functional Groups
+        # specs/
+        "templates/specs/opportunity-brief.md", "templates/specs/research-synthesis.md",
+        "templates/specs/PRD.md", "templates/specs/feature-spec.md", "templates/specs/SRS.md",
+        "templates/specs/RTM.md", "templates/specs/architecture-overview.md",
+        "templates/specs/ADR.md", "templates/specs/DDS.md", "templates/specs/design-tokens.json",
+        # contracts/
+        "templates/contracts/openapi.yaml", "templates/contracts/asyncapi.yaml",
+        "templates/contracts/stomp-websocket.yaml", "templates/contracts/service.proto",
+        "templates/contracts/schema.graphql", "templates/contracts/data-contract.json",
+        "templates/contracts/migration.sql",
+        # delivery/
+        "templates/delivery/plan.md", "templates/delivery/tasks.md",
+        "templates/delivery/task-handoff.md", "templates/delivery/acceptance-report.md",
+        "templates/delivery/benchmark-report.md", "templates/delivery/pull-request.md",
+        "templates/delivery/release-notes.md", "templates/delivery/release-checklist.md",
+        "templates/delivery/deprecation-notice.md",
+        # platform/
+        "templates/platform/ci-pipeline.yaml", "templates/platform/devcontainer.json",
+        "templates/platform/pre-commit-config.yaml", "templates/platform/alert-rules.yaml",
+        "templates/platform/runbook.md", "templates/platform/incident-postmortem.md",
+        "templates/platform/env.example",
+        # governance/
+        "templates/governance/constitution.md", "templates/governance/threat-model.md",
+        "templates/governance/security-assessment.md", "templates/governance/model-card.md",
+        "templates/governance/cost-attribution-report.md", "templates/governance/tracking-plan.md",
+        "templates/governance/event-schema.json", "templates/governance/experiment-brief.md",
         # Pack-owned assets
         "skills/task-handoff/assets/task-template.md",
     ]
@@ -243,13 +253,14 @@ def main() -> int:
 
     # Check synchronization of router bundled assets
     router_templates = ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates"
-    for tmpl in (ROOT / "templates").iterdir():
+    for tmpl in (ROOT / "templates").rglob("*"):
         if tmpl.is_file() and tmpl.name != "README.md":
-            bundled = router_templates / tmpl.name
+            rel = tmpl.relative_to(ROOT / "templates")
+            bundled = router_templates / rel
             if not bundled.is_file():
                 errors.append(f"router bundled template missing: {bundled.relative_to(ROOT)}")
             elif bundled.read_bytes() != tmpl.read_bytes():
-                errors.append(f"router bundled template out of sync with root: {tmpl.name}")
+                errors.append(f"router bundled template out of sync with root: {rel}")
 
     router_workflows = ROOT / "skills" / "using-sdlc-skills" / "assets" / "workflows"
     for wf in (ROOT / "workflows").glob("*.md"):

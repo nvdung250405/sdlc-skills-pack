@@ -169,7 +169,8 @@ def install_agents_md(args: argparse.Namespace) -> int:
     if not skill_path.is_dir() or not any(p.is_dir() and (p / "SKILL.md").is_file() for p in skill_path.iterdir()):
         print(f"ERROR: no installed SKILL.md folders found under {skill_path}. Install/copy skills first or set --dest.", file=sys.stderr)
         return 2
-    if not (asset_path / "workflows" / "full-sdlc.md").is_file() or not (asset_path / "templates" / "SRS.md").is_file():
+    has_srs = (asset_path / "templates" / "specs" / "SRS.md").is_file() or (asset_path / "templates" / "SRS.md").is_file()
+    if not (asset_path / "workflows" / "full-sdlc.md").is_file() or not has_srs:
         print(f"ERROR: pack workflows/templates were not found under {asset_path}. Keep the pack assets in the project or set --asset-root.", file=sys.stderr)
         return 2
 

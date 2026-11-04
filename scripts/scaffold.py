@@ -10,57 +10,54 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# Mapping of artifact aliases to (template_filename, default_destination_pattern)
+# Mapping of artifact aliases to (template_relative_path, default_destination_pattern)
 ARTIFACT_MAP: dict[str, tuple[str, str]] = {
-    # Discovery & Requirements
-    "brief": ("opportunity-brief.md", "docs/discovery/{id}/opportunity-brief.md"),
-    "research": ("research-synthesis.md", "docs/discovery/{id}/research-synthesis.md"),
-    "prd": ("PRD.md", "docs/prd.md"),
-    "spec": ("feature-spec.md", "docs/features/{id}/spec.md"),
-    "srs": ("SRS.md", "docs/specs/SRS.md"),
-    "rtm": ("RTM.md", "docs/specs/RTM.md"),
-    # Architecture & Executable Contracts
-    "arch": ("architecture-overview.md", "docs/architecture.md"),
-    "adr": ("ADR.md", "docs/adr/ADR-{id}-{slug}.md"),
-    "design": ("DDS.md", "docs/features/{id}/design.md"),
-    "openapi": ("openapi.yaml", "contracts/openapi.yaml"),
-    "asyncapi": ("asyncapi.yaml", "contracts/asyncapi.yaml"),
-    "stomp": ("stomp-websocket.yaml", "contracts/stomp-websocket.yaml"),
-    "proto": ("service.proto", "contracts/service.proto"),
-    "graphql": ("schema.graphql", "contracts/schema.graphql"),
-    "data-contract": ("data-contract.json", "contracts/data-contract.json"),
-    "tokens": ("design-tokens.json", "design/tokens.json"),
-    # Planning & Construction
-    "plan": ("plan.md", "docs/features/{id}/plan.md"),
-    "tasks": ("tasks.md", "docs/features/{id}/tasks.md"),
-    "handoff": ("task-handoff.md", ".agent/tasks/{id}.md"),
-    "migration": ("migration.sql", "migrations/{id}_migration.sql"),
-    "env": ("env.example", ".env.example"),
-    # Testing & Verification
-    "acceptance": ("acceptance-report.md", "docs/features/{id}/acceptance-report.md"),
-    "benchmark": ("benchmark-report.md", "docs/features/{id}/benchmark-report.md"),
-    # Review & Release
-    "pr": ("pull-request.md", ".github/pull_request_template.md"),
-    "release": ("release-notes.md", "docs/releases/v{id}.md"),
-    "checklist": ("release-checklist.md", "docs/releases/release-checklist.md"),
-    "ci": ("ci-pipeline.yaml", ".github/workflows/ci.yaml"),
-    # Operations & Incidents
-    "postmortem": ("incident-postmortem.md", "docs/incidents/{id}/postmortem.md"),
-    "runbook": ("runbook.md", "docs/runbooks/{id}.md"),
-    "alert-rules": ("alert-rules.yaml", "deploy/alerts/{id}-rules.yaml"),
-    # Maintenance & Learning
-    "deprecation": ("deprecation-notice.md", "docs/migrations/{id}-deprecation.md"),
-    "experiment": ("experiment-brief.md", "docs/experiments/{id}.md"),
-    "tracking": ("tracking-plan.md", "docs/analytics/tracking-plan.md"),
-    "event-schema": ("event-schema.json", "analytics/schemas/{id}-event.json"),
-    # Security, DevEx, AI Governance & FinOps
-    "threat-model": ("threat-model.md", "docs/security/threat-model-{id}.md"),
-    "security": ("security-assessment.md", "docs/security/security-assessment-{id}.md"),
-    "devcontainer": ("devcontainer.json", ".devcontainer/devcontainer.json"),
-    "pre-commit": ("pre-commit-config.yaml", ".pre-commit-config.yaml"),
-    "constitution": ("constitution.md", "AGENTS.md"),
-    "model-card": ("model-card.md", "docs/ai/model-card-{id}.md"),
-    "cost": ("cost-attribution-report.md", "docs/finops/cost-report-{id}.md"),
+    # Discovery & Requirements (specs/)
+    "brief": ("specs/opportunity-brief.md", "docs/discovery/{id}/opportunity-brief.md"),
+    "research": ("specs/research-synthesis.md", "docs/discovery/{id}/research-synthesis.md"),
+    "prd": ("specs/PRD.md", "docs/prd.md"),
+    "spec": ("specs/feature-spec.md", "docs/features/{id}/spec.md"),
+    "srs": ("specs/SRS.md", "docs/specs/SRS.md"),
+    "rtm": ("specs/RTM.md", "docs/specs/RTM.md"),
+    # Architecture & Design (specs/ & contracts/)
+    "arch": ("specs/architecture-overview.md", "docs/architecture.md"),
+    "adr": ("specs/ADR.md", "docs/adr/ADR-{id}-{slug}.md"),
+    "design": ("specs/DDS.md", "docs/features/{id}/design.md"),
+    "tokens": ("specs/design-tokens.json", "design/tokens.json"),
+    "openapi": ("contracts/openapi.yaml", "contracts/openapi.yaml"),
+    "asyncapi": ("contracts/asyncapi.yaml", "contracts/asyncapi.yaml"),
+    "stomp": ("contracts/stomp-websocket.yaml", "contracts/stomp-websocket.yaml"),
+    "proto": ("contracts/service.proto", "contracts/service.proto"),
+    "graphql": ("contracts/schema.graphql", "contracts/schema.graphql"),
+    "data-contract": ("contracts/data-contract.json", "contracts/data-contract.json"),
+    "migration": ("contracts/migration.sql", "migrations/{id}_migration.sql"),
+    # Planning & Delivery (delivery/)
+    "plan": ("delivery/plan.md", "docs/features/{id}/plan.md"),
+    "tasks": ("delivery/tasks.md", "docs/features/{id}/tasks.md"),
+    "handoff": ("delivery/task-handoff.md", ".agent/tasks/{id}.md"),
+    "acceptance": ("delivery/acceptance-report.md", "docs/features/{id}/acceptance-report.md"),
+    "benchmark": ("delivery/benchmark-report.md", "docs/features/{id}/benchmark-report.md"),
+    "pr": ("delivery/pull-request.md", ".github/pull_request_template.md"),
+    "release": ("delivery/release-notes.md", "docs/releases/v{id}.md"),
+    "checklist": ("delivery/release-checklist.md", "docs/releases/release-checklist.md"),
+    "deprecation": ("delivery/deprecation-notice.md", "docs/migrations/{id}-deprecation.md"),
+    # Platform & Operations (platform/)
+    "ci": ("platform/ci-pipeline.yaml", ".github/workflows/ci.yaml"),
+    "devcontainer": ("platform/devcontainer.json", ".devcontainer/devcontainer.json"),
+    "pre-commit": ("platform/pre-commit-config.yaml", ".pre-commit-config.yaml"),
+    "alert-rules": ("platform/alert-rules.yaml", "deploy/alerts/{id}-rules.yaml"),
+    "runbook": ("platform/runbook.md", "docs/runbooks/{id}.md"),
+    "postmortem": ("platform/incident-postmortem.md", "docs/incidents/{id}/postmortem.md"),
+    "env": ("platform/env.example", ".env.example"),
+    # Governance, Security, Learning & FinOps (governance/)
+    "constitution": ("governance/constitution.md", "AGENTS.md"),
+    "threat-model": ("governance/threat-model.md", "docs/security/threat-model-{id}.md"),
+    "security": ("governance/security-assessment.md", "docs/security/security-assessment-{id}.md"),
+    "model-card": ("governance/model-card.md", "docs/ai/model-card-{id}.md"),
+    "cost": ("governance/cost-attribution-report.md", "docs/finops/cost-report-{id}.md"),
+    "tracking": ("governance/tracking-plan.md", "docs/analytics/tracking-plan.md"),
+    "event-schema": ("governance/event-schema.json", "analytics/schemas/{id}-event.json"),
+    "experiment": ("governance/experiment-brief.md", "docs/experiments/{id}.md"),
 }
 
 
@@ -70,18 +67,21 @@ def slugify(value: str) -> str:
 
 
 def resolve_template(name: str) -> Path | None:
-    # 1. Project-level templates/
-    candidate = Path("templates") / name
-    if candidate.is_file():
-        return candidate
-    # 2. Pack root templates/
-    candidate = ROOT / "templates" / name
-    if candidate.is_file():
-        return candidate
-    # 3. Router bundled assets
-    candidate = ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates" / name
-    if candidate.is_file():
-        return candidate
+    roots = [
+        Path("templates"),
+        ROOT / "templates",
+        ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates",
+    ]
+    for r in roots:
+        if not r.is_dir():
+            continue
+        candidate = r / name
+        if candidate.is_file():
+            return candidate
+        # filename-only fallback
+        matches = [p for p in r.rglob(Path(name).name) if p.is_file()]
+        if matches:
+            return matches[0]
     return None
 
 
