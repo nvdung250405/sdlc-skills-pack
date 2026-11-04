@@ -217,7 +217,7 @@ def main() -> int:
         "workflows/incident-response.md", "workflows/refactoring.md",
         "workflows/performance-tuning.md", "workflows/dependency-upgrade.md",
         "workflows/deprecation-and-migration.md", "workflows/experimentation-loop.md",
-        # 31 Lean Canonical Artifact Templates across 5 Functional Groups
+        # 32 Lean Canonical Artifact Templates across 5 Functional Groups
         # specs/ (8)
         "templates/specs/opportunity-brief.md", "templates/specs/PRD.md",
         "templates/specs/feature-spec.md", "templates/specs/SRS.md",
@@ -266,6 +266,15 @@ def main() -> int:
             errors.append(f"router bundled workflow missing: {bundled.relative_to(ROOT)}")
         elif bundled.read_bytes() != wf.read_bytes():
             errors.append(f"router bundled workflow out of sync with root: {wf.name}")
+
+    router_scripts = ROOT / "skills" / "using-sdlc-skills" / "scripts"
+    for s_name in ["scaffold.py", "bounded_run.py", "verify_contracts.py"]:
+        src_script = ROOT / "scripts" / s_name
+        bundled_script = router_scripts / s_name
+        if not bundled_script.is_file():
+            errors.append(f"router bundled script missing: {bundled_script.relative_to(ROOT)}")
+        elif bundled_script.read_bytes() != src_script.read_bytes():
+            errors.append(f"router bundled script out of sync with root: {s_name}")
 
     lock_path = ROOT / "manifests" / "upstream-lock.json"
     provenance_path = ROOT / "manifests" / "skill-provenance.json"

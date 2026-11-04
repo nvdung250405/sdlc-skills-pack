@@ -39,12 +39,20 @@ Use for implementing a feature in an existing codebase. Read existing repository
 9. For unexpected test failures or regressions, invoke `systematic-debugging`: reproduce, isolate root cause, state hypothesis, and add regression guard.
 
 ## 5. Review, Verification & Acceptance
-10. Run relevant unit, integration, contract, and browser tests (`webapp-testing` or `browser-testing-with-devtools`).
-11. Conduct code review using `code-review-and-quality`; prepare PR description using `templates/pull-request.md`.
-12. Execute `verification-before-completion` to record fresh empirical evidence in `docs/features/<feature-id>/acceptance-report.md` (from `templates/acceptance-report.md`).
-13. Update session handoff log in `.agent/tasks/<task-id>.md` using `task-handoff`.
+10. Run relevant unit, integration, contract, and browser tests (webapp-testing or rowser-testing-with-devtools).
+11. Conduct code review using code-review-and-quality; prepare PR description using 	emplates/delivery/pull-request.md.
+12. Execute erification-before-completion to record fresh empirical evidence in docs/features/<feature-id>/acceptance-report.md (from 	emplates/delivery/acceptance-report.md) or completion-report.md.
+13. Update session handoff log in .agent/tasks/<task-id>.md using 	ask-handoff.
 
 ---
+
+> [!TIP]
+> **Graceful Fallback for Extras Skills:**
+> When specialist Extras skills are not installed on disk:
+> - For API wire contracts without pi-contract-testing: validate syntax with scripts/verify_contracts.py and run project integration test fixtures.
+> - For UI/Browser testing without webapp-testing or rowser-testing-with-devtools: execute standard project headless test runners (
+pm test, pytest).
+> - For threat modeling without 	hreat-model-analyst: rely on core security-and-hardening checks consolidated in cceptance-report.md.
 
 > [!NOTE]
 > If implementation uncovers an unexpected architecture, data migration, or security risk larger than initially estimated, pause and route back to the owning design/spec stage before continuing.

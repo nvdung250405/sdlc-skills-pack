@@ -1,6 +1,6 @@
 ---
 name: k6-load-testing
-description: Comprehensive k6 load testing skill for API, browser, and scalability testing. Write realistic load scenarios, analyze results, and integrate with CI/CD.
+description: Comprehensive k6 load testing skill for API, browser, and scalability testing. Write realistic load scenarios, analyze results, and integrate with CI/CD. Use when designing load tests, stress testing, measuring latency SLOs, or checking system capacity before release.
 license: MIT
 ---
 

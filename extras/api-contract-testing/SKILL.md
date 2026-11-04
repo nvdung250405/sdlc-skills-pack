@@ -1,6 +1,6 @@
 ---
 name: api-contract-testing
-description: Design and review API contract tests across providers and consumers. Use for schema changes, compatibility regressions and client integration failures.
+description: Design and review API contract tests across providers and consumers. Use when defining API wire schemas, verifying consumer-provider compatibility, running contract regression fixtures, or validating wire payloads.
 license: MIT
 ---
 

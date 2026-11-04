@@ -1,6 +1,6 @@
 ---
 name: pm-product-spec
-description: Create or revise a product requirements document or feature specification grounded in a clear problem, measurable outcomes, explicit scope, and stated assumptions. Use for product discovery outputs and PRDs; do not use as the sole owner of detailed feature User Stories.
+description: Create or revise a product requirements document or feature specification grounded in a clear problem, measurable outcomes, explicit scope, and stated assumptions. Use when drafting PRDs, defining problem statements, scoping business requirements, or structuring product discovery deliverables.
 license: MIT
 ---
 

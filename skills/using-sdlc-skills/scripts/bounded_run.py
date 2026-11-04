@@ -35,6 +35,7 @@ def main() -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("--max-lines", type=int, default=50, help="Maximum lines to return to context (default: 50)")
+    parser.add_argument("--timeout", type=int, default=180, help="Execution timeout in seconds (default: 180s, 0 for unlimited)")
     parser.add_argument("--log-dir", default=".agent/logs", help="Directory to save full raw output logs")
     parser.add_argument("command", nargs=argparse.REMAINDER, help="The command and arguments to execute")
 
@@ -57,6 +58,7 @@ def main() -> int:
 
     cmd_str = " ".join(cmd)
     start_time = time.time()
+    timed_out = False
 
     try:
         # Run process and capture merged stdout/stderr
@@ -68,8 +70,16 @@ def main() -> int:
             encoding="utf-8",
             errors="replace",
         )
-        stdout, _ = proc.communicate()
-        exit_code = proc.returncode
+        timeout_val = args.timeout if args.timeout > 0 else None
+        try:
+            stdout, _ = proc.communicate(timeout=timeout_val)
+            exit_code = proc.returncode
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            stdout_timeout, _ = proc.communicate()
+            stdout = (stdout_timeout or "") + f"\n\nERROR: Command timed out after {args.timeout} seconds and was killed."
+            exit_code = 124
+            timed_out = True
     except Exception as exc:
         print(f"ERROR: Failed to launch command '{cmd_str}': {exc}", file=sys.stderr)
         return 1

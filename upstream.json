@@ -323,38 +323,38 @@
   "derived_skills": [
     {
       "name": "pm-product-spec",
-      "tier": "extras",
+      "tier": "skills",
       "source_id": "uxcel-product-skills",
       "source_path": "skills/pm-product-spec/SKILL.md",
       "license": "MIT",
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; adapted for PRD creation, product goals, scope boundaries, and non-story technical handoff."
+        "Categorized into core skills tier; adapted for PRD creation, product goals, scope boundaries, and non-story technical handoff."
       ]
     },
     {
       "name": "pm-user-story",
-      "tier": "extras",
+      "tier": "skills",
       "source_id": "uxcel-product-skills",
       "source_path": "skills/pm-user-story/SKILL.md",
       "license": "MIT",
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; adapted for user story mapping and Given/When/Then acceptance criteria authoring into the canonical feature spec."
+        "Categorized into core skills tier; adapted for user story mapping and Given/When/Then acceptance criteria authoring into the canonical feature spec."
       ]
     },
     {
       "name": "pm-spec-quality-audit",
-      "tier": "extras",
+      "tier": "skills",
       "source_id": "uxcel-product-skills",
       "source_path": "skills/pm-spec-quality-audit/SKILL.md",
       "license": "MIT",
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; structured spec quality review, gap analysis, and ambiguity audit before implementation."
+        "Categorized into core skills tier; structured spec quality review, gap analysis, and ambiguity audit before implementation."
       ]
     },
     {

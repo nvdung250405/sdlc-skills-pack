@@ -84,8 +84,8 @@ class PackStaticTests(unittest.TestCase):
         manifest = json.loads((ROOT / "upstream.json").read_text(encoding="utf-8"))
         skill_dirs = {path.name for path in (ROOT / "skills").iterdir() if path.is_dir()}
         extra_dirs = {path.name for path in (ROOT / "extras").iterdir() if path.is_dir()}
-        self.assertEqual(len(skill_dirs), 26)
-        self.assertEqual(len(extra_dirs), 37)
+        self.assertEqual(len(skill_dirs), 29)
+        self.assertEqual(len(extra_dirs), 34)
         for item in manifest.get("derived_skills", []):
             self.assertIn(item["name"], skill_dirs if item.get("tier") == "skills" else extra_dirs)
 
@@ -125,6 +125,13 @@ class PackStaticTests(unittest.TestCase):
             self.assertTrue(bundled.is_file(), f"Missing bundled workflow {w.name}")
             self.assertEqual(w.read_bytes(), bundled.read_bytes(), f"Bundled workflow {w.name} out of sync")
 
+        router_script_dir = ROOT / "skills" / "using-sdlc-skills" / "scripts"
+        for script_name in ["scaffold.py", "bounded_run.py", "verify_contracts.py"]:
+            src = ROOT / "scripts" / script_name
+            bundled = router_script_dir / script_name
+            self.assertTrue(bundled.is_file(), f"Missing bundled script {script_name}")
+            self.assertEqual(src.read_bytes(), bundled.read_bytes(), f"Bundled script {script_name} out of sync")
+
     def test_scaffold_all_32_artifact_aliases(self) -> None:
         from scripts.scaffold import ARTIFACT_MAP
         self.assertEqual(len(ARTIFACT_MAP), 32)
@@ -140,6 +147,32 @@ class PackStaticTests(unittest.TestCase):
                     self.assertIn("> **Document type:** Canonical Artifact Contract", content, f"{alias} missing contract header")
                 else:
                     self.assertGreater(len(content), 10, f"{alias} file is empty or too short")
+
+    def test_verify_contracts_gate_detects_invalid_yaml_and_structural_errors(self) -> None:
+        # 1. Canonical contracts in templates/contracts must all pass
+        res = run_script("verify_contracts.py", "--dir", "templates/contracts")
+        self.assertEqual(res.returncode, 0, f"Canonical templates failed verification: {res.stdout}")
+
+        # 2. Corrupted YAML or garbage syntax must fail with non-zero exit code
+        with tempfile.TemporaryDirectory() as temp:
+            bad_dir = Path(temp)
+            # Garbage syntax
+            (bad_dir / "openapi.yaml").write_text("invalid: [unclosed bracket", encoding="utf-8")
+            res_bad = run_script("verify_contracts.py", "--dir", str(bad_dir))
+            self.assertNotEqual(res_bad.returncode, 0, "Corrupted YAML must fail verification gate")
+            self.assertIn("FAILED", res_bad.stdout + res_bad.stderr)
+
+            # Non-mapping YAML
+            (bad_dir / "openapi.yaml").write_text("- item1\n- item2", encoding="utf-8")
+            res_list = run_script("verify_contracts.py", "--dir", str(bad_dir))
+            self.assertNotEqual(res_list.returncode, 0, "Non-mapping YAML must fail verification gate")
+            self.assertIn("FAILED", res_list.stdout + res_list.stderr)
+
+            # Missing required fields (empty document)
+            (bad_dir / "openapi.yaml").write_text("some_random_key: true\n", encoding="utf-8")
+            res_missing = run_script("verify_contracts.py", "--dir", str(bad_dir))
+            self.assertNotEqual(res_missing.returncode, 0, "OpenAPI missing version must fail verification gate")
+            self.assertIn("FAILED", res_missing.stdout + res_missing.stderr)
 
     def test_installer_requires_verified_pack_unless_partial_is_allowed(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

@@ -3,8 +3,8 @@
 Bản đồ định tuyến kỹ năng thực tế theo **16 giai đoạn chuẩn hóa quốc tế** (ISO/IEC/IEEE 12207, SWEBOK v4, NIST SSDF, DORA, FinOps). Router duy nhất của pack là `using-sdlc-skills` lựa chọn luồng làm việc tinh gọn nhất (right-sized) và áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
 
 Pack phân tầng kỹ năng thành 2 cấp độ:
-- **Core (26 skills)**: Kỷ luật công kỹ nghệ nền tảng, độc lập công cụ, cài đặt mặc định cho mọi agent trong mọi dự án.
-- **Extras (37 skills)**: Năng lực chuyên sâu, nạp theo nhu cầu thực tế của ngữ cảnh dự án, stack công nghệ, vai trò chuyên môn hoặc hạ tầng.
+- **Core (29 skills)**: Kỷ luật công kỹ nghệ nền tảng, độc lập công cụ, cài đặt mặc định cho mọi agent trong mọi dự án.
+- **Extras (34 skills)**: Năng lực chuyên sâu, nạp theo nhu cầu thực tế của ngữ cảnh dự án, stack công nghệ, vai trò chuyên môn hoặc hạ tầng.
 
 ---
 
@@ -13,7 +13,7 @@ Pack phân tầng kỹ năng thành 2 cấp độ:
 | Stage (Giai đoạn) | Expected outputs (Tạo phẩm tinh gọn) | Core skills (Mặc định cài đặt) | Extras / Triggers (Nạp theo nhu cầu) |
 |---|---|---|---|
 | **Discovery** | • Opportunity brief (problem framing, target users, validation findings)<br>• Customer & market research synthesis<br>• Hypothesis validation records (khi theo dõi qua các vòng lặp) | `interview-me`<br>`idea-refine` | `customer-research` (khi cần nghiên cứu sâu insight người dùng, chân dung khách hàng, benchmark đối thủ) |
-| **Requirements** | • Product Requirements Document (PRD)<br>• Feature specifications (User Stories & Acceptance Criteria)<br>• Requirements traceability & compliance records (theo ngữ cảnh dự án) | `requirements-engineering`<br>`spec-driven-development` | `pm-product-spec` (khi khởi tạo PRD sản phẩm lớn)<br>`pm-user-story` (khi viết Story/AC BDD Given/When/Then)<br>`pm-spec-quality-audit` (khi kiểm toán chất lượng spec) |
+| **Requirements** | • Product Requirements Document (PRD)<br>• Feature specifications (User Stories & Acceptance Criteria)<br>• Requirements traceability & compliance records (theo ngữ cảnh dự án) | `requirements-engineering`<br>`spec-driven-development`<br>`pm-user-story`<br>`pm-product-spec`<br>`pm-spec-quality-audit` | *(Tất cả kỹ năng đặc tả yêu cầu cốt lõi đã thuộc Core)* |
 | **Architecture & System Design** | • System architecture overview (components, boundaries, C4 models)<br>• Architecture Decision Records (ADRs)<br>• Interface & data contracts (OpenAPI, schemas, data models)<br>• UI component specifications & design system tokens | `software-architecture`<br>`api-and-interface-design`<br>`database-design`<br>`documentation-and-adrs` | `codebase-design` (khi thiết kế deep modules theo phong cách Matt Pocock)<br>`domain-modeling` (khi xây dựng glossary và domain model)<br>`frontend-design` (khi định hình phong cách thị giác và design tokens) |
 | **Planning & Task Breakdown** | • Technical implementation plan & task breakdown (kèm DoD và ràng buộc kỹ thuật)<br>• Task handoff & context notes (khi cần bàn giao phiên) | `planning-and-task-breakdown`<br>`task-handoff` | `to-tickets` (khi bẻ khóa plan thành các ticket tracer-bullet dạng issue độc lập) |
 | **Implementation & Construction** | • Mã nguồn ứng dụng & lịch sử commit nguyên tử có kiểm soát<br>• Automated unit & component test suites<br>• Database migrations & integration adapters<br>• Feature flags & cấu hình môi trường | `incremental-implementation`<br>`test-driven-development`<br>`source-driven-development`<br>`git-workflow-and-versioning`<br>`using-git-worktrees` | `subagent-driven-development` (khi điều phối song song qua subagents chuyên biệt)<br>`frontend-ui-engineering` (khi xây dựng giao diện người dùng web/di động phức tạp)<br>`vercel-react-best-practices` (khi tối ưu hóa ứng dụng React/Next.js theo chuẩn Vercel) |
@@ -91,12 +91,12 @@ Mỗi tạo phẩm chuẩn hóa (canonical artifact) chỉ do một kỹ năng c
 
 Quá trình thực thi tác vụ của agent tuân thủ vòng đời 5 bước theo thiết kế kiến trúc (xem sơ đồ và định nghĩa chuẩn tại [`docs/architecture.md` Section 4.3](architecture.md) và router [`skills/using-sdlc-skills/SKILL.md`](../skills/using-sdlc-skills/SKILL.md)), đảm bảo **nạp đúng theo bối cảnh (context-driven)** và **tuyệt đối không làm quá tải ngữ cảnh (anti-overload)**.
 
-> **Nguyên tắc cốt lõi — Installation ≠ Selection ≠ Context Loading:** 26 Core skills **được cài đặt** (installed) để luôn có mặt trên disk, nhưng không có nghĩa là tất cả đều được nạp vào cửa sổ ngữ cảnh cùng lúc. Mỗi task chỉ nạp file SKILL.md của các skill thực sự cần dùng cho bước công việc đó. Xem định nghĩa chuẩn "Task Active Skills" tại `architecture.md`.
+> **Nguyên tắc cốt lõi — Installation ≠ Selection ≠ Context Loading:** 29 Core skills **được cài đặt** (installed) để luôn có mặt trên disk, nhưng không có nghĩa là tất cả đều được nạp vào cửa sổ ngữ cảnh cùng lúc. Mỗi task chỉ nạp file SKILL.md của các skill thực sự cần dùng cho bước công việc đó. Xem định nghĩa chuẩn "Task Active Skills" tại `architecture.md`.
 
 1. **Tiếp nhận tác vụ (Task Intake)**: Phân loại mục tiêu công việc theo 1 trong 16 Stages SDLC.
 2. **Khám phá & Tuyển chọn (Discover & Select — The SDLC Triad)**:
    - **Chọn Workflow:** Xác định kịch bản điều phối phù hợp (`full-sdlc.md`, `feature-loop.md`, `bug-fix.md`, `quick-change.md`, `incident-response.md`, `experimentation-loop.md`, `deprecation-and-migration.md`, `agent-handoff-contract.md`).
-   - **Chọn Kỹ năng:** Xác định *Tập nhỏ nhất đủ dùng (Smallest Sufficient Set)*: 26 Core skills **được cài đặt sẵn** (installed) không có nghĩa là tất cả đều được nạp vào ngữ cảnh cùng lúc — chỉ nạp các skill thực sự cần cho bước công việc hiện tại. Chỉ nạp thêm 1–2 Extras skills khi tech stack hoặc domain thực sự yêu cầu và skill đó cung cấp năng lực riêng biệt.
+   - **Chọn Kỹ năng:** Xác định *Tập nhỏ nhất đủ dùng (Smallest Sufficient Set)*: 29 Core skills **được cài đặt sẵn** (installed) không có nghĩa là tất cả đều được nạp vào ngữ cảnh cùng lúc — chỉ nạp các skill thực sự cần cho bước công việc hiện tại. Chỉ nạp thêm 1–2 Extras skills khi tech stack hoặc domain thực sự yêu cầu và skill đó cung cấp năng lực riêng biệt.
    - **Chọn Template:** Tra cứu bảng khế ước tạo phẩm để xác định file starter template tương ứng.
 3. **Nạp Quy trình & Dựng khung Tạo phẩm (Load Workflow & Scaffold Template)**:
    - Nạp các bước của workflow đã chọn vào ngữ cảnh hoạt động.

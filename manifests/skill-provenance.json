@@ -10,7 +10,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "ace4b675999bb504593d572e0f73f3d7e803ad6fddf318445598c82c11939db2"
     },
     "skills/idea-refine": {
       "upstream": "addyosmani-agent-skills",
@@ -21,7 +22,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "21ef828e3a2144245b67f840cc3805f761e98c9acce9a96670b7cd7441353463"
     },
     "skills/spec-driven-development": {
       "upstream": "addyosmani-agent-skills",
@@ -32,7 +34,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "c4b97ce3d7f24be0e67fd612c7595f65504872e3a9f8d338d098b2363fdb66ef"
     },
     "skills/api-and-interface-design": {
       "upstream": "addyosmani-agent-skills",
@@ -43,7 +46,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "e83d34f52ff12dd8a7c5134cd7e8140ea4541ec65e204f8a1e4cd366e30c4192"
     },
     "skills/documentation-and-adrs": {
       "upstream": "addyosmani-agent-skills",
@@ -54,7 +58,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "b60d503925bbaacee7fd63935db70b9ced5b2514ff5a56a672130e01b9690bc5"
     },
     "skills/planning-and-task-breakdown": {
       "upstream": "addyosmani-agent-skills",
@@ -65,7 +70,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "4e1ec519448008f13e5c0a287c2576d24d3a570442ed476f31f896fcb179a8fa"
     },
     "skills/incremental-implementation": {
       "upstream": "addyosmani-agent-skills",
@@ -76,7 +82,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "8a50385bf7ff33f1d91407cda37147e0d436e443bcce57c9f6fa4eba0cc8b7c7"
     },
     "skills/test-driven-development": {
       "upstream": "addyosmani-agent-skills",
@@ -87,7 +94,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "fdac9fa119aec773f4dbce95f0cb1589fb7e19dc3b330351f35d2e44e30ce182"
     },
     "skills/git-workflow-and-versioning": {
       "upstream": "addyosmani-agent-skills",
@@ -98,7 +106,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "b7465d187935c52546d39fdc7bd6ac36d94eda25a9500ef8c18b767d2eb116ea"
     },
     "skills/source-driven-development": {
       "upstream": "addyosmani-agent-skills",
@@ -109,7 +118,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "c59faf851377f0eeda45306398d16eb96d77ab1c2fd3e1a7fb58e9a0af33c1e9"
     },
     "skills/code-simplification": {
       "upstream": "addyosmani-agent-skills",
@@ -120,7 +130,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "f0c5ed754057eb0c1e027e2587f59de816651feb5e837242296c43ea21cf621d"
     },
     "skills/context-engineering": {
       "upstream": "addyosmani-agent-skills",
@@ -131,7 +142,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "8b736cb9e55b82b265ab6ff78349c0e826e8a6df550deddf665b7fb3ff858b63"
     },
     "skills/code-review-and-quality": {
       "upstream": "addyosmani-agent-skills",
@@ -142,7 +154,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "9fe7b29acdce13efdcef9a151b31cf275d45136d5006f2ba8f9705708361747e"
     },
     "skills/security-and-hardening": {
       "upstream": "addyosmani-agent-skills",
@@ -153,7 +166,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "b3a77648dd83cf8d566436381b1e38f00cecabda5d0340a61b4e2b56e52fc1b1"
     },
     "skills/ci-cd-and-automation": {
       "upstream": "addyosmani-agent-skills",
@@ -164,7 +178,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "a6ed8ed56456b01ff8314c44eefc69897d9905ae4e06bb2b7036286efb79b5f0"
     },
     "skills/shipping-and-launch": {
       "upstream": "addyosmani-agent-skills",
@@ -175,7 +190,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "deffdc5e14964d77893ec71e26c46c5c73a38f2c524be92a61473ffa3686c200"
     },
     "skills/observability-and-instrumentation": {
       "upstream": "addyosmani-agent-skills",
@@ -186,7 +202,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "8e71d0b45376deac9850aed899aa52ebb4f537f0d29408b3fdfaeadad044168c"
     },
     "extras/performance-optimization": {
       "upstream": "addyosmani-agent-skills",
@@ -197,7 +214,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "2341f0b822516b0d13ccabcca96ed763ac51f25d80b6fb55a5df1f81a51e834e"
     },
     "extras/frontend-ui-engineering": {
       "upstream": "addyosmani-agent-skills",
@@ -208,7 +226,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "3b21fa03812a48b847df0b4bc36b6e5ee16676a8be1b0672b0bc2d9dff9cac9d"
     },
     "extras/deprecation-and-migration": {
       "upstream": "addyosmani-agent-skills",
@@ -219,7 +238,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "6a624f942e09c69863a4219b9bd5d56975026b67b0c70bc83385ffd2120b6142"
     },
     "skills/systematic-debugging": {
       "upstream": "obra-superpowers",
@@ -230,7 +250,8 @@
         "Remove upstream superpowers: namespace prefixes from cross references."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "4ca000d04d7c5ded8e20f9389a1ec637e3808223b8b48f9958299c3ac014444f"
     },
     "skills/verification-before-completion": {
       "upstream": "obra-superpowers",
@@ -239,7 +260,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3"
     },
     "skills/receiving-code-review": {
       "upstream": "obra-superpowers",
@@ -248,7 +270,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438"
     },
     "skills/using-git-worktrees": {
       "upstream": "obra-superpowers",
@@ -257,7 +280,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "8cfb86f121269e8f7f12361e6795c4f6738828340e28964c9229d365666c9edd"
     },
     "extras/frontend-design": {
       "upstream": "anthropics-skills",
@@ -266,7 +290,8 @@
       "license": "Apache-2.0",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
     },
     "skills/requirements-engineering": {
       "upstream": "agentic-sdlc-kit",
@@ -301,7 +326,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "pack-owned",
-      "refresh_policy": "local"
+      "refresh_policy": "local",
+      "content_sha256": "b23f0521c38925e48304b422f74db3353dfa0b87cf5c076d7bee1f29b90f0935"
     },
     "skills/task-handoff": {
       "upstream": "pack-owned",
@@ -310,7 +336,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "pack-owned",
-      "refresh_policy": "local"
+      "refresh_policy": "local",
+      "content_sha256": "d5cd1f6ef04ef8dbedd5adf969c574cbec80aee0993a515bc418b8739d5370fd"
     },
     "skills/database-design": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -336,7 +363,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "ee1bf7e192236f0c3d5322d41e76d41e78062cb23e743fef492e5e9c2cba1125"
+      "content_sha256": "90e2d8adae47b9db9f571dc31edbdc5f18ac87e1216255cc4bf92b851db6e48a"
     },
     "extras/k6-load-testing": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -349,7 +376,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "510969bd25c707eab2266d5bd7638301873e0169d61d12b8808858c4a210b10e"
+      "content_sha256": "485474c7a6863267f69c556173a98aa6072f51f4c912c2ff25b38e6a640d22b8"
     },
     "extras/terraform-specialist": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -362,7 +389,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "0792ebcd4a36a47395f2a473389fc8d102299d64d29225dcc733ab34596252ae"
+      "content_sha256": "45b2677aada1e072e40c09aadc4013b75ac86fc76402eb2677818c7bfa7e8910"
     },
     "extras/kubernetes-architect": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -375,7 +402,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "c3471e8cd272c48f36ff573cf43d18bf098230f55572642f21c0dd21c63d80b4"
+      "content_sha256": "a118e7e17239862be75800f9a76c53740ebf9a97949762b92dbff0b27bbb8a8a"
     },
     "extras/screen-reader-testing": {
       "upstream": "wshobson-agents",
@@ -388,7 +415,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "3d760c9ccdc9dbcc5ca5c60b72a5ecdde0c465e4c4146e4910b3f7113bedb85b"
+      "content_sha256": "f2688d28fe5e6638fdc219d2313d94c3a5f7b7e6d0ca2933b9bb4849cab8ede3"
     },
     "extras/browser-testing-with-devtools": {
       "upstream": "addyosmani-agent-skills",
@@ -399,7 +426,8 @@
         "Localize shared references into the skill directory at sync time."
       ],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "4e3aacd6a380cd25bc6c2d67fdd1c926a9b22535b8a62109ecd33cefd909e3d9"
     },
     "extras/webapp-testing": {
       "upstream": "anthropics-skills",
@@ -408,7 +436,8 @@
       "license": "Apache-2.0",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2"
     },
     "extras/api-contract-testing": {
       "upstream": "api-contract-testing",
@@ -421,46 +450,46 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "ac0e7140a8f3bc64d2124b7b694b542ec7b1937d00cd3a693b150622392e1b8d"
+      "content_sha256": "63311bf6ac659dc19ba5255cf548cfb84ad4ef847dd1f2c8f967096fb4f891f2"
     },
-    "extras/pm-product-spec": {
+    "skills/pm-product-spec": {
       "upstream": "uxcel-product-skills",
       "source_path": "skills/pm-product-spec/SKILL.md",
       "commit": "main",
       "license": "MIT",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; adapted for PRD creation, product goals, scope boundaries, and non-story technical handoff."
+        "Categorized into core skills tier; adapted for PRD creation, product goals, scope boundaries, and non-story technical handoff."
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "ffd3caf80fba70fefaca503f0ad13333f73a275e3cda5f86cd12a4648d4a68c8"
+      "content_sha256": "57400d125a892bb6d2cb9d7e5683210da7676b975061759ae794d2bb04070eb8"
     },
-    "extras/pm-user-story": {
+    "skills/pm-user-story": {
       "upstream": "uxcel-product-skills",
       "source_path": "skills/pm-user-story/SKILL.md",
       "commit": "main",
       "license": "MIT",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; adapted for user story mapping and Given/When/Then acceptance criteria authoring into the canonical feature spec."
+        "Categorized into core skills tier; adapted for user story mapping and Given/When/Then acceptance criteria authoring into the canonical feature spec."
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
       "content_sha256": "f82065a439058f1da9310d2289dbac438936f357c4a416f462ccdd1e0b75c859"
     },
-    "extras/pm-spec-quality-audit": {
+    "skills/pm-spec-quality-audit": {
       "upstream": "uxcel-product-skills",
       "source_path": "skills/pm-spec-quality-audit/SKILL.md",
       "commit": "main",
       "license": "MIT",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; structured spec quality review, gap analysis, and ambiguity audit before implementation."
+        "Categorized into core skills tier; structured spec quality review, gap analysis, and ambiguity audit before implementation."
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "ef00f290b6d97655abbe48f4c252526b2829ab908ab29cf806f645cb0262068f"
+      "content_sha256": "919b39627997a84cbc416b802271099f289ae6e061af47427794744071e27e62"
     },
     "extras/secrets-management": {
       "upstream": "wshobson-agents",
@@ -473,7 +502,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "07ecfc6ae7df48ce594c242b2f9fce635112b41355a6ab31c14e6001489c946d"
+      "content_sha256": "6fae38c092e9d22115eeefba1b7dae8ec51cfac0c997ebe76238c14b4b3857e6"
     },
     "extras/auth-implementation-patterns": {
       "upstream": "wshobson-agents",
@@ -486,7 +515,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "ad039835e6a6af7a681ec9b192f6c2adfeae85a741de96b59ac9375b564f1d44"
+      "content_sha256": "4a910f2fef60dc2cb89d1d812d5cad9fdcdc1e5e07551b3770b1ac28251273d4"
     },
     "extras/skill-authoring": {
       "upstream": "pack-owned",
@@ -495,7 +524,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "pack-owned",
-      "refresh_policy": "local"
+      "refresh_policy": "local",
+      "content_sha256": "2464057a4e40f81f4cb8feab0662e324fcd86ec0664efd3748a3ffb7e873fe3e"
     },
     "extras/service-mesh-observability": {
       "upstream": "wshobson-agents",
@@ -530,7 +560,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "ba41f697136cba88a7962d60c8e2f97488ba04a8688b1d0fbeb27f6953808e75"
     },
     "extras/mcp-builder": {
       "upstream": "anthropics-skills",
@@ -539,7 +570,8 @@
       "license": "Apache-2.0",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "323a42dcf2bd27b8dcd8e903f060414643c65987d77fce5af13f9357a4fba49d"
     },
     "extras/doc-coauthoring": {
       "upstream": "anthropics-skills",
@@ -548,7 +580,8 @@
       "license": "Apache-2.0",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "acb9b89b228fb818ffe2f464e40b1cdbf6948b50ceeeb7378f0e5b9d78c996ad"
     },
     "extras/codebase-design": {
       "upstream": "mattpocock-skills",
@@ -557,7 +590,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "362b0bec828219d9f4b08ca7c466164e67253bdd817359258e60d2e9c5692a8f"
     },
     "extras/domain-modeling": {
       "upstream": "mattpocock-skills",
@@ -566,7 +600,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "b62d997256cc073e123d4303da8e9db00db0e28de9739660ca3e55ab76e09cdb"
     },
     "extras/to-tickets": {
       "upstream": "mattpocock-skills",
@@ -575,7 +610,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "65a4bc6dd28727f0e79b2705d4d06b06f6edb29fdb51da6d886fe87f09367dd1"
     },
     "extras/improve-codebase-architecture": {
       "upstream": "mattpocock-skills",
@@ -584,7 +620,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "e22a94e43beeda9e41087a9f3cd6d654fb3ad4c4de1ad1b4986221481f4f7c4b"
     },
     "extras/setup-pre-commit": {
       "upstream": "mattpocock-skills",
@@ -593,7 +630,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "e069e6a23069ebdba946d4dea11e5d663c10640c6b14b55c4585c81b1a256ac9"
     },
     "extras/git-guardrails-claude-code": {
       "upstream": "mattpocock-skills",
@@ -602,7 +640,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "12d335b84bcf984b213b527014262233f27ffa1eb807db466832ff711b96f41f"
     },
     "extras/writing-for-agents": {
       "upstream": "mattpocock-skills",
@@ -611,7 +650,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "1c0c4ebf2d221917591144f0ced4fe46dae13301cb3d6d93fc88ecf0dda6aed2"
     },
     "extras/customer-research": {
       "upstream": "coreyhaines31-marketingskills",
@@ -620,7 +660,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "db66ecd9d45f4aab6c0ea0432a34752bb69934aa7b42c312a6eaef603741ee2e"
     },
     "extras/analytics": {
       "upstream": "coreyhaines31-marketingskills",
@@ -629,7 +670,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "3b94e829c5e18b078a0b0b59c3120d8c1a5872820c3af8617e444953cd30e8b5"
     },
     "extras/ab-testing": {
       "upstream": "coreyhaines31-marketingskills",
@@ -638,7 +680,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "4cd0bd42c34b227a53b142b37955a33c6626c21c74e27d4af98e4eedb0187fa4"
     },
     "extras/vercel-react-best-practices": {
       "upstream": "vercel-labs-agent-skills",
@@ -647,7 +690,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "3286ace648b4d740317b9c1cb7fbd38600eaacc62a8b57ea5e06fd2992b5582e"
     },
     "extras/web-design-guidelines": {
       "upstream": "vercel-labs-agent-skills",
@@ -656,7 +700,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "17e48da905f83a19c174079b50760a98c069527ba50079239b3c187236627c29"
     },
     "extras/writing-guidelines": {
       "upstream": "vercel-labs-agent-skills",
@@ -665,7 +710,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "c28458a39d09a2fb7d6459eb7311d1a30c7c7f17069ad28132031b916d74d269"
     },
     "extras/threat-model-analyst": {
       "upstream": "github-awesome-copilot",
@@ -674,7 +720,8 @@
       "license": "MIT",
       "transformations": [],
       "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync"
+      "refresh_policy": "pinned-sync",
+      "content_sha256": "cdd72b75b224b20f006cb31602b0b68d0ea27c22a25c9a6458a2cf0b90a25fb3"
     }
   },
   "resources": {}

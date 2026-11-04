@@ -24,19 +24,70 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def parse_basic_yaml(text: str) -> tuple[bool, str, dict | None]:
+    """Zero-dependency fallback YAML parser for structural contract verification."""
+    lines = text.splitlines()
+    open_brackets = {"[": "]", "{": "}"}
+    stack = []
+    for line_num, line in enumerate(lines, 1):
+        clean = line.split("#")[0]
+        for char in clean:
+            if char in open_brackets:
+                stack.append((char, line_num))
+            elif char in open_brackets.values():
+                if not stack:
+                    return False, f"Unmatched closing bracket '{char}' at line {line_num}", None
+                last_char, _ = stack.pop()
+                if open_brackets[last_char] != char:
+                    return False, f"Mismatched bracket '{last_char}' and '{char}' at line {line_num}", None
+    if stack:
+        char, line_num = stack[-1]
+        return False, f"Unclosed bracket '{char}' opened at line {line_num}", None
+
+    content_lines = [l for l in lines if l.strip() and not l.strip().startswith("#")]
+    if not content_lines:
+        return False, "File is empty or contains only comments", None
+
+    if content_lines[0].lstrip().startswith("- "):
+        return False, "Root YAML element must be a mapping, found sequence/list", None
+
+    data: dict[str, Any] = {}
+    current_section = None
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        indent = len(line) - len(line.lstrip())
+
+        if ":" not in stripped:
+            continue
+
+        key, _, val = stripped.partition(":")
+        key = key.strip().strip("'\"")
+        val = val.strip().strip("'\"")
+
+        if indent == 0:
+            current_section = key
+            data[key] = val if val else {}
+        elif indent > 0 and current_section:
+            if not isinstance(data.get(current_section), dict):
+                data[current_section] = {}
+            data[current_section][key] = val if val else {}
+
+    return True, "Valid YAML (zero-dep parser)", data
+
+
 def check_yaml_file(path: Path) -> tuple[bool, str, dict | None]:
     try:
         import yaml
         content = yaml.safe_load(path.read_text(encoding="utf-8"))
         if not isinstance(content, dict):
-            return False, "Root YAML element must be a mapping", None
+            return False, f"Root YAML element must be a mapping (found {type(content).__name__})", None
         return True, "Valid YAML", content
     except ImportError:
-        # Fallback basic YAML validation when pyyaml is not installed
-        text = path.read_text(encoding="utf-8")
-        if not text.strip():
-            return False, "File is empty", None
-        return True, "Basic YAML syntax valid", {}
+        # Fallback to zero-dependency structural parser
+        return parse_basic_yaml(path.read_text(encoding="utf-8"))
     except Exception as exc:
         return False, f"YAML parse error: {exc}", None
 
@@ -47,16 +98,18 @@ def verify_openapi(path: Path, strict: bool) -> list[str]:
     if not ok:
         errors.append(f"{path.name}: {msg}")
         return errors
-    if data:
-        version = str(data.get("openapi", ""))
-        if not version.startswith("3."):
-            errors.append(f"{path.name}: unsupported or missing openapi version (expected 3.x, found '{version}')")
-        if "info" not in data or "title" not in data.get("info", {}):
-            errors.append(f"{path.name}: missing required 'info.title'")
-        if "paths" not in data:
-            errors.append(f"{path.name}: missing required 'paths' section")
-        if "components" not in data or "schemas" not in data.get("components", {}):
-            errors.append(f"{path.name}: missing 'components.schemas'")
+    if not data:
+        errors.append(f"{path.name}: empty OpenAPI contract document")
+        return errors
+    version = str(data.get("openapi", ""))
+    if not version.startswith("3."):
+        errors.append(f"{path.name}: unsupported or missing openapi version (expected 3.x, found '{version}')")
+    if "info" not in data or not isinstance(data.get("info"), dict) or "title" not in data.get("info", {}):
+        errors.append(f"{path.name}: missing required 'info.title'")
+    if "paths" not in data:
+        errors.append(f"{path.name}: missing required 'paths' section")
+    if "components" not in data or "schemas" not in data.get("components", {}):
+        errors.append(f"{path.name}: missing 'components.schemas'")
 
     # External linter check if tool is available
     if shutil.which("spectral"):
@@ -72,14 +125,16 @@ def verify_asyncapi(path: Path, strict: bool) -> list[str]:
     if not ok:
         errors.append(f"{path.name}: {msg}")
         return errors
-    if data:
-        version = str(data.get("asyncapi", ""))
-        if not (version.startswith("2.") or version.startswith("3.")):
-            errors.append(f"{path.name}: unsupported asyncapi version (expected 2.x or 3.x, found '{version}')")
-        if "info" not in data or "title" not in data.get("info", {}):
-            errors.append(f"{path.name}: missing 'info.title'")
-        if "channels" not in data:
-            errors.append(f"{path.name}: missing 'channels' section")
+    if not data:
+        errors.append(f"{path.name}: empty AsyncAPI contract document")
+        return errors
+    version = str(data.get("asyncapi", ""))
+    if not (version.startswith("2.") or version.startswith("3.")):
+        errors.append(f"{path.name}: unsupported asyncapi version (expected 2.x or 3.x, found '{version}')")
+    if "info" not in data or "title" not in data.get("info", {}):
+        errors.append(f"{path.name}: missing 'info.title'")
+    if "channels" not in data:
+        errors.append(f"{path.name}: missing 'channels' section")
     return errors
 
 
@@ -89,10 +144,12 @@ def verify_stomp(path: Path, strict: bool) -> list[str]:
     if not ok:
         errors.append(f"{path.name}: {msg}")
         return errors
-    if data:
-        if "protocol" not in data or "STOMP" not in str(data.get("protocol")):
-            errors.append(f"{path.name}: missing or invalid 'protocol: STOMP'")
-        if "destinations" not in data:
+    if not data:
+        errors.append(f"{path.name}: empty STOMP contract document")
+        return errors
+    if "protocol" not in data or "STOMP" not in str(data.get("protocol")):
+        errors.append(f"{path.name}: missing or invalid 'protocol: STOMP'")
+    if "destinations" not in data:
             errors.append(f"{path.name}: missing 'destinations' mapping")
     return errors
 

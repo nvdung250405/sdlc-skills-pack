@@ -1,6 +1,6 @@
 ---
 name: screen-reader-testing
-description: Practical guide to testing web applications with screen readers for comprehensive accessibility validation.
+description: Practical guide to testing web applications with screen readers for comprehensive accessibility validation. Use when performing accessibility audits, testing ARIA landmarks, verifying screen-reader flows (NVDA/VoiceOver), or validating WCAG compliance.
 license: MIT
 ---
 

@@ -234,6 +234,9 @@ def main() -> int:
     try:
         adapters = json.loads(ADAPTER_FILE.read_text(encoding="utf-8"))
         dest_root = resolve_destination(target_name, args, adapters)
+        mode = adapters.get("agents", {}).get(target_name, {}).get("loading_mode", "unknown")
+        if mode in ("eager", "unknown") and args.with_extras:
+            print(f"TIP: Target '{target_name}' has '{mode}' skill loading behavior. Installing all 63 skills may consume substantial prompt context. Default Core (29 skills) is recommended unless specialist skills are actively needed.", file=sys.stderr)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

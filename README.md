@@ -1,14 +1,14 @@
 # SDLC Skills Pack
 
-Bộ skill phát triển phần mềm có thể cài trên nhiều coding agent, tuyển chọn từ các upstream đã pin phiên bản và kết hợp bằng một router duy nhất cùng bộ artifact contract thống nhất. Mục tiêu là tái sử dụng skill tốt, tránh trùng chức năng, phân tầng **Core (26 skills)** và **Extras (37 skills)**, áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
+Bộ skill phát triển phần mềm có thể cài trên nhiều coding agent, tuyển chọn từ các upstream đã pin phiên bản và kết hợp bằng một router duy nhất cùng bộ artifact contract thống nhất. Mục tiêu là tái sử dụng skill tốt, tránh trùng chức năng, phân tầng **Core (29 skills)** và **Extras (34 skills)**, áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
 
 ## Cách tổ chức
 
 ```text
-skills/                    # 26 Lean Core skills (kỷ luật công nghệ nền tảng, cài đặt mặc định)
-extras/                    # 37 Extras skills (chuyên môn hóa sâu, nạp theo nhu cầu)
+skills/                    # 29 Lean Core skills (kỷ luật công nghệ nền tảng & PM spec, cài đặt mặc định)
+extras/                    # 34 Extras skills (chuyên môn hóa sâu, nạp theo nhu cầu)
 workflows/                 # 11 quy trình: full SDLC, feature loop, bug fix, quick change, incident, refactoring, performance, upgrade, handoff...
-templates/                 # 22 canonical artifact templates theo 16 stages (PRD, spec, ADR, architecture, threat model, tasks, postmortem, runbook...)
+templates/                 # 32 canonical artifact templates across 5 functional groups (contracts, specs, delivery, platform, governance)
 docs/sdlc-practical-matrix.md # Master Matrix 16 stages và 63 skills chuẩn hóa
 docs/stage-skill-map.md    # Stage → Output → Core & Extras routing map
 docs/architecture.md       # Thiết kế kiến trúc, demand-driven loading & quality gates
@@ -44,8 +44,8 @@ scripts/scaffold.py        # Khởi tạo nhanh canonical artifacts từ templat
 | [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) | Tham khảo cách tổ chức vai trò và workflow | Nguồn tham khảo; không bundle implementation của BMAD |
 
 **Quy mô hiện tại:** Đúng **63 kỹ năng duy nhất** tương ứng với Master Matrix 16 stages:
-- **26 Core skills** trong `skills/`: Nền tảng kỹ thuật bắt buộc cho mọi agent SDLC, độc lập công cụ, cài đặt mặc định.
-- **37 Extras skills** trong `extras/`: Lựa chọn nạp theo ngữ cảnh thực tế (stack, vai trò, hạ tầng, MCP).
+- **29 Core skills** trong `skills/`: Nền tảng kỹ thuật bắt buộc và đặc tả nghiệp vụ/PM cho mọi agent SDLC, độc lập công cụ, cài đặt mặc định.
+- **34 Extras skills** trong `extras/`: Lựa chọn nạp theo ngữ cảnh thực tế (stack, vai trò, hạ tầng, MCP).
 - **Exemplar Reference**: [examples/stripe-integration](examples/stripe-integration) được lưu giữ riêng làm thư viện mẫu tham khảo, loại khỏi danh mục đóng gói chính thức.
 - **Deprecated Skills Archive**: [archive/deprecated-skills](archive/deprecated-skills) lưu trữ `finishing-a-development-branch` và `requesting-code-review`.
 
@@ -69,7 +69,7 @@ Yêu cầu Python 3.10+; Git chỉ cần khi muốn đồng bộ các upstream �
 python scripts/lint_pack.py --strict
 python -m unittest discover -s tests -v
 
-# Cài đặt mặc định (Core 26 skills)
+# Cài đặt mặc định (Core 29 skills)
 python scripts/install.py codex
 python scripts/install.py claude
 python scripts/install.py gemini

@@ -1,6 +1,6 @@
 ---
 name: secrets-management
-description: Secure secrets management practices for CI/CD pipelines using Vault, AWS Secrets Manager, and other tools.
+description: Secure secrets management practices for CI/CD pipelines using Vault, AWS Secrets Manager, and other tools. Use when managing environment secrets, rotating credentials, integrating Vault/AWS Secrets Manager, or isolating CI/CD pipeline secrets.
 license: MIT
 ---
 
