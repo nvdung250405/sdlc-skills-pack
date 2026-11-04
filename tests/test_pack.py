@@ -99,7 +99,7 @@ class PackStaticTests(unittest.TestCase):
 
     def test_all_11_workflows_and_templates_exist_and_have_standard_headers(self) -> None:
         templates = sorted([p for p in (ROOT / "templates").rglob("*.md") if p.name != "README.md"])
-        self.assertEqual(len(templates), 22, f"Expected 22 markdown templates, found {len(templates)}")
+        self.assertEqual(len(templates), 23, f"Expected 23 markdown templates, found {len(templates)}")
         for t in templates:
             text = t.read_text(encoding="utf-8")
             self.assertIn("> **Document type:** Canonical Artifact Contract", text, f"{t.name} missing header")
@@ -125,9 +125,9 @@ class PackStaticTests(unittest.TestCase):
             self.assertTrue(bundled.is_file(), f"Missing bundled workflow {w.name}")
             self.assertEqual(w.read_bytes(), bundled.read_bytes(), f"Bundled workflow {w.name} out of sync")
 
-    def test_scaffold_all_31_artifact_aliases(self) -> None:
+    def test_scaffold_all_32_artifact_aliases(self) -> None:
         from scripts.scaffold import ARTIFACT_MAP
-        self.assertEqual(len(ARTIFACT_MAP), 31)
+        self.assertEqual(len(ARTIFACT_MAP), 32)
         with tempfile.TemporaryDirectory() as temp:
             dest_dir = Path(temp)
             for alias, (tmpl_file, dest_pattern) in ARTIFACT_MAP.items():

@@ -228,9 +228,10 @@ def main() -> int:
         "templates/contracts/stomp-websocket.yaml", "templates/contracts/service.proto",
         "templates/contracts/schema.graphql", "templates/contracts/data-contract.json",
         "templates/contracts/migration.sql",
-        # delivery/ (8)
+        # delivery/ (9)
         "templates/delivery/plan.md", "templates/delivery/tasks.md",
         "templates/delivery/task-handoff.md", "templates/delivery/acceptance-report.md",
+        "templates/delivery/completion-report.md",
         "templates/delivery/pull-request.md", "templates/delivery/release-notes.md",
         "templates/delivery/release-checklist.md", "templates/delivery/deprecation-notice.md",
         # platform/ (3)

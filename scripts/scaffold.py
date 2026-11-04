@@ -34,6 +34,7 @@ ARTIFACT_MAP: dict[str, tuple[str, str]] = {
     "tasks": ("delivery/tasks.md", "docs/features/{id}/tasks.md"),
     "handoff": ("delivery/task-handoff.md", ".agent/tasks/{id}.md"),
     "acceptance": ("delivery/acceptance-report.md", "docs/features/{id}/acceptance-report.md"),
+    "completion": ("delivery/completion-report.md", "docs/features/{id}/completion-report.md"),
     "pr": ("delivery/pull-request.md", ".github/pull_request_template.md"),
     "release": ("delivery/release-notes.md", "docs/releases/v{id}.md"),
     "checklist": ("delivery/release-checklist.md", "docs/releases/release-checklist.md"),

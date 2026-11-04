@@ -52,6 +52,7 @@ Kế hoạch chia nhỏ công việc, quản lý phiên làm việc, nghiệm th
 | [`delivery/tasks.md`](delivery/tasks.md) | `.md` | Danh sách task nguyên tử cuối cùng kèm dependency edges và verification | `planning-and-task-breakdown` |
 | [`delivery/task-handoff.md`](delivery/task-handoff.md) | `.md` | Nhật ký phiên làm việc, trạng thái hiện tại và bàn giao giữa các agent | `task-handoff` |
 | [`delivery/acceptance-report.md`](delivery/acceptance-report.md) | `.md` | Báo cáo nghiệm thu hợp nhất: Test, Lint, Security Scan & Performance SLA | `verification-before-completion` |
+| [`delivery/completion-report.md`](delivery/completion-report.md) | `.md` | Báo cáo hoàn tất tối thiểu (Status, Deliverables, Verification, Limitations) | `verification-before-completion`, `task-handoff` |
 | [`delivery/pull-request.md`](delivery/pull-request.md) | `.md` | Biểu mẫu Pull Request, động lực thay đổi và checklist người review | `code-review-and-quality` |
 | [`delivery/release-notes.md`](delivery/release-notes.md) | `.md` | Changelog và ghi chú phát hành theo phiên bản SemVer | `shipping-and-launch` |
 | [`delivery/release-checklist.md`](delivery/release-checklist.md) | `.md` | Cổng kiểm soát sẵn sàng phát hành, rà soát an toàn và kế hoạch rollback | `shipping-and-launch` |
