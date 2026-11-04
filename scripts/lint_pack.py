@@ -354,6 +354,34 @@ def main() -> int:
         elif bundled_script.read_bytes() != src_script.read_bytes():
             errors.append(f"router bundled script out of sync with root: {s_name}")
 
+    shared_checklists = {
+        ROOT / "shared" / "references" / "definition-of-done.md": [
+            ROOT / "skills" / "incremental-implementation" / "references" / "definition-of-done.md",
+            ROOT / "skills" / "planning-and-task-breakdown" / "references" / "definition-of-done.md",
+            ROOT / "skills" / "shipping-and-launch" / "references" / "definition-of-done.md",
+        ],
+        ROOT / "shared" / "references" / "security-checklist.md": [
+            ROOT / "skills" / "code-review-and-quality" / "references" / "security-checklist.md",
+            ROOT / "skills" / "security-and-hardening" / "references" / "security-checklist.md",
+            ROOT / "skills" / "shipping-and-launch" / "references" / "security-checklist.md",
+        ],
+        ROOT / "shared" / "references" / "performance-checklist.md": [
+            ROOT / "extras" / "performance-optimization" / "references" / "performance-checklist.md",
+            ROOT / "skills" / "code-review-and-quality" / "references" / "performance-checklist.md",
+            ROOT / "skills" / "shipping-and-launch" / "references" / "performance-checklist.md",
+        ],
+    }
+    for src, targets in shared_checklists.items():
+        if not src.is_file():
+            errors.append(f"missing canonical shared reference: {src.relative_to(ROOT)}")
+            continue
+        src_bytes = src.read_bytes()
+        for target in targets:
+            if not target.is_file():
+                errors.append(f"shared checklist target missing: {target.relative_to(ROOT)}")
+            elif target.read_bytes() != src_bytes:
+                errors.append(f"shared checklist out of sync with canonical shared/ source: {target.relative_to(ROOT)}")
+
     lock_path = ROOT / "manifests" / "upstream-lock.json"
     provenance_path = ROOT / "manifests" / "skill-provenance.json"
     if not lock_path.is_file():

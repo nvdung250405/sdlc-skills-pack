@@ -5,3 +5,5 @@ __pycache__/
 .sdlc-upstream-backups/
 .sdlc-skill-backups/
 .agent/
+dist/
+*.zip

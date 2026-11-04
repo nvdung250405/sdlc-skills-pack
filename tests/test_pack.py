@@ -255,6 +255,11 @@ class PackStaticTests(unittest.TestCase):
             self.assertTrue(backups)
             self.assertEqual(backups[0].read_text(encoding="utf-8"), "Do not overwrite me\n")
 
+    def test_eval_fixtures_are_valid_and_executable(self) -> None:
+        result = run_script("run_evals.py")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Successfully verified 4 golden evaluation fixtures", result.stdout)
+
 
 @unittest.skipUnless(shutil.which("git"), "Git is required for local sync transaction tests")
 class SyncTransactionTests(unittest.TestCase):

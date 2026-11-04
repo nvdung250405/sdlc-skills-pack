@@ -1,0 +1,47 @@
+{
+  "id": "eval-feature-loop-01",
+  "name": "Add Idempotency-Key Header to Payment Endpoint",
+  "workflow": "workflows/feature-loop.md",
+  "task_description": "Add an Idempotency-Key header to the POST /v1/payments endpoint to prevent duplicate charges when network retries occur.",
+  "expected_stages": [
+    "Requirements (User Story & Acceptance Criteria)",
+    "Contract Update (OpenAPI 3.1)",
+    "Implementation Planning & Task Breakdown",
+    "Test-Driven Implementation (TDD)",
+    "Verification & Completion Report"
+  ],
+  "expected_skills": [
+    "pm-user-story",
+    "api-and-interface-design",
+    "planning-and-task-breakdown",
+    "test-driven-development",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "feature-spec",
+      "canonical_path": "docs/features/payment-idempotency/spec.md",
+      "must_contain": ["US-01", "AC-01", "Given", "When", "Then"]
+    },
+    {
+      "alias": "contract-openapi",
+      "canonical_path": "contracts/openapi.yaml",
+      "must_contain": ["Idempotency-Key", "201", "409"]
+    },
+    {
+      "alias": "tasks",
+      "canonical_path": "docs/features/payment-idempotency/tasks.md",
+      "must_contain": ["[ ]", "Task 1"]
+    },
+    {
+      "alias": "completion-report",
+      "canonical_path": "docs/features/payment-idempotency/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "No code implementation before feature spec is accepted",
+    "Contract must be valid OpenAPI 3.1",
+    "All assertions backed by fresh test run exit codes"
+  ]
+}

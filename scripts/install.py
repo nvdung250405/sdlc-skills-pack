@@ -141,6 +141,23 @@ def render_agents_md(with_extras: bool, skill_root: str, asset_root: str) -> str
     return result.stdout
 
 
+def print_missing_optional_summary(sources: list[Path], args: argparse.Namespace, manifest_path: Path) -> None:
+    if manifest_path.is_file():
+        try:
+            skill_map_data = json.loads(manifest_path.read_text(encoding="utf-8"))
+            installed_names = {s.name for s in sources}
+            all_known = set(skill_map_data.get("core_skills", [])) | set(skill_map_data.get("extras", []))
+            missing_optional = sorted(all_known - installed_names)
+            if missing_optional:
+                active_profile = args.profile or ("full" if args.with_extras else "core")
+                print(f"Profile: '{active_profile}' ({len(installed_names)} skills selected).")
+                print(f"Optional extras not included ({len(missing_optional)} skills omitted):")
+                print(f"  {', '.join(missing_optional[:8])}{'...' if len(missing_optional) > 8 else ''}")
+                print("  (Tip: use `--profile full` or `--with-extras` to include all specialist skills)")
+        except Exception:
+            pass
+
+
 def install_agents_md(args: argparse.Namespace) -> int:
     target = (Path.cwd() / "AGENTS.md").resolve()
     skill_root = relative_to_project(args.dest, "skills")
@@ -216,7 +233,8 @@ def main() -> int:
     parser.add_argument("target", help="claude, codex, gemini, cursor, copilot, custom, or agents-md")
     parser.add_argument("--global", dest="global_scope", action="store_true", help="install into the configured user-level directory")
     parser.add_argument("--link", action="store_true", help="create symlinks instead of copying skill folders")
-    parser.add_argument("--with-extras", action="store_true", help="also install skills from extras/")
+    parser.add_argument("--profile", choices=["core", "core+web", "full"], default=None, help="installation profile: core (29 skills), core+web (36 skills), or full (63 skills)")
+    parser.add_argument("--with-extras", action="store_true", help="also install skills from extras/ (equivalent to --profile full)")
     parser.add_argument("--dest", help="skill install directory; for agents-md, path to installed skill folders")
     parser.add_argument("--asset-root", help="for agents-md, project-relative path to the pack copy containing workflows/ and templates/")
     parser.add_argument("--force", action="store_true", help="back up conflicting entries before replacing them")
@@ -241,7 +259,12 @@ def main() -> int:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 
-    problems = sync_problems(include_extras=args.with_extras)
+    if args.profile == "full":
+        args.with_extras = True
+    elif args.profile == "core":
+        args.with_extras = False
+
+    problems = sync_problems(include_extras=args.with_extras or args.profile == "core+web")
     if problems and not args.allow_partial:
         print("ERROR: the curated pack is not fully synchronized/verified.", file=sys.stderr)
         for problem in problems:
@@ -250,14 +273,34 @@ def main() -> int:
         print("Use --allow-partial only for testing the currently bundled subset.", file=sys.stderr)
         return 2
 
-    roots = [ROOT / "skills"]
-    if args.with_extras:
-        roots.append(ROOT / "extras")
-    sources: list[Path] = []
+    manifest_path = ROOT / "manifests" / "skill-map.json"
+    profiles_data: dict[str, list[str]] = {}
+    if manifest_path.is_file():
+        try:
+            profiles_data = json.loads(manifest_path.read_text(encoding="utf-8")).get("profiles", {})
+        except Exception:
+            profiles_data = {}
+
+    roots = [ROOT / "skills", ROOT / "extras"]
+    all_available: dict[str, Path] = {}
     for folder in roots:
-        if not folder.is_dir():
-            continue
-        sources.extend(sorted((p for p in folder.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()), key=lambda p: p.name.casefold()))
+        if folder.is_dir():
+            for p in folder.iterdir():
+                if p.is_dir() and (p / "SKILL.md").is_file():
+                    all_available[p.name] = p
+
+    sources: list[Path] = []
+    if args.profile and args.profile in profiles_data:
+        target_names = set(profiles_data[args.profile])
+        sources = [p for name, p in all_available.items() if name in target_names]
+    elif args.with_extras:
+        sources = list(all_available.values())
+    else:
+        # Default: core skills
+        core_names = set(profiles_data.get("core", [p.name for p in (ROOT / "skills").iterdir() if p.is_dir()]))
+        sources = [p for name, p in all_available.items() if name in core_names]
+
+    sources.sort(key=lambda p: p.name.casefold())
     if not sources:
         print("ERROR: no valid skills found.", file=sys.stderr)
         return 2
@@ -301,6 +344,7 @@ def main() -> int:
             verb = "link" if args.link else "copy"
             print(f"Would {verb}: {source.relative_to(ROOT)} -> {dest}")
         print(f"Unchanged skills: {len(sources) - len(actions)}; planned writes: {len(actions)}")
+        print_missing_optional_summary(sources, args, manifest_path)
         return 0
 
     dest_root.mkdir(parents=True, exist_ok=True)
@@ -386,6 +430,7 @@ def main() -> int:
         print("WARNING: partial install; unresolved pack issues:")
         for problem in problems:
             print(f"  - {problem}")
+    print_missing_optional_summary(sources, args, manifest_path)
     return 0
 
 

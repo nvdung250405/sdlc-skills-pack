@@ -1,0 +1,35 @@
+{
+  "id": "eval-bug-fix-01",
+  "name": "Remediate 500 Error on Unicode Emojis in Order Instructions",
+  "workflow": "workflows/bug-fix.md",
+  "task_description": "Fix bug where submitting an order with unicode emojis (e.g. 📦) in shipping instructions causes an uncaught database encoding error and HTTP 500 response.",
+  "expected_stages": [
+    "Reproduction & Root Cause Isolation",
+    "Regression Test Authoring (Failing Test)",
+    "Surgical Fix",
+    "Verification & Review"
+  ],
+  "expected_skills": [
+    "systematic-debugging",
+    "test-driven-development",
+    "incremental-implementation",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "task-handoff",
+      "canonical_path": ".agent/tasks/bug-fix-unicode-shipping.md",
+      "must_contain": ["Root Cause", "Reproduction Command", "Fix Strategy"]
+    },
+    {
+      "alias": "completion-report",
+      "canonical_path": "docs/features/bugfix-unicode-shipping/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "Do not guess root cause; write automated reproduction test first",
+    "Fix must be surgical and touch only necessary lines",
+    "Prove regression test transitions from RED to GREEN"
+  ]
+}

@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Test & Lint (${{ matrix.os }}, Py ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Strict Pack Linting
+        run: python scripts/lint_pack.py --strict
+
+      - name: Verify Router Bundled Assets Sync
+        run: python scripts/build_assets.py --check
+
+      - name: Validate Machine Contracts Syntax Gate
+        run: python scripts/verify_contracts.py
+
+      - name: Verify Golden Evaluation Fixtures
+        run: python scripts/run_evals.py
+
+      - name: Run Pack Unit & Transaction Tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Verify Clean Packaging
+        run: python scripts/package.py --skip-tests

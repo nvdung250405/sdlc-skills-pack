@@ -291,23 +291,27 @@ Quality is verified across four distinct dimensions:
 | **Code Implementation Gate** | Test-driven implementation and regression safety | Automated test suite execution | Test runner output & logs | Implemented |
 | **Pre-Completion Gate** | Evidence before completion assertion | `verification-before-completion` | Explicit commands and logs in report | Implemented |
 
-### 11.3 Evaluation Plan
-- Continuous linting and test execution in CI pipelines.
-- Regression testing on sample projects using golden task fixtures across supported runtimes.
+### 11.3 Evaluation Plan and Current Status
+- **Continuous Validation:** Strict linting (`scripts/lint_pack.py --strict`) and 19 unit test assertions (`tests/test_pack.py`) execute in local runs and GitHub Actions CI.
+- **Contract & Guardrail Verification:** Automated AST validation for all machine-readable contract fixtures (`scripts/verify_contracts.py`).
+- **Cross-Runtime Status:** Verified on Claude Code and Antigravity IDE (both validated for `lazy` loading). Golden task fixtures for third-party unknown-mode runtimes (Codex, Cursor, Copilot) are provided in `evals/` for community benchmarks.
 
 ---
 
 ## 12. Runtime and Integration
 
-The pack supports 6 target agent runtimes via configurations in [`adapters/agents.json`](../adapters/agents.json):
-- **Antigravity IDE & Antigravity CLI:** Project-level `.agents/skills` and global `~/.gemini/config/skills`.
-- **Claude Code:** Project-level `.claude/skills` and global `~/.claude/skills`.
-- **Cursor:** Project rules `.cursor/rules` and global instructions.
-- **GitHub Copilot:** Workspace instructions `.github/copilot-instructions.md`.
-- **Codex & OpenCode:** Compatible directory structures.
+The pack supports target agent runtimes configured in [`adapters/agents.json`](../adapters/agents.json):
+- **Antigravity IDE & Antigravity CLI:** Project-level `.agents/skills` and global `~/.gemini/config/skills` (`lazy` loading mode).
+- **Claude Code:** Project-level `.claude/skills` and global `~/.claude/skills` (`lazy` loading mode).
+- **Cursor:** Project-level `.cursor/skills` and global `~/.cursor/skills`.
+- **GitHub Copilot:** Project-level `.github/skills` and global `~/.copilot/skills`.
+- **Gemini CLI:** Project-level `.gemini/skills` and global `~/.gemini/skills`.
+- **Codex & OpenCode:** Project-level `.agents/skills` and `.opencode/skills`.
 
-### Fallback Behavior
-When an agent runtime does not support dynamic on-demand loading, the pack documents that all installed skills reside in the runtime discovery path, and instructs the agent to consult `using-sdlc-skills` to guide internal focus.
+### Fallback Behavior & Context Protection
+When installing into runtimes with `eager` or `unknown` loading mode, all installed skills may be ingested into prompt context at startup. For such targets:
+1. `scripts/install.py` defaults to the **Core profile** (29 skills) and emits a contextual notice advising against installing all 63 skills unless specifically needed.
+2. The agent is directed to consult `using-sdlc-skills` as an internal guide, and to offload heavy artifacts to disk rather than keeping them active in conversation memory.
 
 ---
 
@@ -361,6 +365,7 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 - The pack does **not** force every software task to produce all 32 artifacts or traverse all 16 stages.
 - The pack does **not** claim full automation where only documented manual engineering procedures exist.
 - The pack does **not** replace human approval for production releases, regulatory compliance, or sensitive security sign-offs.
+- **Native Mobile & ML Training Out of Scope:** The pack focuses on universal software engineering practices. Native mobile SDK tooling (Swift/Kotlin) and deep ML model training pipelines (PyTorch/MLOps) are non-goals; such projects leverage universal SDLC skills (TDD, contracts, architecture, git) alongside their platform tooling. See [`docs/skill-disambiguation.md`](skill-disambiguation.md) for domain boundaries and cluster disambiguation (Frontend, Web Testing, Architecture).
 
 ---
 
@@ -369,8 +374,8 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 | Capability / Component | Status | Evidence / Location | Known Limitations |
 |---|---|---|---|
 | **Practical Capability Matrix** | Implemented | [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md) | Dynamic catalog, not a runtime loader |
-| **Core Skills (26)** | Implemented | `skills/*/SKILL.md` | Verified against upstream commit SHAs |
-| **Extras Skills (37)** | Implemented | `extras/*/SKILL.md` | Verified against upstream commit SHAs |
+| **Core Skills (29)** | Implemented | `skills/*/SKILL.md` | Verified against upstream commit SHAs |
+| **Extras Skills (34)** | Implemented | `extras/*/SKILL.md` | Verified against upstream commit SHAs |
 | **Canonical Router** | Implemented | `skills/using-sdlc-skills/SKILL.md` | Exclusive pack router |
 | **Standardized Workflows (11)** | Implemented | `workflows/*.md` | Documented coordination procedures |
 | **Artifact Templates (32)** | Implemented | `templates/` (5 functional groups) | Canonical starter structures & executable contracts |

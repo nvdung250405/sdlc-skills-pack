@@ -1,0 +1,35 @@
+{
+  "id": "eval-refactoring-01",
+  "name": "Decompose Monolithic Tax Calculator into Deep Modules",
+  "workflow": "workflows/refactoring.md",
+  "task_description": "Decompose OrderTaxCalculator: extract jurisdictional rate lookup behind a narrow interface, preserving 100% existing test behavior without API changes for consumers.",
+  "expected_stages": [
+    "Characterization Test Baseline",
+    "Deep Module Seam Design",
+    "Incremental Micro-Refactoring",
+    "Regression Verification"
+  ],
+  "expected_skills": [
+    "codebase-design",
+    "code-simplification",
+    "test-driven-development",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "adr",
+      "canonical_path": "docs/adr/ADR-042-extract-tax-rate-provider.md",
+      "must_contain": ["Context", "Decision", "Consequences"]
+    },
+    {
+      "alias": "completion-report",
+      "canonical_path": "docs/features/refactor-tax-calculator/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "Run characterization tests before any code edit",
+    "Public API signature must remain identical",
+    "Run verification after every discrete micro-step"
+  ]
+}

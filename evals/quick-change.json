@@ -1,0 +1,29 @@
+{
+  "id": "eval-quick-change-01",
+  "name": "Increase Minimum Password Length to 12 Characters",
+  "workflow": "workflows/quick-change.md",
+  "task_description": "Update user registration password validator to enforce a minimum of 12 characters (up from 8), updating validation messages and unit test fixtures.",
+  "expected_stages": [
+    "Context Verification & Scope Check",
+    "Test Fixture Update",
+    "Incremental Code Update",
+    "Verification"
+  ],
+  "expected_skills": [
+    "incremental-implementation",
+    "test-driven-development",
+    "verification-before-completion"
+  ],
+  "expected_artifacts": [
+    {
+      "alias": "completion-report",
+      "canonical_path": "docs/features/password-length/completion-report.md",
+      "must_contain": ["Status", "Verification", "Limitations"]
+    }
+  ],
+  "invariants": [
+    "No unnecessary PRD, SRS, or heavy waterfall documentation",
+    "Update test assertions to match new threshold",
+    "Evidence-backed pass report"
+  ]
+}

@@ -1,6 +1,6 @@
 # Canonical Artifact & Template Contracts
 
-This reference document defines the complete mapping and ownership rules for the pack's **31 lean canonical artifact templates** across all 16 SDLC stages.
+This reference document defines the complete mapping and ownership rules for the pack's **32 lean canonical artifact templates** across all 16 SDLC stages.
 
 ---
 
