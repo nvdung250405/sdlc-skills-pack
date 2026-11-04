@@ -56,3 +56,4 @@ Before invoking an optional or specialist skill listed below:
 | Production incident | Follow `workflows/incident-response.md` first to mitigate/restore; only then use `systematic-debugging` for root cause and regression work. | `workflows/incident-response.md` | Fully supported in Core profile (`systematic-debugging`, `verification-before-completion`). |
 | Transfer between sessions/agents | Follow `workflows/agent-handoff-contract.md`: `task-handoff` first; use `using-git-worktrees` when an isolated workspace is appropriate; read linked authoritative files, not copied summaries alone. | `workflows/agent-handoff-contract.md` | Fully supported in Core profile. |
 | Finish a development branch | `verification-before-completion` → `code-review-and-quality` → `git-workflow-and-versioning`; follow repository merge/PR policy. | Any active workflow | Fully supported in Core profile. |
+

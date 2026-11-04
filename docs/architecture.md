@@ -112,9 +112,9 @@ User Request + Available Context (Repo, STACK.md, Prompts)
 | **Workflows** (`workflows/`) | Multi-step lifecycle coordination, handoffs, routing, and gates. | Task intent | Ordered execution plan | Skills, Contracts | Implemented (11 workflows) |
 | **Contracts & Templates** (`templates/`) | Canonical artifact structures, acceptance criteria, and scaffolds across 5 functional directories. | Domain requirements | Validated deliverables | Skills, Workflows | Implemented (32 templates) |
 | **Tools & Scripts** (`scripts/`) | Deterministic execution: linting, packaging, syncing, installing, bounded execution, and contract verification. | CLI args, manifest | Formatted files, exit codes | Python runtime, OS shell | Implemented |
-| **Adapters** (`adapters/`) | Agent runtime-specific configuration, directory mapping, and installation. | Generic pack | Target runtime assets | Host IDE / CLI environment | Implemented (6 runtimes) |
+| **Adapters** (`adapters/`) | Agent runtime-specific configuration, directory mapping, and installation. | Generic pack | Target runtime assets | Host IDE / CLI environment | Implemented (8 runtime targets) |
 | **Manifests & Registries** (`manifests/`) | Machine-readable provenance, lockfiles, content hashes, and skill maps. | Upstream configs | Verified package state | Repository files | Implemented |
-| **Evaluation & Tests** (`tests/`) | Static validation, sync transaction tests, contract assertions. | Pack files, mock repos | Test reports, CI exit codes | Python `unittest` | Implemented (17 unit tests) |
+| **Evaluation & Tests** (`tests/`) | Static validation, sync transaction tests, contract assertions. | Pack files, mock repos | Test reports, CI exit codes | Python `unittest` | Implemented (20 unit tests) |
 
 ### 4.2 Responsibility Boundaries
 
@@ -285,14 +285,14 @@ Quality is verified across four distinct dimensions:
 |---|---|---|---|---|
 | **Pack Structure & Frontmatter** | YAML frontmatter, valid links, no duplicate keys | `python scripts/lint_pack.py` | Linter stdout & exit code 0 | Implemented |
 | **Release & Provenance Integrity** | Pinned SHAs, license files, lockfile consistency | `python scripts/lint_pack.py --strict` | Strict linter report | Implemented |
-| **Unit & Transaction Tests** | Backup/force install, transactional sync safety, 32 scaffold aliases | `python -m unittest discover -s tests` | 17 test assertions passing | Implemented |
+| **Unit & Transaction Tests** | Backup/force install, transactional sync safety, 32 scaffold aliases | `python -m unittest discover -s tests` | 20 unit tests passing | Implemented |
 | **Unified Contract Gate** | Syntax & structure of OpenAPI, AsyncAPI, STOMP, Proto, GraphQL, JSON Schema, SQL | `python scripts/verify_contracts.py` | Automated syntax validation & exit code 0 | Implemented |
 | **Feature Spec Acceptance** | BDD Gherkin Given/When/Then scenarios | Template audit & manual review | `docs/features/<feature-id>/spec.md` | Implemented |
 | **Code Implementation Gate** | Test-driven implementation and regression safety | Automated test suite execution | Test runner output & logs | Implemented |
 | **Pre-Completion Gate** | Evidence before completion assertion | `verification-before-completion` | Explicit commands and logs in report | Implemented |
 
 ### 11.3 Evaluation Plan and Current Status
-- **Continuous Validation:** Strict linting (`scripts/lint_pack.py --strict`) and 19 unit test assertions (`tests/test_pack.py`) execute in local runs and GitHub Actions CI.
+- **Continuous Validation:** Strict linting (`scripts/lint_pack.py --strict`) and 20 unit tests (`tests/test_pack.py`) execute in local runs and GitHub Actions CI.
 - **Contract & Guardrail Verification:** Automated AST validation for all machine-readable contract fixtures (`scripts/verify_contracts.py`).
 - **Cross-Runtime Status:** Verified on Claude Code and Antigravity IDE (both validated for `lazy` loading). Golden task fixtures for third-party unknown-mode runtimes (Codex, Cursor, Copilot) are provided in `evals/` for community benchmarks.
 
@@ -301,7 +301,7 @@ Quality is verified across four distinct dimensions:
 ## 12. Runtime and Integration
 
 The pack supports target agent runtimes configured in [`adapters/agents.json`](../adapters/agents.json):
-- **Antigravity IDE & Antigravity CLI:** Project-level `.agents/skills` and global `~/.gemini/config/skills` (`lazy` loading mode).
+- **Antigravity IDE & Antigravity CLI:** Project-level `.agents/skills`, global `~/.gemini/config/skills` (IDE) and `~/.gemini/antigravity-cli/skills` (CLI) (`lazy` loading mode).
 - **Claude Code:** Project-level `.claude/skills` and global `~/.claude/skills` (`lazy` loading mode).
 - **Cursor:** Project-level `.cursor/skills` and global `~/.cursor/skills`.
 - **GitHub Copilot:** Project-level `.github/skills` and global `~/.copilot/skills`.
@@ -381,7 +381,7 @@ Use stable skill IDs. If an upstream skill is renamed or deprecated, update refe
 | **Artifact Templates (32)** | Implemented | `templates/` (5 functional groups) | Canonical starter structures & executable contracts |
 | **Bounded Context Runner** | Implemented | `scripts/bounded_run.py` | Head/tail truncated output, raw logs on disk |
 | **Unified Contract Gate** | Implemented | `scripts/verify_contracts.py` | Validates OpenAPI, AsyncAPI, STOMP, Proto, GraphQL, JSON Schema, SQL |
-| **Runtime Adapters (6)** | Implemented | `adapters/agents.json` | Path mappings for major agent environments |
+| **Runtime Adapters (8)** | Implemented | `adapters/agents.json` | Path mappings for major agent environments |
 | **Linter & Packaging Tools** | Implemented | `scripts/lint_pack.py`, `scripts/install.py` | Validated by unit tests |
 | **Upstream Sync Automation** | Implemented | `scripts/sync_upstream.py` | Transactional rollback verified |
 | **Automated Contract Testing** | Manual / Target | `extras/api-contract-testing` | Requires local mock/Pact runner setup |

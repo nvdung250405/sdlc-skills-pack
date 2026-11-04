@@ -93,14 +93,16 @@ def check_doc_metrics(errors: list[str]) -> None:
     tmpl_count = len([p for p in (ROOT / "templates").rglob("*") if p.is_file() and p.name != "README.md"])
 
     obsolete_patterns = [
-        (re.compile(r"\b26\s+Core\b", re.I), f"found obsolete '26 Core' (actual: {core_count} Core)"),
+        (re.compile(r"\b26\s+(?:[A-Za-z-]+\s+)?Core\b", re.I), f"found obsolete '26 Core' (actual: {core_count} Core)"),
         (re.compile(r"\bCore\s*\(26\b", re.I), f"found obsolete 'Core (26' (actual: Core ({core_count}))"),
-        (re.compile(r"\b37\s+Extras\b", re.I), f"found obsolete '37 Extras' (actual: {extras_count} Extras)"),
+        (re.compile(r"\b37\s+(?:[A-Za-z-]+\s+)?Extras\b", re.I), f"found obsolete '37 Extras' (actual: {extras_count} Extras)"),
         (re.compile(r"\bExtras\s*\(37\b", re.I), f"found obsolete 'Extras (37' (actual: Extras ({extras_count}))"),
         (re.compile(r"\b22\s+(?:canonical\s+)?(?:artifact\s+)?templates\b", re.I), f"found obsolete '22 templates' (actual: {tmpl_count} templates)"),
         (re.compile(r"\b22\s+deliverables\b", re.I), f"found obsolete '22 deliverables' (actual: {tmpl_count} deliverables)"),
         (re.compile(r"\btemplates\s*\(22\)", re.I), f"found obsolete 'templates (22)' (actual: templates ({tmpl_count}))"),
         (re.compile(r"--extras\b"), "found obsolete flag '--extras' (actual: '--with-extras')"),
+        (re.compile(r"\b(?:Runtime\s+Adapters|runtimes)\s*\(6\)", re.I), "found obsolete 'Adapters/runtimes (6)' (actual: 8 runtime targets)"),
+        (re.compile(r"\b(?:17|19)\s+(?:test\s+assertions|unit\s+tests?)\b", re.I), "found obsolete test count (actual: 20 unit tests)"),
     ]
 
     target_docs = [

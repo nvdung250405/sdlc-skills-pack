@@ -66,3 +66,4 @@ Auditing legacy code for architectural decay?       ──► improve-codebase-a
 3. **Stack Neutrality for Interface Contracts:**
    - Interface contracts must be machine-executable. While OpenAPI, AsyncAPI, STOMP, Protobuf, and GraphQL are standard canonical templates, teams may substitute other machine-readable IDLs (e.g. Cap'n Proto, Thrift, FlatBuffers).
    - Unstructured prose markdown (such as an ad-hoc `api.md`) is prohibited because it cannot be validated by automated schema parsers or contract test fixtures.
+

@@ -32,10 +32,10 @@ Task Intake ──► Discover & Select ──► Load & Scaffold ──► Exec
 | User-facing feature | `pm-product-spec` → `pm-user-story` → `pm-spec-quality-audit` → `planning-and-task-breakdown` → TDD/Implementation | `workflows/feature-loop.md` |
 | Small, clear change | Repository guidance → `incremental-implementation` → `test-driven-development` → `verification-before-completion` | `workflows/quick-change.md` |
 | Bug / unexpected behavior | `systematic-debugging` → reproduce → regression test → minimal fix → `verification-before-completion` | `workflows/bug-fix.md` |
-| Refactor / Cleanup | Characterization tests → `codebase-design` → `code-simplification` micro-steps → regression verification | `workflows/refactoring.md` |
+| Refactor / Cleanup | Characterization tests → `codebase-design` (if installed) → `code-simplification` micro-steps → regression verification | `workflows/refactoring.md` |
 | Incident / outage | Immediate mitigation → restore service → `systematic-debugging` root cause → regression test | `workflows/incident-response.md` |
 | Session / agent transfer | Update `.agent/tasks/<task-id>.md` via `task-handoff`; use `using-git-worktrees` if isolated worktree needed | `workflows/agent-handoff-contract.md` |
-| Deprecation / migration | 4-phase Expand/Contract zero-downtime transition using `database-design` and contract updates | `workflows/deprecation-and-migration.md` |
+| Deprecation / migration | 4-phase Expand/Contract zero-downtime transition using `database-design`, `deprecation-and-migration` (if installed), and contract updates | `workflows/deprecation-and-migration.md` |
 | Performance tuning | Baseline benchmark → bottleneck profiling → surgical fix with comparative verification | `workflows/performance-tuning.md` |
 | Dependency / CVE update | Audit advisory → worktree branch → bump manifest/lockfile → verify regressions | `workflows/dependency-upgrade.md` |
 | A/B experimentation | Metric hypothesis → telemetry schema → variant branch/flag → statistical verification | `workflows/experimentation-loop.md` |
