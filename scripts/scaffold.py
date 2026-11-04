@@ -14,16 +14,14 @@ ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT_MAP: dict[str, tuple[str, str]] = {
     # Discovery & Requirements (specs/)
     "brief": ("specs/opportunity-brief.md", "docs/discovery/{id}/opportunity-brief.md"),
-    "research": ("specs/research-synthesis.md", "docs/discovery/{id}/research-synthesis.md"),
     "prd": ("specs/PRD.md", "docs/prd.md"),
     "spec": ("specs/feature-spec.md", "docs/features/{id}/spec.md"),
     "srs": ("specs/SRS.md", "docs/specs/SRS.md"),
     "rtm": ("specs/RTM.md", "docs/specs/RTM.md"),
-    # Architecture & Design (specs/ & contracts/)
     "arch": ("specs/architecture-overview.md", "docs/architecture.md"),
     "adr": ("specs/ADR.md", "docs/adr/ADR-{id}-{slug}.md"),
     "design": ("specs/DDS.md", "docs/features/{id}/design.md"),
-    "tokens": ("specs/design-tokens.json", "design/tokens.json"),
+    # Machine-Executable Contracts (contracts/)
     "openapi": ("contracts/openapi.yaml", "contracts/openapi.yaml"),
     "asyncapi": ("contracts/asyncapi.yaml", "contracts/asyncapi.yaml"),
     "stomp": ("contracts/stomp-websocket.yaml", "contracts/stomp-websocket.yaml"),
@@ -36,25 +34,17 @@ ARTIFACT_MAP: dict[str, tuple[str, str]] = {
     "tasks": ("delivery/tasks.md", "docs/features/{id}/tasks.md"),
     "handoff": ("delivery/task-handoff.md", ".agent/tasks/{id}.md"),
     "acceptance": ("delivery/acceptance-report.md", "docs/features/{id}/acceptance-report.md"),
-    "benchmark": ("delivery/benchmark-report.md", "docs/features/{id}/benchmark-report.md"),
     "pr": ("delivery/pull-request.md", ".github/pull_request_template.md"),
     "release": ("delivery/release-notes.md", "docs/releases/v{id}.md"),
     "checklist": ("delivery/release-checklist.md", "docs/releases/release-checklist.md"),
     "deprecation": ("delivery/deprecation-notice.md", "docs/migrations/{id}-deprecation.md"),
     # Platform & Operations (platform/)
-    "ci": ("platform/ci-pipeline.yaml", ".github/workflows/ci.yaml"),
-    "devcontainer": ("platform/devcontainer.json", ".devcontainer/devcontainer.json"),
-    "pre-commit": ("platform/pre-commit-config.yaml", ".pre-commit-config.yaml"),
     "alert-rules": ("platform/alert-rules.yaml", "deploy/alerts/{id}-rules.yaml"),
     "runbook": ("platform/runbook.md", "docs/runbooks/{id}.md"),
     "postmortem": ("platform/incident-postmortem.md", "docs/incidents/{id}/postmortem.md"),
-    "env": ("platform/env.example", ".env.example"),
-    # Governance, Security, Learning & FinOps (governance/)
+    # Governance, Security & Measurement (governance/)
     "constitution": ("governance/constitution.md", "AGENTS.md"),
     "threat-model": ("governance/threat-model.md", "docs/security/threat-model-{id}.md"),
-    "security": ("governance/security-assessment.md", "docs/security/security-assessment-{id}.md"),
-    "model-card": ("governance/model-card.md", "docs/ai/model-card-{id}.md"),
-    "cost": ("governance/cost-attribution-report.md", "docs/finops/cost-report-{id}.md"),
     "tracking": ("governance/tracking-plan.md", "docs/analytics/tracking-plan.md"),
     "event-schema": ("governance/event-schema.json", "analytics/schemas/{id}-event.json"),
     "experiment": ("governance/experiment-brief.md", "docs/experiments/{id}.md"),

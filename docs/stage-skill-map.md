@@ -49,51 +49,41 @@ Mỗi tạo phẩm chuẩn hóa (canonical artifact) chỉ do một kỹ năng c
 - **Threat Model (`docs/security/threat-model-<system>.md`)**: Do `threat-model-analyst` sở hữu phân tích STRIDE-A và ranh giới tin cậy.
 - **Phân định Code Review vs. Spec Audit**: `code-review-and-quality` rà soát mã nguồn triển khai; `pm-spec-quality-audit` rà soát ngữ nghĩa tài liệu spec/PRD (hai năng lực bổ trợ, không thay thế nhau).
 
-### Bảng Ánh xạ Khế ước Tạo phẩm (Artifact Contract Mapping)
+### Bảng Ánh xạ Khế ước Tạo phẩm Tinh gọn (31 Lean Canonical Artifacts)
 
 | Stage | Expected Artifact | Starter Template | Native Format | Canonical Destination Path | Primary Owner Skill |
 |---|---|---|---|---|---|
-| **Discovery** | Opportunity brief & hypothesis | `templates/opportunity-brief.md` | `.md` | `docs/discovery/[initiative]/opportunity-brief.md` | `interview-me`, `idea-refine` |
-| **Discovery** | Customer & market research synthesis | `templates/research-synthesis.md` | `.md` | `docs/discovery/[initiative]/research-synthesis.md` | `customer-research` |
-| **Requirements** | Product Requirements Document | `templates/PRD.md` | `.md` | `docs/prd.md` | `pm-product-spec` |
-| **Requirements** | Feature Specification (Stories & AC) | `templates/feature-spec.md` | `.md` | `docs/features/<feature-id>/spec.md` | `spec-driven-development`, `pm-user-story` |
-| **Requirements** | Formal System Requirements (SRS) | `templates/SRS.md` | `.md` | `docs/specs/SRS.md` | `requirements-engineering` |
-| **Requirements** | Requirements Traceability Matrix (RTM) | `templates/RTM.md` | `.md` | `docs/specs/RTM.md` | `requirements-engineering` |
-| **Architecture** | System Architecture Overview | `templates/architecture-overview.md` | `.md` | `docs/architecture.md` | `software-architecture` |
-| **Architecture** | Architecture Decision Record | `templates/ADR.md` | `.md` | `docs/adr/ADR-NNN-[slug].md` | `documentation-and-adrs` |
-| **Architecture** | Detailed Design Specification | `templates/DDS.md` | `.md` | `docs/features/<feature-id>/design.md` | `software-architecture`, `codebase-design` |
-| **Architecture** | REST API Executable Contract | `templates/openapi.yaml` | `.yaml` | `contracts/openapi.yaml` | `api-and-interface-design` |
-| **Architecture** | Event-Driven Messaging Contract | `templates/asyncapi.yaml` | `.yaml` | `contracts/asyncapi.yaml` | `api-and-interface-design` |
-| **Architecture** | Realtime & WebSocket Protocol Contract | `templates/stomp-websocket.yaml` | `.yaml` | `contracts/stomp-websocket.yaml` | `api-and-interface-design` |
-| **Architecture** | Microservices RPC Interface Contract | `templates/service.proto` | `.proto` | `contracts/service.proto` | `api-and-interface-design` |
-| **Architecture** | Query Interface Contract (GraphQL) | `templates/schema.graphql` | `.graphql` | `contracts/schema.graphql` | `api-and-interface-design` |
-| **Architecture** | Domain Data Model Contract (JSON Schema) | `templates/data-contract.json` | `.json` | `contracts/data-contract.json` | `domain-modeling`, `database-design` |
-| **Architecture** | UI Component Design Tokens | `templates/design-tokens.json` | `.json` | `design/tokens.json` | `frontend-design` |
-| **Planning** | Technical Plan & Strategy | `templates/plan.md` | `.md` | `docs/features/<feature-id>/plan.md` | `spec-driven-development`, `planning-and-task-breakdown` |
-| **Planning** | Authoritative Task Breakdown | `templates/tasks.md` | `.md` | `docs/features/<feature-id>/tasks.md` | `planning-and-task-breakdown` |
-| **Planning** | Task Session & Role Handoff | `templates/task-handoff.md` | `.md` | `.agent/tasks/<task-id>.md` | `task-handoff` |
-| **Implementation**| Database Migration DDL | `templates/migration.sql` | `.sql` | `migrations/[timestamp]_[id].sql` | `database-design` |
-| **Implementation**| Environment & Feature Flags Configuration | `templates/env.example` | `dotenv` | `.env.example` | `incremental-implementation`, `secrets-management` |
-| **Verification** | Acceptance & Verification Report | `templates/acceptance-report.md` | `.md` | `docs/features/<feature-id>/acceptance-report.md` | `verification-before-completion` |
-| **Verification** | Performance & Accessibility Benchmark Report | `templates/benchmark-report.md` | `.md` | `docs/features/<feature-id>/benchmark-report.md` | `k6-load-testing`, `screen-reader-testing` |
-| **Review** | Pull Request Description & Review | `templates/pull-request.md` | `.md` | `.github/pull_request_template.md` (hoặc PR body) | `code-review-and-quality` |
-| **Release** | Release Notes & Changelog | `templates/release-notes.md` | `.md` | `docs/releases/v[X.Y.Z].md` | `shipping-and-launch` |
-| **Release** | Release Readiness Gate | `templates/release-checklist.md` | `.md` | `docs/releases/release-checklist.md` | `shipping-and-launch` |
-| **Release** | CI/CD Pipeline Automation | `templates/ci-pipeline.yaml` | `.yaml` | `.github/workflows/ci.yaml` | `ci-cd-and-automation` |
-| **Operations** | Incident Postmortem | `templates/incident-postmortem.md` | `.md` | `docs/incidents/[YYYYMMDD-slug]/postmortem.md` | `observability-and-instrumentation` |
-| **Operations** | Operational Runbook | `templates/runbook.md` | `.md` | `docs/runbooks/[service-name].md` | `observability-and-instrumentation` |
-| **Operations** | Observability Alert Rules & SLOs | `templates/alert-rules.yaml` | `.yaml` | `deploy/alerts/[service]-rules.yaml` | `observability-and-instrumentation`, `service-mesh-observability` |
-| **Evolution** | Deprecation Notice & Migration | `templates/deprecation-notice.md` | `.md` | `docs/migrations/[slug]-deprecation.md` | `deprecation-and-migration` |
-| **Learning** | Growth Experiment Brief | `templates/experiment-brief.md` | `.md` | `docs/experiments/[exp-id]-[slug].md` | `ab-testing` |
-| **Learning** | Event Tracking Plan & Schemas | `templates/tracking-plan.md` | `.md` | `docs/analytics/tracking-plan.md` | `analytics` |
-| **Learning** | Product Telemetry Event Schema | `templates/event-schema.json` | `.json` | `analytics/schemas/[event].json` | `analytics` |
-| **Security** | STRIDE-A Threat Model | `templates/threat-model.md` | `.md` | `docs/security/threat-model-[system].md` | `threat-model-analyst` |
-| **Security** | Security Assessment & Remediation Record | `templates/security-assessment.md` | `.md` | `docs/security/security-assessment-[id].md` | `security-and-hardening`, `secrets-management` |
-| **Platform** | DevContainer Development Environment | `templates/devcontainer.json` | `.json` | `.devcontainer/devcontainer.json` | `setup-pre-commit` |
-| **Platform** | Git Pre-commit Hygiene Configuration | `templates/pre-commit-config.yaml` | `.yaml` | `.pre-commit-config.yaml` | `setup-pre-commit`, `git-guardrails-claude-code` |
-| **Governance** | Engineering Constitution & Rules | `templates/constitution.md` | `.md` | `AGENTS.md` / `CLAUDE.md` / `.agent/constitution.md` | `writing-for-agents`, `context-engineering` |
-| **Governance** | AI Model Card & Governance Audit | `templates/model-card.md` | `.md` | `docs/ai/model-card-[id].md` | `using-sdlc-skills`, `context-engineering` |
-| **Cost** | Infrastructure & Model Cost Attribution Report | `templates/cost-attribution-report.md` | `.md` | `docs/finops/cost-report-[period].md` | `cost-optimization` |
+| **Discovery** | Opportunity brief & VoC evidence | `templates/specs/opportunity-brief.md` | `.md` | `docs/discovery/[initiative]/opportunity-brief.md` | `interview-me`, `idea-refine`, `customer-research` |
+| **Requirements** | Product Requirements Document | `templates/specs/PRD.md` | `.md` | `docs/prd.md` | `pm-product-spec` |
+| **Requirements** | Feature Specification (Stories & AC) | `templates/specs/feature-spec.md` | `.md` | `docs/features/<feature-id>/spec.md` | `spec-driven-development`, `pm-user-story` |
+| **Requirements** | Formal System Requirements (SRS) | `templates/specs/SRS.md` | `.md` | `docs/specs/SRS.md` | `requirements-engineering` |
+| **Requirements** | Requirements Traceability Matrix (RTM) | `templates/specs/RTM.md` | `.md` | `docs/specs/RTM.md` | `requirements-engineering` |
+| **Architecture** | System Architecture Overview | `templates/specs/architecture-overview.md` | `.md` | `docs/architecture.md` | `software-architecture` |
+| **Architecture** | Architecture Decision Record | `templates/specs/ADR.md` | `.md` | `docs/adr/ADR-NNN-[slug].md` | `documentation-and-adrs` |
+| **Architecture** | Detailed Design Specification | `templates/specs/DDS.md` | `.md` | `docs/features/<feature-id>/design.md` | `software-architecture`, `codebase-design` |
+| **Architecture** | REST API Executable Contract | `templates/contracts/openapi.yaml` | `.yaml` | `contracts/openapi.yaml` | `api-and-interface-design` |
+| **Architecture** | Event-Driven Messaging Contract | `templates/contracts/asyncapi.yaml` | `.yaml` | `contracts/asyncapi.yaml` | `api-and-interface-design` |
+| **Architecture** | Realtime & WebSocket Protocol Contract | `templates/contracts/stomp-websocket.yaml` | `.yaml` | `contracts/stomp-websocket.yaml` | `api-and-interface-design` |
+| **Architecture** | Microservices RPC Interface Contract | `templates/contracts/service.proto` | `.proto` | `contracts/service.proto` | `api-and-interface-design` |
+| **Architecture** | Query Interface Contract (GraphQL) | `templates/contracts/schema.graphql` | `.graphql` | `contracts/schema.graphql` | `api-and-interface-design` |
+| **Architecture** | Domain Data Model Contract (JSON Schema) | `templates/contracts/data-contract.json` | `.json` | `contracts/data-contract.json` | `domain-modeling`, `database-design` |
+| **Architecture** | Database Migration DDL | `templates/contracts/migration.sql` | `.sql` | `migrations/[timestamp]_[id].sql` | `database-design` |
+| **Planning** | Technical Plan & Strategy | `templates/delivery/plan.md` | `.md` | `docs/features/<feature-id>/plan.md` | `spec-driven-development` |
+| **Planning** | Authoritative Task Breakdown | `templates/delivery/tasks.md` | `.md` | `docs/features/<feature-id>/tasks.md` | `planning-and-task-breakdown` |
+| **Planning** | Task Session & Role Handoff | `templates/delivery/task-handoff.md` | `.md` | `.agent/tasks/<task-id>.md` | `task-handoff` |
+| **Verification** | Consolidated Acceptance & Verification | `templates/delivery/acceptance-report.md` | `.md` | `docs/features/<feature-id>/acceptance-report.md` | `verification-before-completion` |
+| **Review** | Pull Request Description & Review | `templates/delivery/pull-request.md` | `.md` | `.github/pull_request_template.md` (hoặc PR body) | `code-review-and-quality` |
+| **Release** | Release Notes & Changelog | `templates/delivery/release-notes.md` | `.md` | `docs/releases/v[X.Y.Z].md` | `shipping-and-launch` |
+| **Release** | Release Readiness Gate | `templates/delivery/release-checklist.md` | `.md` | `docs/releases/release-checklist.md` | `shipping-and-launch` |
+| **Operations** | Incident Postmortem | `templates/platform/incident-postmortem.md` | `.md` | `docs/incidents/[YYYYMMDD-slug]/postmortem.md` | `observability-and-instrumentation` |
+| **Operations** | Operational Runbook | `templates/platform/runbook.md` | `.md` | `docs/runbooks/[service-name].md` | `observability-and-instrumentation` |
+| **Operations** | Observability Alert Rules & SLOs | `templates/platform/alert-rules.yaml` | `.yaml` | `deploy/alerts/[service]-rules.yaml` | `observability-and-instrumentation`, `service-mesh-observability` |
+| **Evolution** | Deprecation Notice & Migration | `templates/delivery/deprecation-notice.md` | `.md` | `docs/migrations/[slug]-deprecation.md` | `deprecation-and-migration` |
+| **Learning** | Growth Experiment Brief | `templates/governance/experiment-brief.md` | `.md` | `docs/experiments/[exp-id]-[slug].md` | `ab-testing` |
+| **Learning** | Event Tracking Plan & Schemas | `templates/governance/tracking-plan.md` | `.md` | `docs/analytics/tracking-plan.md` | `analytics` |
+| **Learning** | Product Telemetry Event Schema | `templates/governance/event-schema.json` | `.json` | `analytics/schemas/[event].json` | `analytics` |
+| **Security** | STRIDE-A Threat Model | `templates/governance/threat-model.md` | `.md` | `docs/security/threat-model-[system].md` | `threat-model-analyst` |
+| **Governance** | Engineering Constitution & Rules | `templates/governance/constitution.md` | `.md` | `AGENTS.md` / `CLAUDE.md` / `.agent/constitution.md` | `writing-for-agents`, `context-engineering` |
 
 ---
 

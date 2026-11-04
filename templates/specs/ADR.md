@@ -46,6 +46,7 @@
 - **Negative Impacts & Trade-offs:** [What compromises or complexities are accepted?]
 - **Security & Reliability Implications:** [Impact on trust boundaries, failover, backup]
 - **Operational & Migration Implications:** [Changes to tooling, deployment, team training]
+- **Cost & Financial Governance (FinOps):** [Estimated infrastructure/cloud spend impact, token budgeting considerations]
 
 ---
 
@@ -56,6 +57,5 @@
 ### ADR Review Gate
 - [ ] Context clearly states the problem without biasing toward a pre-selected solution
 - [ ] At least two realistic options were evaluated with objective trade-offs
-- [ ] Consequences (positive, negative, operational) are fully articulated
+- [ ] Consequences (positive, negative, operational, and cost) are fully articulated
 - [ ] Decision recorded and approved by architectural stakeholders
-- **Approved by:** [Stakeholder / Tech Lead / Date]

@@ -217,33 +217,29 @@ def main() -> int:
         "workflows/incident-response.md", "workflows/refactoring.md",
         "workflows/performance-tuning.md", "workflows/dependency-upgrade.md",
         "workflows/deprecation-and-migration.md", "workflows/experimentation-loop.md",
-        # 41 Canonical Artifact Templates across 5 Functional Groups
-        # specs/
-        "templates/specs/opportunity-brief.md", "templates/specs/research-synthesis.md",
-        "templates/specs/PRD.md", "templates/specs/feature-spec.md", "templates/specs/SRS.md",
+        # 31 Lean Canonical Artifact Templates across 5 Functional Groups
+        # specs/ (8)
+        "templates/specs/opportunity-brief.md", "templates/specs/PRD.md",
+        "templates/specs/feature-spec.md", "templates/specs/SRS.md",
         "templates/specs/RTM.md", "templates/specs/architecture-overview.md",
-        "templates/specs/ADR.md", "templates/specs/DDS.md", "templates/specs/design-tokens.json",
-        # contracts/
+        "templates/specs/ADR.md", "templates/specs/DDS.md",
+        # contracts/ (7)
         "templates/contracts/openapi.yaml", "templates/contracts/asyncapi.yaml",
         "templates/contracts/stomp-websocket.yaml", "templates/contracts/service.proto",
         "templates/contracts/schema.graphql", "templates/contracts/data-contract.json",
         "templates/contracts/migration.sql",
-        # delivery/
+        # delivery/ (8)
         "templates/delivery/plan.md", "templates/delivery/tasks.md",
         "templates/delivery/task-handoff.md", "templates/delivery/acceptance-report.md",
-        "templates/delivery/benchmark-report.md", "templates/delivery/pull-request.md",
-        "templates/delivery/release-notes.md", "templates/delivery/release-checklist.md",
-        "templates/delivery/deprecation-notice.md",
-        # platform/
-        "templates/platform/ci-pipeline.yaml", "templates/platform/devcontainer.json",
-        "templates/platform/pre-commit-config.yaml", "templates/platform/alert-rules.yaml",
-        "templates/platform/runbook.md", "templates/platform/incident-postmortem.md",
-        "templates/platform/env.example",
-        # governance/
+        "templates/delivery/pull-request.md", "templates/delivery/release-notes.md",
+        "templates/delivery/release-checklist.md", "templates/delivery/deprecation-notice.md",
+        # platform/ (3)
+        "templates/platform/alert-rules.yaml", "templates/platform/runbook.md",
+        "templates/platform/incident-postmortem.md",
+        # governance/ (5)
         "templates/governance/constitution.md", "templates/governance/threat-model.md",
-        "templates/governance/security-assessment.md", "templates/governance/model-card.md",
-        "templates/governance/cost-attribution-report.md", "templates/governance/tracking-plan.md",
-        "templates/governance/event-schema.json", "templates/governance/experiment-brief.md",
+        "templates/governance/tracking-plan.md", "templates/governance/event-schema.json",
+        "templates/governance/experiment-brief.md",
         # Pack-owned assets
         "skills/task-handoff/assets/task-template.md",
     ]
