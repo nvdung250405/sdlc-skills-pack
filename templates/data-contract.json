@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.example.com/schemas/domain-entity.json",
+  "title": "DomainEntityContract",
+  "description": "Canonical machine-executable data contract for core domain entities. Adheres to Stage 3 Architecture interface standards.",
+  "type": "object",
+  "required": [
+    "entityId",
+    "tenantId",
+    "name",
+    "status",
+    "schemaVersion",
+    "audit"
+  ],
+  "properties": {
+    "entityId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Globally unique identifier for the entity instance."
+    },
+    "tenantId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Multi-tenant partition identifier."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Human-readable resource name."
+    },
+    "description": {
+      "type": ["string", "null"],
+      "maxLength": 2000,
+      "description": "Optional textual notes or context."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "suspended", "archived"],
+      "default": "draft",
+      "description": "Lifecycle state of the domain entity."
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonically increasing version number for data contract evolution."
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Structured domain-specific attributes.",
+      "additionalProperties": true
+    },
+    "audit": {
+      "type": "object",
+      "required": ["createdAt", "createdBy", "updatedAt", "updatedBy"],
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

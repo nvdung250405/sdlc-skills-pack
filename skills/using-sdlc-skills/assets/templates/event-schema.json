@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://analytics.example.com/schemas/telemetry-event.json",
+  "title": "TelemetryEventSchema",
+  "description": "Canonical schema validating analytics and product telemetry tracking payloads before ingestion.",
+  "type": "object",
+  "required": [
+    "eventId",
+    "eventName",
+    "userId",
+    "timestamp",
+    "sessionId",
+    "platform",
+    "properties"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique deduplication ID for the tracked event occurrence."
+    },
+    "eventName": {
+      "type": "string",
+      "pattern": "^[a-z]+_[a-z0-9_]+$",
+      "description": "Taxonomy compliant event name formatted in snake_case (e.g. checkout_completed, button_clicked).",
+      "example": "cta_button_clicked"
+    },
+    "userId": {
+      "type": ["string", "null"],
+      "description": "Authenticated user identifier or null for anonymous visitors."
+    },
+    "anonymousId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Persistent device or client fingerprint."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of client-side occurrence."
+    },
+    "sessionId": {
+      "type": "string",
+      "description": "Active session token."
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["web", "ios", "android", "backend"],
+      "description": "Originating runtime platform."
+    },
+    "properties": {
+      "type": "object",
+      "description": "Contextual dimensions and telemetry metrics specific to this event action.",
+      "required": ["componentId"],
+      "properties": {
+        "componentId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

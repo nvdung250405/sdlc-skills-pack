@@ -1,0 +1,91 @@
+// ==============================================================================
+// Canonical Artifact Template: Microservices RPC Contract (Protocol Buffers v3)
+// Stage: 3. Architecture & System Design
+// Primary Owner Skill: api-and-interface-design
+// Purpose: Machine-executable contract for gRPC binary RPC services and serialized data models.
+// Verification Gate: buf lint <path> (or protoc --proto_path=. --lint)
+// ==============================================================================
+
+syntax = "proto3";
+
+package example.service.v1;
+
+option go_package = "example/service/v1;servicev1";
+option java_multiple_files = true;
+option java_package = "com.example.service.v1";
+
+// Primary domain service definition
+service ResourceService {
+  // Unary RPC: Retrieve a single resource by its identifier
+  rpc GetResource (GetResourceRequest) returns (GetResourceResponse);
+
+  // Unary RPC: Create a new resource entity
+  rpc CreateResource (CreateResourceRequest) returns (CreateResourceResponse);
+
+  // Server Streaming RPC: Stream resource update events in real-time
+  rpc StreamResourceUpdates (StreamResourceUpdatesRequest) returns (stream ResourceUpdateEvent);
+
+  // Unary RPC: Idempotent removal of a resource
+  rpc DeleteResource (DeleteResourceRequest) returns (DeleteResourceResponse);
+}
+
+// -----------------------------------------------------------------------------
+// Request & Response Messages
+// -----------------------------------------------------------------------------
+
+message GetResourceRequest {
+  string id = 1; // Unique resource UUID (Required)
+}
+
+message GetResourceResponse {
+  Resource resource = 1;
+}
+
+message CreateResourceRequest {
+  string name = 1;               // Resource display name (Required)
+  optional string description = 2; // Optional long description
+  ResourceStatus initial_status = 3;
+}
+
+message CreateResourceResponse {
+  Resource resource = 1;
+}
+
+message StreamResourceUpdatesRequest {
+  string resource_id = 1;
+}
+
+message ResourceUpdateEvent {
+  string resource_id = 1;
+  string field_changed = 2;
+  int64 timestamp_epoch_ms = 3;
+}
+
+message DeleteResourceRequest {
+  string id = 1;
+}
+
+message DeleteResourceResponse {
+  bool success = 1;
+}
+
+// -----------------------------------------------------------------------------
+// Core Domain Models & Enumerations
+// -----------------------------------------------------------------------------
+
+enum ResourceStatus {
+  RESOURCE_STATUS_UNSPECIFIED = 0;
+  RESOURCE_STATUS_DRAFT = 1;
+  RESOURCE_STATUS_ACTIVE = 2;
+  RESOURCE_STATUS_ARCHIVED = 3;
+}
+
+message Resource {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  ResourceStatus status = 4;
+  int64 created_at_epoch_ms = 5;
+  int64 updated_at_epoch_ms = 6;
+  map<string, string> metadata = 7;
+}

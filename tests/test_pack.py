@@ -97,9 +97,9 @@ class PackStaticTests(unittest.TestCase):
         for marker in ("Given:", "When:", "Then:"):
             self.assertIn(marker, template)
 
-    def test_all_11_workflows_and_22_templates_exist_and_have_standard_headers(self) -> None:
+    def test_all_11_workflows_and_templates_exist_and_have_standard_headers(self) -> None:
         templates = sorted([p for p in (ROOT / "templates").glob("*.md") if p.name != "README.md"])
-        self.assertEqual(len(templates), 22, f"Expected 22 templates, found {len(templates)}")
+        self.assertEqual(len(templates), 27, f"Expected 27 markdown templates, found {len(templates)}")
         for t in templates:
             text = t.read_text(encoding="utf-8")
             self.assertIn("> **Document type:** Canonical Artifact Contract", text, f"{t.name} missing header")
@@ -112,8 +112,8 @@ class PackStaticTests(unittest.TestCase):
 
     def test_router_bundled_assets_are_in_sync_with_root(self) -> None:
         router_tmpl_dir = ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates"
-        for t in (ROOT / "templates").glob("*.md"):
-            if t.name != "README.md":
+        for t in (ROOT / "templates").iterdir():
+            if t.is_file() and t.name != "README.md":
                 bundled = router_tmpl_dir / t.name
                 self.assertTrue(bundled.is_file(), f"Missing bundled template {t.name}")
                 self.assertEqual(t.read_bytes(), bundled.read_bytes(), f"Bundled template {t.name} out of sync")
@@ -124,9 +124,9 @@ class PackStaticTests(unittest.TestCase):
             self.assertTrue(bundled.is_file(), f"Missing bundled workflow {w.name}")
             self.assertEqual(w.read_bytes(), bundled.read_bytes(), f"Bundled workflow {w.name} out of sync")
 
-    def test_scaffold_all_22_artifact_aliases(self) -> None:
+    def test_scaffold_all_41_artifact_aliases(self) -> None:
         from scripts.scaffold import ARTIFACT_MAP
-        self.assertEqual(len(ARTIFACT_MAP), 22)
+        self.assertEqual(len(ARTIFACT_MAP), 41)
         with tempfile.TemporaryDirectory() as temp:
             dest_dir = Path(temp)
             for alias, (tmpl_file, dest_pattern) in ARTIFACT_MAP.items():
@@ -135,7 +135,10 @@ class PackStaticTests(unittest.TestCase):
                 self.assertEqual(res.returncode, 0, f"Scaffold failed for {alias}: {res.stderr}")
                 self.assertTrue(target.is_file(), f"Target file was not created for {alias}")
                 content = target.read_text(encoding="utf-8")
-                self.assertIn("> **Document type:** Canonical Artifact Contract", content)
+                if tmpl_file.endswith(".md"):
+                    self.assertIn("> **Document type:** Canonical Artifact Contract", content, f"{alias} missing contract header")
+                else:
+                    self.assertGreater(len(content), 10, f"{alias} file is empty or too short")
 
     def test_installer_requires_verified_pack_unless_partial_is_allowed(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

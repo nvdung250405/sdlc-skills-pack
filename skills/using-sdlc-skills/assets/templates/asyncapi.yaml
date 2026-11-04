@@ -1,0 +1,150 @@
+# ==============================================================================
+# Canonical Artifact Template: Event-Driven Messaging Contract (AsyncAPI 3.0)
+# Stage: 3. Architecture & System Design
+# Primary Owner Skill: api-and-interface-design
+# Purpose: Machine-executable contract for event-driven / message queues (Kafka, RabbitMQ, SQS, CloudEvents).
+# Verification Gate: npx @asyncapi/cli validate <path>
+# ==============================================================================
+
+asyncapi: "3.0.0"
+info:
+  title: "[SERVICE_NAME] Event Interface"
+  version: "1.0.0"
+  description: |
+    Authoritative event-driven messaging contract defining channels, publishers, subscribers,
+    and event payload schemas. Supports event decoupling and contract testing.
+  contact:
+    name: "[TEAM_OR_OWNER]"
+    email: "team@example.com"
+
+defaultContentType: "application/json"
+
+servers:
+  productionBroker:
+    host: "kafka.prod.example.com:9092"
+    protocol: "kafka"
+    description: "Production Kafka Cluster"
+  stagingBroker:
+    host: "kafka.staging.example.com:9092"
+    protocol: "kafka"
+    description: "Staging Kafka Cluster"
+
+channels:
+  domainEvents:
+    address: "[service].[domain].events.v1"
+    description: "Core domain lifecycle broadcast stream"
+    messages:
+      resourceCreatedMessage:
+        $ref: "#/components/messages/ResourceCreated"
+      resourceUpdatedMessage:
+        $ref: "#/components/messages/ResourceUpdated"
+
+operations:
+  publishResourceEvents:
+    action: "send"
+    channel:
+      $ref: "#/channels/domainEvents"
+    summary: "Publish domain lifecycle events"
+    messages:
+      - $ref: "#/components/messages/ResourceCreated"
+      - $ref: "#/components/messages/ResourceUpdated"
+
+  subscribeResourceEvents:
+    action: "receive"
+    channel:
+      $ref: "#/channels/domainEvents"
+    summary: "Consume domain lifecycle events"
+    messages:
+      - $ref: "#/components/messages/ResourceCreated"
+      - $ref: "#/components/messages/ResourceUpdated"
+
+components:
+  messages:
+    ResourceCreated:
+      name: "ResourceCreated"
+      title: "Resource Created Event"
+      summary: "Emitted immediately when a new resource entity is committed."
+      contentType: "application/json"
+      traits:
+        - $ref: "#/components/messageTraits/CloudEventsHeaders"
+      payload:
+        $ref: "#/components/schemas/ResourceCreatedPayload"
+
+    ResourceUpdated:
+      name: "ResourceUpdated"
+      title: "Resource Updated Event"
+      summary: "Emitted when an existing resource entity is modified."
+      contentType: "application/json"
+      traits:
+        - $ref: "#/components/messageTraits/CloudEventsHeaders"
+      payload:
+        $ref: "#/components/schemas/ResourceUpdatedPayload"
+
+  messageTraits:
+    CloudEventsHeaders:
+      headers:
+        type: "object"
+        required:
+          - "ce_id"
+          - "ce_source"
+          - "ce_specversion"
+          - "ce_type"
+          - "ce_time"
+        properties:
+          ce_id:
+            type: "string"
+            format: "uuid"
+            description: "Unique event identifier"
+          ce_source:
+            type: "string"
+            format: "uri"
+            description: "Context URI of the emitting producer"
+          ce_specversion:
+            type: "string"
+            const: "1.0"
+          ce_type:
+            type: "string"
+            description: "Event type identifier (e.g. com.example.resource.created)"
+          ce_time:
+            type: "string"
+            format: "date-time"
+            description: "Timestamp when the event occurred"
+
+  schemas:
+    ResourceCreatedPayload:
+      type: "object"
+      required:
+        - "resourceId"
+        - "name"
+        - "occurredAt"
+      properties:
+        resourceId:
+          type: "string"
+          format: "uuid"
+        name:
+          type: "string"
+          minLength: 1
+        occurredAt:
+          type: "string"
+          format: "date-time"
+        metadata:
+          type: "object"
+          additionalProperties: true
+
+    ResourceUpdatedPayload:
+      type: "object"
+      required:
+        - "resourceId"
+        - "updatedFields"
+        - "occurredAt"
+      properties:
+        resourceId:
+          type: "string"
+          format: "uuid"
+        updatedFields:
+          type: "array"
+          items:
+            type: "string"
+        occurredAt:
+          type: "string"
+          format: "date-time"

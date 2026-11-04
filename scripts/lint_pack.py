@@ -217,7 +217,7 @@ def main() -> int:
         "workflows/incident-response.md", "workflows/refactoring.md",
         "workflows/performance-tuning.md", "workflows/dependency-upgrade.md",
         "workflows/deprecation-and-migration.md", "workflows/experimentation-loop.md",
-        # 22 Canonical Artifact Templates
+        # 41 Canonical Artifact Templates
         "templates/constitution.md", "templates/feature-spec.md", "templates/SRS.md",
         "templates/DDS.md", "templates/ADR.md", "templates/RTM.md", "templates/plan.md",
         "templates/tasks.md", "templates/acceptance-report.md", "templates/release-checklist.md",
@@ -226,6 +226,14 @@ def main() -> int:
         "templates/opportunity-brief.md", "templates/PRD.md", "templates/pull-request.md",
         "templates/release-notes.md", "templates/runbook.md", "templates/task-handoff.md",
         "templates/threat-model.md", "templates/tracking-plan.md",
+        # New Matrix Canonical Artifacts
+        "templates/research-synthesis.md", "templates/openapi.yaml", "templates/asyncapi.yaml",
+        "templates/stomp-websocket.yaml", "templates/service.proto", "templates/schema.graphql",
+        "templates/data-contract.json", "templates/design-tokens.json", "templates/migration.sql",
+        "templates/env.example", "templates/benchmark-report.md", "templates/ci-pipeline.yaml",
+        "templates/alert-rules.yaml", "templates/event-schema.json", "templates/security-assessment.md",
+        "templates/devcontainer.json", "templates/pre-commit-config.yaml", "templates/model-card.md",
+        "templates/cost-attribution-report.md",
         # Pack-owned assets
         "skills/task-handoff/assets/task-template.md",
     ]
@@ -235,8 +243,8 @@ def main() -> int:
 
     # Check synchronization of router bundled assets
     router_templates = ROOT / "skills" / "using-sdlc-skills" / "assets" / "templates"
-    for tmpl in (ROOT / "templates").glob("*.md"):
-        if tmpl.name != "README.md":
+    for tmpl in (ROOT / "templates").iterdir():
+        if tmpl.is_file() and tmpl.name != "README.md":
             bundled = router_templates / tmpl.name
             if not bundled.is_file():
                 errors.append(f"router bundled template missing: {bundled.relative_to(ROOT)}")
