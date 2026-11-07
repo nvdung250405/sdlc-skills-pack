@@ -80,7 +80,7 @@ def sync_workflows(check_only: bool) -> list[str]:
 
 def sync_scripts(check_only: bool) -> list[str]:
     diffs = []
-    scripts_to_sync = ["scaffold.py", "bounded_run.py", "verify_contracts.py"]
+    scripts_to_sync = ["scaffold.py", "bounded_run.py", "verify_contracts.py", "repo_map.py", "build_agents_md.py"]
     for s_name in scripts_to_sync:
         src = ROOT / "scripts" / s_name
         dest = DEST_SCRIPTS / s_name

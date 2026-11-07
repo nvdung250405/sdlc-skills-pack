@@ -122,14 +122,19 @@ def handle_run(args: argparse.Namespace) -> int:
     cmd_str = " ".join(cmd)
     start_time = time.time()
 
+    # On Windows, flatten command string for shell execution to support .cmd wrappers (npm, mvn) and quoted strings
+    use_shell = os.name == "nt"
+    exec_target = cmd_str if use_shell else cmd
+
     try:
         proc = subprocess.Popen(
-            cmd,
+            exec_target,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
             encoding="utf-8",
             errors="replace",
+            shell=use_shell,
         )
         timeout_val = args.timeout if args.timeout > 0 else None
         try:
