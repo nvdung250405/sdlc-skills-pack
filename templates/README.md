@@ -31,18 +31,18 @@ Tài liệu đặc tả yêu cầu, câu chuyện người dùng, thiết kế k
 
 | Starter Template | Định dạng | Mục đích sử dụng | Primary Owner Skill |
 |---|---|---|---|
-| [`specs/opportunity-brief.md`](specs/opportunity-brief.md) | `.md` | Khảo sát cơ hội, định hình vấn đề, bằng chứng người dùng (VoC) & giả thuyết | `interview-me`, `idea-refine`, `customer-research` |
-| [`specs/PRD.md`](specs/PRD.md) | `.md` | Product Requirements Document (mục tiêu, outcomes, epics, non-goals) | `pm-product-spec` |
+| [`specs/opportunity-brief.md`](specs/opportunity-brief.md) | `.md` | Khảo sát cơ hội, định hình vấn đề, bằng chứng người dùng (VoC) & giả thuyết | `interview-me`, `idea-refine` |
+| [`specs/PRD.md`](specs/PRD.md) | `.md` | Product Requirements Document (mục tiêu, outcomes, epics, non-goals) | `spec-driven-development` |
 | [`specs/feature-spec.md`](specs/feature-spec.md) | `.md` | Đặc tả tính năng chuẩn hóa (User Stories, BDD Given/When/Then AC) | `spec-driven-development`, `pm-user-story` |
-| [`specs/SRS.md`](specs/SRS.md) | `.md` | Formal System Requirements Specification cho dự án phức tạp/tuân thủ | `requirements-engineering` |
-| [`specs/RTM.md`](specs/RTM.md) | `.md` | Requirements Traceability Matrix liên kết requirements với code/test | `requirements-engineering` |
+| [`specs/SRS.md`](specs/SRS.md) | `.md` | Formal System Requirements Specification cho dự án phức tạp/tuân thủ | `spec-driven-development` |
+| [`specs/RTM.md`](specs/RTM.md) | `.md` | Requirements Traceability Matrix liên kết requirements với code/test | `spec-driven-development` |
 | [`specs/architecture-overview.md`](specs/architecture-overview.md) | `.md` | Tổng quan kiến trúc hệ thống, ranh giới thành phần và mô hình C4 | `software-architecture` |
 | [`specs/ADR.md`](specs/ADR.md) | `.md` | Architecture Decision Record ghi nhận quyết định kỹ thuật, đánh đổi & chi phí | `documentation-and-adrs` |
-| [`specs/DDS.md`](specs/DDS.md) | `.md` | Detailed Design Specification cho các subsystem hoặc thuật toán sâu | `software-architecture`, `codebase-design` |
+| [`specs/DDS.md`](specs/DDS.md) | `.md` | Detailed Design Specification cho các subsystem hoặc thuật toán sâu | `software-architecture` |
 
 ---
 
-## 3. Nhóm Kế hoạch, Thi công & Bàn giao (`delivery/` — 8 items)
+## 3. Nhóm Kế hoạch, Thi công & Bàn giao (`delivery/` — 9 items)
 
 Kế hoạch chia nhỏ công việc, quản lý phiên làm việc, nghiệm thu toàn diện và phát hành phiên bản.
 
@@ -68,7 +68,7 @@ Sổ tay vận hành, cảnh báo Prometheus và phân tích sự cố productio
 |---|---|---|---|
 | [`platform/runbook.md`](platform/runbook.md) | `.md` | Sổ tay vận hành, chẩn đoán và khắc phục sự cố dịch vụ | `observability-and-instrumentation` |
 | [`platform/incident-postmortem.md`](platform/incident-postmortem.md) | `.md` | Biên bản phân tích nguyên nhân gốc rễ (RCA 5 Whys) sau sự cố | `observability-and-instrumentation` |
-| [`platform/alert-rules.yaml`](platform/alert-rules.yaml) | `.yaml` | Prometheus Alerting Rules và định nghĩa ngưỡng SLO/latency/error | `observability-and-instrumentation`, `service-mesh-observability` |
+| [`platform/alert-rules.yaml`](platform/alert-rules.yaml) | `.yaml` | Prometheus Alerting Rules và định nghĩa ngưỡng SLO/latency/error | `observability-and-instrumentation` |
 
 ---
 
@@ -78,11 +78,11 @@ Hiến pháp kỹ thuật, mô hình đe dọa an ninh, đo lường dữ liệu
 
 | Starter Template | Định dạng | Mục đích sử dụng | Primary Owner Skill |
 |---|---|---|---|
-| [`governance/constitution.md`](governance/constitution.md) | `.md` | Hiến pháp kỹ thuật dự án, quy tắc bất biến cho agent và Definition of Done | `writing-for-agents`, `context-engineering` |
-| [`governance/threat-model.md`](governance/threat-model.md) | `.md` | Phân tích mô hình đe dọa STRIDE-A, biểu đồ luồng dữ liệu và ranh giới tin cậy | `threat-model-analyst` |
+| [`governance/constitution.md`](governance/constitution.md) | `.md` | Hiến pháp kỹ thuật dự án, quy tắc bất biến cho agent và Definition of Done | `using-sdlc-skills` |
+| [`governance/threat-model.md`](governance/threat-model.md) | `.md` | Phân tích mô hình đe dọa STRIDE-A, biểu đồ luồng dữ liệu và ranh giới tin cậy | `security-and-hardening` |
 | [`governance/tracking-plan.md`](governance/tracking-plan.md) | `.md` | Kế hoạch telemetry, taxonomy sự kiện và các chiều phân tích dữ liệu | `analytics` |
 | [`governance/event-schema.json`](governance/event-schema.json) | `.json` | JSON Schema xác thực payload sự kiện telemetry trước khi nạp vào kho | `analytics` |
-| [`governance/experiment-brief.md`](governance/experiment-brief.md) | `.md` | Tài liệu thiết kế thử nghiệm A/B, giả thuyết kiểm định và kết quả thống kê | `ab-testing` |
+| [`governance/experiment-brief.md`](governance/experiment-brief.md) | `.md` | Tài liệu thiết kế thử nghiệm A/B, giả thuyết kiểm định và kết quả thống kê | `analytics` |
 
 ---
 

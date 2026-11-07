@@ -1,6 +1,6 @@
 # SDLC Skills Pack
 
-Bộ skill phát triển phần mềm có thể cài trên nhiều coding agent, tuyển chọn từ các upstream đã pin phiên bản và kết hợp bằng một router duy nhất cùng bộ artifact contract thống nhất. Mục tiêu là tái sử dụng skill tốt, tránh trùng chức năng, phân tầng **Core (29 skills)** và **Extras (34 skills)**, áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
+Bộ skill phát triển phần mềm có thể cài trên nhiều coding agent, tuyển chọn từ các upstream đã pin phiên bản và kết hợp bằng một router duy nhất cùng bộ artifact contract thống nhất. Mục tiêu là tái sử dụng skill tốt, tránh trùng chức năng, quy chuẩn **32 Universal SDLC skills**, áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
 
 ## Cách tổ chức
 
@@ -27,23 +27,20 @@ scripts/scaffold.py        # Khởi tạo nhanh canonical artifacts từ templat
 
 | Nguồn | Vai trò | Cách quản lý |
 |---|---|---|
-| [Addy Osmani Agent Skills](https://github.com/addyosmani/agent-skills) | Engineering, testing, review, security, release, observability | 21 skill đã chọn (17 trong `skills/`, 4 trong `extras/`), commit `aeac41d4d005999432bb7312f7ff06383a91d59d` |
-| [Superpowers](https://github.com/obra/superpowers) | Debugging có hệ thống, verification-before-completion, review, worktree và subagent workflow | 5 skill đã chọn (4 trong `skills/`, 1 trong `extras/`), commit `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b` |
-| [Anthropic Skills](https://github.com/anthropics/skills) | Browser/web app testing, frontend design, MCP builder và doc co-authoring | 4 skill trong `extras/`, commit `dbd4588f9e1033efb41dad4bef2f7947c8993d44` |
-| [Matt Pocock Skills](https://github.com/mattpocock/skills) | Deep modules, domain modeling, ticket breakdown, codebase architecture, git guardrails, writing for agents | 7 skill trong `extras/`, commit `a496f5513d4a4cf889bc48e189e579f4b0bdf6aa` |
-| [Corey Haines Marketing Skills](https://github.com/coreyhaines31/marketingskills) | Customer research, telemetry analytics, A/B testing | 3 skill trong `extras/`, commit `0cd9b3a0ef4c411a1d690419ce843f2a1da32cce` |
-| [Vercel Labs Agent Skills](https://github.com/vercel-labs/agent-skills) | React/Next.js best practices, web design guidelines, writing guidelines | 3 skill trong `extras/`, commit `1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62` |
-| [GitHub Awesome Copilot](https://github.com/github/awesome-copilot) | Threat modeling analysis (STRIDE) | 1 skill trong `extras/`, commit `b6483db44fb602654bca6a097185fcaddb305f97` |
-| [Uxcel Product Skills](https://github.com/Uxcel-Lab/product-skills) | Product spec, User Story, spec quality audit | 3 skill adapt cục bộ trong `extras/`; refresh thủ công có bảo toàn content hash |
-| [Agentic SDLC Kit](https://github.com/zeeshanhanif/agentic-sdlc-kit) | Formal requirements/SRS và software architecture | 2 skill adapt cục bộ trong `skills/` (Core); refresh thủ công có bảo toàn content hash |
-| [William Hobson Agents](https://github.com/wshobson/agents) | Auth patterns, secrets management, screen reader, service mesh, cost optimization | 5 skill adapt trong `extras/`; license MIT |
-| [Agentic Awesome Skills (sickn33)](https://github.com/sickn33/agentic-awesome-skills) | Database design, Docker, k6 load testing, Terraform, Kubernetes | 5 skill adapt (1 trong `skills/`, 4 trong `extras/`); license Code MIT, docs CC BY 4.0 |
-| [API Contract Testing](https://github.com/nvdung250405/sdlc-skills-pack) | Wire-level provider/consumer contract testing & fixtures | 1 skill adapt trong `extras/`; license MIT |
+| [Addy Osmani Agent Skills](https://github.com/addyosmani/agent-skills) | Engineering, testing, review, security, release, observability | 19 skill đã chọn trong `skills/`, commit `aeac41d4d005999432bb7312f7ff06383a91d59d` |
+| [Superpowers](https://github.com/obra/superpowers) | Debugging có hệ thống, verification-before-completion | 2 skill đã chọn trong `skills/` (`systematic-debugging`, `verification-before-completion`), commit `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b` |
+| [Anthropic Skills](https://github.com/anthropics/skills) | Browser/web app testing với Playwright | 1 skill trong `skills/` (`webapp-testing`), commit `dbd4588f9e1033efb41dad4bef2f7947c8993d44` |
+| [Corey Haines Marketing Skills](https://github.com/coreyhaines31/marketingskills) | Product telemetry, analytics tracking taxonomy | 1 skill trong `skills/` (`analytics`), commit `0cd9b3a0ef4c411a1d690419ce843f2a1da32cce` |
+| [Uxcel Product Skills](https://github.com/Uxcel-Lab/product-skills) | User Story và BDD Acceptance Criteria | 1 skill adapt cục bộ trong `skills/` (`pm-user-story`); refresh thủ công có bảo toàn content hash |
+| [Agentic SDLC Kit](https://github.com/zeeshanhanif/agentic-sdlc-kit) | Kiến trúc hệ thống và phân rã ranh giới | 1 skill adapt cục bộ trong `skills/` (`software-architecture`); refresh thủ công có bảo toàn content hash |
+| [William Hobson Agents](https://github.com/wshobson/agents) | Auth patterns, tokens và session lifecycle | 1 skill adapt trong `skills/` (`auth-implementation-patterns`); license MIT |
+| [Agentic Awesome Skills (sickn33)](https://github.com/sickn33/agentic-awesome-skills) | Database design, Docker, k6 load testing | 3 skill adapt trong `skills/` (`database-design`, `docker-expert`, `k6-load-testing`); license Code MIT, docs CC BY 4.0 |
+| [API Contract Testing](https://github.com/nvdung250405/sdlc-skills-pack) | Wire-level provider/consumer contract testing & fixtures | 1 skill pack-owned trong `skills/` (`api-contract-testing`); license MIT |
+| SDLC Router & Task Handoff | Điều hướng SDLC duy nhất và quản trị phiên bàn giao | 2 skill pack-owned trong `skills/` (`using-sdlc-skills`, `task-handoff`); license MIT |
 | [GitHub Spec Kit](https://github.com/github/spec-kit) | Tham khảo format Story/AC, independent test, plan/tasks | Nguồn tham khảo, không bundle command/skill nguyên bản |
 | [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) | Tham khảo cách tổ chức vai trò và workflow | Nguồn tham khảo; không bundle implementation của BMAD |
 
-**Quy mô hiện tại:** Đúng **63 kỹ năng duy nhất** tương ứng với Master Matrix 16 stages:
-Quy chuẩn **32 Universal SDLC skills** độc lập công cụ, cài đặt mặc định.
+**Quy mô hiện tại:** Quy chuẩn đúng **32 Universal SDLC skills** độc lập công cụ, cài đặt mặc định.
 - **Exemplar Reference**: [examples/stripe-integration](examples/stripe-integration) được lưu giữ riêng làm thư viện mẫu tham khảo, loại khỏi danh mục đóng gói chính thức.
 - **Deprecated Skills Archive**: [archive/deprecated-skills](archive/deprecated-skills) lưu trữ `finishing-a-development-branch` và `requesting-code-review`.
 
@@ -56,7 +53,7 @@ Quy chuẩn **32 Universal SDLC skills** độc lập công cụ, cài đặt m�
 - SRS, use cases và RTM chỉ dùng khi độ phức tạp/rủi ro/tuân thủ đòi hỏi.
 - Architecture, ADR, API contracts và detailed design chỉ sinh khi quyết định hoặc thay đổi tương ứng cần được ghi lại.
 - `planning-and-task-breakdown` là chủ sở hữu duy nhất của task list cuối cho một feature; các skill/workflow khác không được tạo danh sách task cạnh tranh.
-- `pm-spec-quality-audit` kiểm tra nội dung tài liệu; `code-review-and-quality` review diff; `verification-before-completion` kiểm chứng kết quả thực tế bằng bằng chứng tươi.
+- `pm-user-story` sở hữu Story/AC; `code-review-and-quality` review diff; `verification-before-completion` kiểm chứng kết quả thực tế bằng bằng chứng tươi.
 
 ## Cài đặt
 
@@ -68,10 +65,10 @@ python scripts/lint_pack.py --strict
 python -m unittest discover -s tests -v
 
 # Cài đặt theo Profile (tối ưu footprint context):
-# 1. Profile 'eager-lean' (8 skills, ~15k tokens) — tối ưu cho runtime nạp eager
+# 1. Profile 'eager-lean' (8 skills, ~20k tokens) — tối ưu cho runtime nạp eager
 python scripts/install.py codex --profile eager-lean
 
-# 2. Profile mặc định 'core' (29 skills, ~70k tokens)
+# 2. Profile mặc định 'core' / 'canonical-32' (32 skills, ~81k tokens)
 python scripts/install.py claude
 python scripts/install.py gemini
 python scripts/install.py cursor
@@ -79,11 +76,9 @@ python scripts/install.py copilot
 python scripts/install.py antigravity
 python scripts/install.py antigravity-cli
 
-# 3. Profile 'core+web' (36 skills, ~82k tokens) — bổ sung frontend & browser verification
-python scripts/install.py claude --profile core+web
-
-python scripts/install.py codex --profile full
-python scripts/install.py custom --dest ./my-agent/skills --with-extras
+# 3. Cài đặt toàn bộ 32 skills có chỉ định profile hoặc đường dẫn custom
+python scripts/install.py codex --profile canonical-32
+python scripts/install.py custom --dest ./my-agent/skills
 ```
 
 Installer không ghi đè skill đã bị thay đổi nếu không yêu cầu rõ; `--force` tạo backup trước khi thay thế. Dùng `--dry-run` để kiểm tra đường dẫn và xung đột trước khi cài. Đường dẫn trong `adapters/agents.json` có thể thay đổi theo phiên bản agent; override bằng `--dest` khi cần.

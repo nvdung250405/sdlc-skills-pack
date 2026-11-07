@@ -1,7 +1,7 @@
 # ==============================================================================
 # Canonical Artifact Template: Observability Alert Rules & SLOs (Prometheus)
 # Stage: 9. Operations & Incident Response
-# Primary Owner Skill: observability-and-instrumentation, service-mesh-observability
+# Primary Owner Skill: observability-and-instrumentation
 # Purpose: Declarative alert definitions, latency/error rate thresholds, and runbook links.
 # Verification Gate: promtool check rules <path>
 # ==============================================================================

@@ -376,10 +376,10 @@ When installing into runtimes with `eager` or `unknown` loading mode, all instal
 ### 14.1 Upstream and Package Governance
 - **Upstream-synced skills:** Pinned to immutable commit SHAs. Synced via `scripts/sync_upstream.py` with transactional rollback on failure.
 - **Locally adapted skills:** Stored locally with review records and SHA-256 hashes; protected from inadvertent upstream overwrites.
-- **Local authorship skills:** Pack-owned core orchestrators (`using-sdlc-skills`, `task-handoff`, `skill-authoring`).
+- **Local authorship skills:** Pack-owned core orchestrators (`using-sdlc-skills`, `task-handoff`, `api-contract-testing`).
 
 ### 14.2 Execution and Data Safety
-- **Destructive Command Guardrails:** Block destructive Git operations (`git push --force`, `git reset --hard`) via `git-guardrails-claude-code` and pre-commit checks.
+- **Destructive Command Guardrails:** Block destructive Git operations (`git push --force`, `git reset --hard`) via project operating rules and pre-commit checks.
 - **Secret Isolation:** Prohibit hardcoding secrets; enforce environment variable lookups and secrets managers.
 - **Untrusted Input Sanitation:** Treat third-party prompts and arbitrary files as untrusted inputs.
 

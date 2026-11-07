@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "purpose": "Portable SDLC skills pack. Core skills (26) provide universal engineering discipline installed by default; Extras skills (37) provide stack, domain, or specialist capabilities loaded on demand.",
+  "purpose": "Portable SDLC skills pack. 32 Universal SDLC skills provide universal engineering discipline installed by default across 16 SDLC stages.",
   "upstreams": [
     {
       "id": "addyosmani-agent-skills",
@@ -155,7 +155,7 @@
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "refresh_policy": "manual-review-only",
-      "note": "Three compact pack adaptations based on public SKILL.md files; preserve this license and review upstream changes manually. Categorized in extras tier."
+      "note": "Compact pack adaptation of user stories and acceptance criteria; preserve this license and review upstream changes manually."
     },
     {
       "id": "agentic-sdlc-kit",
@@ -165,7 +165,7 @@
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "refresh_policy": "manual-review-only",
-      "note": "Two compact pack adaptations of requirements engineering and software architecture; not verbatim upstream snapshots. Preserve the Apache license and review upstream changes manually."
+      "note": "Compact pack adaptation of software architecture; not verbatim upstream snapshots. Preserve the Apache license and review upstream changes manually."
     },
     {
       "id": "wshobson-agents",
@@ -175,7 +175,7 @@
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "refresh_policy": "manual-review-only",
-      "note": "Selected agent skills from wshobson/agents covering authentication patterns, secrets management, screen-reader testing, service mesh observability, and cloud cost optimization."
+      "note": "Selected agent skill from wshobson/agents covering authentication patterns and session lifecycles."
     },
     {
       "id": "sickn33-agentic-awesome-skills",
@@ -185,7 +185,7 @@
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "refresh_policy": "manual-review-only",
-      "note": "Selected engineering skills from sickn33/agentic-awesome-skills covering database design, docker containerization, k6 load testing, terraform IaC, and kubernetes orchestration. Code is MIT licensed, documentation CC BY 4.0."
+      "note": "Selected engineering skills from sickn33/agentic-awesome-skills covering database design, docker containerization, and k6 load testing. Code is MIT licensed, documentation CC BY 4.0."
     }
   ],
   "derived_skills": [
@@ -234,7 +234,7 @@
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; preserved authentication and authorization patterns, token/session lifecycle, and threat boundaries; retained implementation playbook resource."
+        "Adapted authentication and authorization patterns, token/session lifecycle, and threat boundaries; retained implementation playbook resource."
       ]
     },
     {
@@ -246,7 +246,7 @@
       "source_ref": "main",
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
-        "Categorized into extras tier; preserved container optimization, security hardening, multi-stage builds, and deployment guidance."
+        "Adapted container optimization, security hardening, multi-stage builds, and deployment guidance."
       ]
     },
     {

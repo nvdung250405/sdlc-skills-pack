@@ -2,7 +2,7 @@
 
 > **Document type:** Canonical Artifact Contract  
 > **Artifact:** Engineering Constitution & Rules  
-> **Primary Owner Skill:** `writing-for-agents`, `context-engineering`  
+> **Primary Owner Skill:** `using-sdlc-skills`  
 > **Canonical Destination Path:** `AGENTS.md` / `CLAUDE.md` / `.agent/constitution.md`  
 > **Status:** `<Ratified | Active | Under Amendment>`  
 > **Last updated:** `<YYYY-MM-DD>`  

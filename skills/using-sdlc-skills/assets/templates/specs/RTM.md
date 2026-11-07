@@ -2,7 +2,7 @@
 
 > **Document type:** Canonical Artifact Contract  
 > **Artifact:** Requirements Traceability Matrix (RTM)  
-> **Primary Owner Skill:** `requirements-engineering`  
+> **Primary Owner Skill:** `spec-driven-development`  
 > **Canonical Destination Path:** `docs/specs/RTM.md`  
 > **Status:** `<Draft | Baseline | Verified>`  
 > **Last updated:** `<YYYY-MM-DD>`  

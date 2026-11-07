@@ -2,7 +2,7 @@
 
 > **Document type:** Canonical Artifact Contract  
 > **Artifact:** Growth Experiment Brief  
-> **Primary Owner Skill:** `ab-testing`  
+> **Primary Owner Skill:** `analytics`  
 > **Canonical Destination Path:** `docs/experiments/[exp-id]-[slug].md`  
 > **Status:** `<Draft | Running | Completed | Rolled Out | Discarded>`  
 > **Last updated:** `<YYYY-MM-DD>`  

@@ -2,7 +2,7 @@
 
 > **Document type:** Canonical Artifact Contract  
 > **Artifact:** Detailed Design Specification (DDS / LLD)  
-> **Primary Owner Skill:** `software-architecture`, `codebase-design`  
+> **Primary Owner Skill:** `software-architecture`  
 > **Canonical Destination Path:** `docs/features/<feature-id>/design.md`  
 > **Status:** `<Draft | In Review | Approved>`  
 > **Last updated:** `<YYYY-MM-DD>`  

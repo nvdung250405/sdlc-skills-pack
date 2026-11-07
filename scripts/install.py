@@ -62,8 +62,6 @@ def expected_skill_names(include_extras: bool = False) -> set[str]:
             expected.add(item.get("name", Path(item["src"]).name if "src" in item else ""))
     # Pack-owned skills are installed too but are not upstream-managed.
     expected.update({p.name for p in (ROOT / "skills").iterdir() if p.is_dir()})
-    if include_extras:
-        expected.update({"skill-authoring", "api-contract-testing"})
     return expected
 
 
@@ -159,9 +157,9 @@ def print_missing_optional_summary(sources: list[Path], args: argparse.Namespace
             if missing_optional:
                 active_profile = args.profile or ("full" if args.with_extras else "core")
                 print(f"Profile: '{active_profile}' ({len(installed_names)} skills selected).")
-                print(f"Optional extras not included ({len(missing_optional)} skills omitted):")
+                print(f"Skills omitted in this profile ({len(missing_optional)} skills omitted):")
                 print(f"  {', '.join(missing_optional[:8])}{'...' if len(missing_optional) > 8 else ''}")
-                print("  (Tip: use `--profile full` or `--with-extras` to include all specialist skills)")
+                print("  (Tip: use `--profile canonical-32` or `--profile full` to include all 32 Universal SDLC skills)")
         except Exception:
             pass
 
@@ -242,7 +240,7 @@ def main() -> int:
     parser.add_argument("target", help="claude, codex, gemini, cursor, copilot, custom, or agents-md")
     parser.add_argument("--global", dest="global_scope", action="store_true", help="install into the configured user-level directory")
     parser.add_argument("--link", action="store_true", help="create symlinks instead of copying skill folders")
-    parser.add_argument("--profile", choices=["eager-lean", "canonical-32", "core", "core+web", "full"], default=None, help="installation profile: eager-lean (8 skills, ~15k tokens), canonical-32 (32 skills, ~1.7k tokens catalog), core (29 skills), core+web (36 skills), or full (63 skills)")
+    parser.add_argument("--profile", choices=["eager-lean", "canonical-32", "core", "full"], default=None, help="installation profile: eager-lean (8 skills, ~20k tokens), canonical-32 (32 skills, ~81k tokens), core (32 skills), or full (32 skills)")
     parser.add_argument("--with-extras", action="store_true", help="also install skills from extras/ (equivalent to --profile full)")
     parser.add_argument("--auto-detect", "--init", dest="auto_detect", action="store_true", help="for agents-md, audit environment and stack")
     parser.add_argument("--dest", help="skill install directory; for agents-md, path to installed skill folders")
@@ -265,9 +263,9 @@ def main() -> int:
         mode = adapters.get("agents", {}).get(target_name, {}).get("loading_mode", "unknown")
         if mode in ("eager", "unknown"):
             if args.with_extras or args.profile == "full":
-                print(f"TIP: Target '{target_name}' has '{mode}' loading behavior. Installing all 63 skills consumes substantial context (~139k tokens). Consider --profile eager-lean (8 skills, ~15k tokens) or --profile core (29 skills).", file=sys.stderr)
+                print(f"TIP: Target '{target_name}' has '{mode}' loading behavior. Installing all 32 skills consumes substantial context (~81k tokens). Consider --profile eager-lean (8 skills, ~20k tokens).", file=sys.stderr)
             elif not args.profile:
-                print(f"TIP: Target '{target_name}' has '{mode}' loading. Default Core installs 29 skills (~70k tokens). For an ultra-light context footprint, use --profile eager-lean (8 skills, ~15k tokens).", file=sys.stderr)
+                print(f"TIP: Target '{target_name}' has '{mode}' loading. Default Core installs 32 skills (~81k tokens). For an ultra-light context footprint, use --profile eager-lean (8 skills, ~20k tokens).", file=sys.stderr)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
@@ -277,7 +275,7 @@ def main() -> int:
     elif args.profile == "core":
         args.with_extras = False
 
-    problems = sync_problems(include_extras=args.with_extras or args.profile == "core+web")
+    problems = sync_problems(include_extras=args.with_extras)
     if problems and not args.allow_partial:
         print("ERROR: the curated pack is not fully synchronized/verified.", file=sys.stderr)
         for problem in problems:

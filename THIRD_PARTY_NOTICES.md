@@ -8,74 +8,50 @@ This pack redistributes selected upstream skills and contains a small number of 
 - Source: https://github.com/addyosmani/agent-skills
 - Revision: `aeac41d4d005999432bb7312f7ff06383a91d59d`
 - License: MIT — see `third_party/addyosmani-agent-skills/LICENSE`
-- Selected skills: 17 under `skills/` (Core), 4 under `extras/` (`browser-testing-with-devtools`, `performance-optimization`, `frontend-ui-engineering`, `deprecation-and-migration`).
+- Selected skills: 19 under `skills/` (`interview-me`, `idea-refine`, `spec-driven-development`, `api-and-interface-design`, `documentation-and-adrs`, `planning-and-task-breakdown`, `incremental-implementation`, `test-driven-development`, `git-workflow-and-versioning`, `source-driven-development`, `code-simplification`, `code-review-and-quality`, `security-and-hardening`, `ci-cd-and-automation`, `shipping-and-launch`, `observability-and-instrumentation`, `performance-optimization`, `frontend-ui-engineering`, `deprecation-and-migration`).
 
 ### Superpowers
 - Source: https://github.com/obra/superpowers
 - Revision: `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b`
 - License: MIT — see `third_party/obra-superpowers/LICENSE`
-- Selected skills: 4 under `skills/` (Core: `systematic-debugging`, `verification-before-completion`, `receiving-code-review`, `using-git-worktrees`), 1 under `extras/` (`subagent-driven-development`).
+- Selected skills: 2 under `skills/` (`systematic-debugging`, `verification-before-completion`).
 
 ### Anthropic Skills
 - Source: https://github.com/anthropics/skills
 - Revision: `dbd4588f9e1033efb41dad4bef2f7947c8993d44`
 - License: Apache-2.0 — see `third_party/anthropics-skills/LICENSE`
-- Selected skills: 4 under `extras/` (`webapp-testing`, `frontend-design`, `mcp-builder`, `doc-coauthoring`).
-
-### Matt Pocock — Skills
-- Source: https://github.com/mattpocock/skills
-- Revision: `a496f5513d4a4cf889bc48e189e579f4b0bdf6aa`
-- License: MIT — see `third_party/mattpocock-skills/LICENSE`
-- Selected skills: 7 under `extras/` (`codebase-design`, `domain-modeling`, `to-tickets`, `improve-codebase-architecture`, `setup-pre-commit`, `git-guardrails-claude-code`, `writing-for-agents`).
+- Selected skills: 1 under `skills/` (`webapp-testing`).
 
 ### Corey Haines — Marketing Skills
 - Source: https://github.com/coreyhaines31/marketingskills
 - Revision: `0cd9b3a0ef4c411a1d690419ce843f2a1da32cce`
 - License: MIT — see `third_party/coreyhaines31-marketingskills/LICENSE`
-- Selected skills: 3 under `extras/` (`customer-research`, `analytics`, `ab-testing`).
-
-### Vercel Labs — Agent Skills
-- Source: https://github.com/vercel-labs/agent-skills
-- Revision: `1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62`
-- License: MIT — see `third_party/vercel-labs-agent-skills/LICENSE`
-- Selected skills: 3 under `extras/` (`vercel-react-best-practices`, `web-design-guidelines`, `writing-guidelines`).
-
-### GitHub — Awesome Copilot
-- Source: https://github.com/github/awesome-copilot
-- Revision: `b6483db44fb602654bca6a097185fcaddb305f97`
-- License: MIT — see `third_party/github-awesome-copilot/LICENSE`
-- Selected skills: 1 under `extras/` (`threat-model-analyst`).
+- Selected skills: 1 under `skills/` (`analytics`).
 
 ## Locally adapted skills (not verbatim upstream copies)
 
 ### Uxcel Product Skills
 - Source: https://github.com/Uxcel-Lab/product-skills
 - License: MIT — see `third_party/uxcel-product-skills/LICENSE`
-- Adapted skills: 3 under `extras/` (`pm-product-spec`, `pm-user-story`, `pm-spec-quality-audit`).
+- Adapted skills: 1 under `skills/` (`pm-user-story`).
 - Manual-review-only refresh policy with content hash tracking.
 
 ### Agentic SDLC Kit
 - Source: https://github.com/zeeshanhanif/agentic-sdlc-kit
 - License: Apache-2.0 — see `third_party/agentic-sdlc-kit/LICENSE`
-- Adapted skills: 2 under `skills/` (Core: `requirements-engineering`, `software-architecture`).
-- Compact adaptations of requirements engineering and system architecture.
+- Adapted skills: 1 under `skills/` (`software-architecture`).
+- Compact adaptation of software architecture.
 
 ### William Hobson — Agents
 - Source: https://github.com/wshobson/agents
 - License: MIT — see `third_party/wshobson-agents/LICENSE`
-- Adapted skills: 5 under `extras/` (`auth-implementation-patterns`, `secrets-management`, `screen-reader-testing`, `service-mesh-observability`, `cost-optimization`).
-- Selected agent skills providing authentication patterns, CI/CD secrets management, screen-reader testing, service mesh observability, and cloud cost optimization.
+- Adapted skills: 1 under `skills/` (`auth-implementation-patterns`).
+- Selected agent skill providing authentication token lifecycles and RBAC authorization boundaries.
 
 ### Agentic Awesome Skills (sickn33)
 - Source: https://github.com/sickn33/agentic-awesome-skills
 - License: Code MIT, documentation CC BY 4.0 — see `third_party/sickn33-agentic-awesome-skills/LICENSE`
-- Adapted skills: 1 under `skills/` (Core: `database-design`), 4 under `extras/` (`docker-expert`, `k6-load-testing`, `terraform-specialist`, `kubernetes-architect`).
-
-### API Contract Testing
-- Source: https://github.com/nvdung250405/sdlc-skills-pack
-- License: MIT — see `third_party/api-contract-testing/LICENSE`
-- Adapted skills: 1 under `extras/` (`api-contract-testing`).
-- Locally adapted contract testing skill for consumer-provider compatibility, wire-level schema validation, and fixture-driven regressions.
+- Adapted skills: 3 under `skills/` (`database-design`, `docker-expert`, `k6-load-testing`).
 
 ## Reference-only projects (no upstream files bundled)
 
@@ -84,4 +60,4 @@ This pack redistributes selected upstream skills and contains a small number of 
 
 ## Pack-owned integration assets
 
-The pack router (`skills/using-sdlc-skills`), handoff (`skills/task-handoff`), authoring (`extras/skill-authoring`), local integration workflows, templates, adapters, manifests and scripts are covered by the root `LICENSE`, except where a file explicitly identifies another license or source. Adaptations and their source paths/transformations are listed in `manifests/skill-provenance.json`.
+The pack router (`skills/using-sdlc-skills`), handoff (`skills/task-handoff`), contract testing (`skills/api-contract-testing`), local integration workflows, templates, adapters, manifests and scripts are covered by the root `LICENSE`, except where a file explicitly identifies another license or source. Adaptations and their source paths/transformations are listed in `manifests/skill-provenance.json`.

@@ -42,7 +42,7 @@ class PackStaticTests(unittest.TestCase):
             self.assertIn("Pack validation FAILED.", result.stdout)
             self.assertTrue((ROOT / "manifests" / "upstream-lock.json").exists() is False or "ERROR:" in result.stdout)
 
-    def test_handoff_template_and_skill_authoring_assets_exist(self) -> None:
+    def test_handoff_template_assets_exist(self) -> None:
         handoff = ROOT / "skills" / "task-handoff" / "assets" / "task-template.md"
         self.assertTrue(handoff.is_file(), "task-handoff links an asset that must ship with the skill")
 
@@ -65,7 +65,7 @@ class PackStaticTests(unittest.TestCase):
     def test_selected_skill_map_has_no_unknown_or_duplicate_skill(self) -> None:
         manifest = json.loads((ROOT / "upstream.json").read_text(encoding="utf-8"))
         skill_map = json.loads((ROOT / "manifests" / "skill-map.json").read_text(encoding="utf-8"))
-        known = {"using-sdlc-skills", "task-handoff", "skill-authoring", "api-contract-testing"}
+        known = {"using-sdlc-skills", "task-handoff", "api-contract-testing"}
         for upstream in manifest["upstreams"]:
             for item in upstream.get("items", []):
                 name = item.get("name", Path(item["src"]).name)
@@ -203,6 +203,13 @@ class PackStaticTests(unittest.TestCase):
             if is_complete:
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 self.assertTrue(dest.is_dir())
+                # Verify profiles execute without error
+                res_eager = run_script("install.py", "custom", "--dest", str(dest), "--profile", "eager-lean", "--dry-run")
+                self.assertEqual(res_eager.returncode, 0, res_eager.stderr)
+                res_full = run_script("install.py", "custom", "--dest", str(dest), "--profile", "full", "--dry-run")
+                self.assertEqual(res_full.returncode, 0, res_full.stderr)
+                res_extras = run_script("install.py", "custom", "--dest", str(dest), "--with-extras", "--dry-run")
+                self.assertEqual(res_extras.returncode, 0, res_extras.stderr)
             else:
                 self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
                 self.assertFalse(dest.exists())

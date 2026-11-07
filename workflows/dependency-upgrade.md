@@ -25,7 +25,7 @@ Use this workflow when upgrading frameworks, runtime versions (Node/Python/Go), 
 
 ## 2. Workspace Isolation
 3. **Isolate Upgrade Work**:
-   - Use `using-git-worktrees` to create an isolated branch workspace (e.g. `worktree add ../upgrade-deps -b deps/update-[lib]`), protecting your active working tree from lockfile churn or broken dependencies.
+   - Use `git-workflow-and-versioning` to create an isolated branch workspace (e.g. `git checkout -b deps/update-[lib]`), protecting your active working tree from lockfile churn or broken dependencies.
 
 ## 3. Package Manifest & Lockfile Update
 4. **Update Manifest & Lockfile**:

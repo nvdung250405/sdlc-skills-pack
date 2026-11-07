@@ -2,7 +2,7 @@
 
 > **Document type:** Canonical Artifact Contract  
 > **Artifact:** STRIDE-A Threat Model  
-> **Primary Owner Skill:** `threat-model-analyst`  
+> **Primary Owner Skill:** `security-and-hardening`  
 > **Canonical Destination Path:** `docs/security/threat-model-[system].md`  
 > **Status:** `<Draft | In Review | Approved>`  
 > **Last updated:** `<YYYY-MM-DD>`  

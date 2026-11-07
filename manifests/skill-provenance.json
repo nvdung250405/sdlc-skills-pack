@@ -335,7 +335,7 @@
     },
     "skills/api-contract-testing": {
       "upstream": "pack-owned",
-      "source_path": "extras/api-contract-testing",
+      "source_path": "skills/api-contract-testing",
       "commit": "local-pack",
       "license": "MIT",
       "transformations": [],

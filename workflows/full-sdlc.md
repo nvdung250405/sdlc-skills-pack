@@ -21,32 +21,31 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
 
 ### Discovery
 1. Read repository context, architectural constraints, and constitution (`AGENTS.md` / `constitution.md`).
-2. Run `interview-me` and `idea-refine` when problem framing or target users are ambiguous; use `customer-research` for user insight synthesis.
+2. Run `interview-me` and `idea-refine` when problem framing or target users are ambiguous; use `analytics` for quantitative data if available.
 3. Scaffold `docs/discovery/[initiative]/opportunity-brief.md` (from `templates/specs/opportunity-brief.md`) to capture problem framing, target persona, and initial hypotheses.
 4. **Stage-Gate Review (Discovery Hand-off):** Verify problem clarity and evidence validity. If the problem framing remains speculative or ungrounded, pause and revisit `interview-me` before authoring product requirements.
 
 ### Requirements
-5. Author or update `docs/prd.md` (from `templates/specs/PRD.md`) with `pm-product-spec` (evidence, measurable outcomes, epic breakdowns, non-goals, and identified risks). Run formal `requirements-engineering` (`docs/specs/SRS.md`, `docs/specs/RTM.md`) only when regulatory traceability is mandatory.
+5. Author or update `docs/prd.md` (from `templates/specs/PRD.md`) with `spec-driven-development` (evidence, measurable outcomes, epic breakdowns, non-goals, and identified risks). Run formal requirements specification (`docs/specs/SRS.md`, `docs/specs/RTM.md`) only when regulatory traceability is mandatory.
 6. **Stage-Gate Review (Requirements Hand-off via Cross-Cutting Audit):**
-   - Run `pm-spec-quality-audit` on `docs/prd.md` to identify build-damaging ambiguities, missing alternative flows, hidden assumptions, or unmeasurable acceptance criteria.
-   - Run `writing-guidelines` / `writing-for-agents` to ensure requirements are clear, concise, and unambiguous for autonomous agents.
+   - Review `docs/prd.md` with `spec-driven-development` to identify build-damaging ambiguities, missing alternative flows, hidden assumptions, or unmeasurable acceptance criteria.
+   - Ensure requirements are clear, concise, and unambiguous for autonomous agents.
    - **Gate Decision:** If *Critical* or *High-severity* gaps are uncovered, do not proceed to Architecture. Return to Step 5 to resolve requirements deficiencies first.
 
 ### Architecture & System Design
 7. Establish component boundaries, C4 models, subsystem responsibilities, and data ownership in `docs/architecture.md` (from `templates/specs/architecture-overview.md`) using `software-architecture`.
 8. **Establish Centralized System Contracts (Contract-First):**
    - Use `api-and-interface-design` to define top-level inter-service contracts, public API gateway specifications (OpenAPI/REST, GraphQL, gRPC `.proto`), and shared asynchronous event schemas before designing internal storage.
-   - Use `domain-modeling` to unify domain entities, value objects, and ubiquitous language across all subsystem boundaries.
-   - Use `codebase-design` to define deep module seams and interface segregation.
+   - Ensure clear domain boundaries and deep module seams across subsystems.
    - Apply `api-contract-testing` to generate wire-level compatibility fixtures and provider-consumer contract tests based on these centralized specifications.
 9. Define persistence architecture with `database-design`: select database engines (relational/document/time-series), ORM/data access layers, replication, connection pooling, and data partitioning strategies. Align persistence schemas and indexing models to support the established system contracts. Record architectural decisions and trade-offs in `docs/adr/ADR-NNN-[slug].md` (from `templates/specs/ADR.md`) using `documentation-and-adrs`.
-10. **Stage-Gate Review (Architecture Hand-off via Security & FinOps):**
-    - Run `threat-model-analyst` to produce a STRIDE-A threat model, data flow diagram (DFD), and abuse case mitigations in `docs/security/threat-model-[system].md` (from `templates/governance/threat-model.md`). Coordinate with `security-and-hardening` to verify trust boundaries.
-    - Run `cost-optimization` to evaluate infrastructure sizing, token budgets, and multi-cloud architectural cost feasibility.
+10. **Stage-Gate Review (Architecture Hand-off via Security & Resources):**
+    - Apply `security-and-hardening` to produce a STRIDE-A threat model and verify trust boundaries in `docs/security/threat-model-[system].md` (from `templates/governance/threat-model.md`).
+    - Evaluate infrastructure sizing and resource allocations.
     - **Gate Decision:** If unmitigated critical security risks or unsustainable cost projections exist, halt progression. Revise architecture and ADRs in Step 7–9 before delegating construction.
 
 ### Platform & Developer Experience (cross-cutting setup)
-11. Configure automated quality gates, linting, and commit-time formatting using `setup-pre-commit` and `git-guardrails-claude-code`.
+11. Configure automated quality gates, linting, and commit-time formatting using `ci-cd-and-automation` and `git-workflow-and-versioning`.
 12. Establish base containerization or build environments using `docker-expert` or platform templates when containerized delivery is needed.
 
 ---
@@ -54,7 +53,7 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
 ## Phase 2: Incremental Capability Delivery (Feature Loop Delegation)
 
 ### Planning & Task Breakdown
-13. Prioritize epics from `docs/prd.md`. Use `planning-and-task-breakdown` or `to-tickets` to sequence independent capabilities and identify blocking dependency edges.
+13. Prioritize epics from `docs/prd.md`. Use `planning-and-task-breakdown` to sequence independent capabilities and identify blocking dependency edges.
 
 ### Implementation & Construction
 14. For each epic or capability defined in `docs/prd.md`, delegate to `workflows/feature-loop.md`:
@@ -71,11 +70,11 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
 
 ### Testing & Verification (System-Level)
 15. Verify cross-service integration contracts and wire compatibility using `api-contract-testing`.
-16. Execute end-to-end automated flows with `webapp-testing` (Playwright) or `browser-testing-with-devtools` (Chrome DevTools MCP).
-17. Run load, stress, and scalability benchmarks with `k6-load-testing` when throughput or latency SLAs are critical; audit accessibility compliance with `screen-reader-testing` and `web-design-guidelines` for public web surfaces.
+16. Execute end-to-end automated flows with `webapp-testing` (Playwright).
+17. Run load, stress, and scalability benchmarks with `k6-load-testing` when throughput or latency SLAs are critical; audit frontend accessibility with `frontend-ui-engineering`.
 
 ### Review & Acceptance
-18. Conduct multi-axis code review with `code-review-and-quality`; invoke `receiving-code-review` when processing human or reviewer feedback.
+18. Conduct multi-axis code review with `code-review-and-quality` when processing review feedback.
 19. Generate the pull request description from `templates/delivery/pull-request.md` with explicit summary, motivation, and commands run.
 20. **Stage-Gate Review (Acceptance Gate):**
     - Run `verification-before-completion` to gather fresh, empirical test evidence across the whole system.
@@ -85,17 +84,17 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
 ### Release & Deployment
 21. Prepare release notes and changelog in `docs/releases/v[X.Y.Z].md` (from `templates/delivery/release-notes.md`) using `git-workflow-and-versioning` for semantic tagging.
 22. Validate deployment safety, migration readiness, and rollback procedures against `templates/delivery/release-checklist.md` with `shipping-and-launch` and `ci-cd-and-automation`.
-23. Audit cloud spending and resource rightsizing with `cost-optimization` before production rollout.
+23. Audit cloud resource allocation and configuration before production rollout.
 24. Production deployments and destructive actions require explicit human authorization.
 
 ### Operations & Incident Response
-25. Configure dashboards, error alert thresholds, and SLO tracking with `observability-and-instrumentation` and `service-mesh-observability`.
+25. Configure dashboards, error alert thresholds, and SLO tracking with `observability-and-instrumentation`.
 26. Publish operational runbook in `docs/runbooks/[service-name].md` (from `templates/platform/runbook.md`).
 27. For production anomalies or outages, transition immediately to `workflows/incident-response.md`.
 
 ### Product Learning & Measurement
 28. Define product telemetry taxonomy in `docs/analytics/tracking-plan.md` using `analytics` to measure funnel metrics and adoption.
-29. Design and evaluate continuous experiments using `ab-testing` in `docs/experiments/[id].md` (via `workflows/experimentation-loop.md`).
+29. Design and evaluate continuous experiments using `analytics` in `docs/experiments/[id].md` (via `workflows/experimentation-loop.md`).
 
 ---
 

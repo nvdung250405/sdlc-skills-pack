@@ -2,7 +2,7 @@
 
 > **Document type:** Canonical Artifact Contract  
 > **Artifact:** Product Requirements Document (PRD)  
-> **Primary Owner Skill:** `pm-product-spec`  
+> **Primary Owner Skill:** `spec-driven-development`  
 > **Canonical Destination Path:** `docs/prd.md`  
 > **Status:** `<Draft | In Review | Approved | Superseded>`  
 > **Last updated:** `<YYYY-MM-DD>`  

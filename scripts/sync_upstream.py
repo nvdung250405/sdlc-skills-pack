@@ -29,7 +29,7 @@ NOTICE_PATH = ROOT / "THIRD_PARTY_NOTICES.md"
 ALLOWED_FRONTMATTER = {
     "name", "description", "license", "compatibility", "metadata", "allowed-tools"
 }
-PACK_OWNED_SKILLS = {"using-sdlc-skills", "task-handoff", "skill-authoring"}
+PACK_OWNED_SKILLS = {"using-sdlc-skills", "task-handoff", "api-contract-testing"}
 
 
 def run(command: list[str], *, cwd: Path | None = None) -> str:

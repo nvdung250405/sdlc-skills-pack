@@ -2,7 +2,7 @@
 
 > **Document type:** Canonical Artifact Contract  
 > **Artifact:** Formal System Requirements Specification (SRS)  
-> **Primary Owner Skill:** `requirements-engineering`  
+> **Primary Owner Skill:** `spec-driven-development`  
 > **Canonical Destination Path:** `docs/specs/SRS.md`  
 > **Status:** `<Draft | In Review | Approved>`  
 > **Last updated:** `<YYYY-MM-DD>`  

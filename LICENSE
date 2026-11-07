@@ -3,7 +3,7 @@ MIT License
 Copyright (c) 2026 SDLC Agent Skills Pack contributors
 
 Applies to pack-owned integration files: skills/using-sdlc-skills, skills/task-handoff,
-skills/skill-authoring, workflows/, templates/, adapters/, manifests/, scripts/, and docs/.
+skills/api-contract-testing, workflows/, templates/, adapters/, manifests/, scripts/, and docs/.
 Vendored third-party skills and verbatim upstream template snapshots keep their own licenses;
 see THIRD_PARTY_NOTICES.md and third_party/.
 
