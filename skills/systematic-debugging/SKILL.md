@@ -50,9 +50,9 @@ You MUST complete each phase before proceeding to the next.
 **BEFORE attempting ANY fix:**
 
 1. **Read Error Messages Carefully**
+   - Run reproduction commands via `python scripts/bounded_run.py <command>` to isolate failure stacktraces and preserve full logs
    - Don't skip past errors or warnings
-   - They often contain the exact solution
-   - Read stack traces completely
+   - Use AST tools (`ast-grep:find_code`) or viewports (`bounded_run.py view`) to inspect exact lines without token waste
    - Note line numbers, file paths, error codes
 
 2. **Reproduce Consistently**

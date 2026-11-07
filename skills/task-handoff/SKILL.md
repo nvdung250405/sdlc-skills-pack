@@ -27,5 +27,6 @@ Read the task file first, then only the files it points to. Do not re-derive dec
 - Pass paths between roles, not pasted content.
 - Never put secrets in the task file.
 - One task file per task; link related tasks.
+- When Knowledge Graph Memory tools are present (`create_entities`, `add_observations`), persist key architecture decisions to the graph so cross-session context survives.
 
 Done when a different agent could continue using only this file and the repo.

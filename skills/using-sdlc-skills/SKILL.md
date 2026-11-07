@@ -74,7 +74,16 @@ For the full 32-row contract mapping table and CLI aliases, see [references/arti
 Use helper scripts in `scripts/` (or router bundled `scripts/`):
 - **Scaffold Artifacts**: `python scripts/scaffold.py <alias> [--id <id>]`
 - **Bounded Command Runner**: `python scripts/bounded_run.py "<command>" [--timeout 180]`
+- **SWE-agent Viewport Inspector**: `python scripts/bounded_run.py view <file> --line <N> --window <W>`
+- **Repo Map Generator**: `python scripts/repo_map.py [--max-tokens 1024]`
 - **Contract Gate**: `python scripts/verify_contracts.py [--dir contracts]`
+
+## Environment Awareness & Token Discipline
+
+Agents operating this pack MUST exploit the active environment capabilities:
+1. **Code Graph & Structural Orientation**: Read `.agent/repo_map.txt` (~1k tokens) or call AST tools (`ast-grep:find_code`, `ast-grep:analyze-imports`) to navigate definitions without token waste.
+2. **Context Memory (Knowledge Graph)**: When logging architecture choices or project entities, persist them via MCP Knowledge Graph tools (`create_entities`, `create_relations`, `add_observations`) so cross-session context survives.
+3. **Execution Harness**: Never run raw shell commands that dump long terminal output into context. Always run tests and builds via `python scripts/bounded_run.py`. Inspect files via viewports rather than dumping entire files.
 
 ## Cross-Skill Invariants
 
