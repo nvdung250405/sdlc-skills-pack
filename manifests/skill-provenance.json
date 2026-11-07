@@ -272,7 +272,7 @@
       "transformations": [],
       "kind": "pack-owned",
       "refresh_policy": "local",
-      "content_sha256": "0e5b5c3d9e37873ed98d2520b3f344d71b6508c93198a2d41399400b21ce5aaf"
+      "content_sha256": "cde20d35bd8cf2ec239ee5dab496ed146994f599942e90794989c893092c21e6"
     },
     "skills/task-handoff": {
       "upstream": "pack-owned",

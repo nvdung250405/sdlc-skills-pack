@@ -46,7 +46,17 @@ Do not copy large document bodies here. Maintain strict pointer references:
 
 ---
 
-## 6. Handoff Integrity Checklist (Required)
+## 6. Subagent Dispatch Records (Optional - Multi-Agent / Swarm)
+When delegating slices to subagents (`invoke_subagent` / `/teamwork`), log active assignments:
+- **Subagent 1:** `[Subagent ID / Conversation ID]`
+  - **Assigned Role:** `[Implementer | Reviewer | Debugger]`
+  - **Bound Skills:** `[e.g. skills/test-driven-development/SKILL.md]`
+  - **Assigned Slice:** `[Task ID / component path]`
+  - **Outcome / Evidence:** `[Tests passing / Exit code 0]`
+
+---
+
+## 7. Handoff Integrity Checklist (Required)
 - [ ] All modified files are committed or cleanly staged in Git
 - [ ] Passing test suite verified before handoff
 - [ ] Canonical artifact links updated

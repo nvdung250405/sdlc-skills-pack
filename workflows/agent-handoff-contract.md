@@ -26,3 +26,81 @@ Every stage, role, or agent handing work to another must record in `.agent/tasks
 - **Zero Secrets:** Never pass passwords, tokens, API keys, or private customer data into handoff files.
 - **Pointer Discipline:** The receiving agent must re-read authoritative files from disk rather than relying solely on copied excerpts.
 - **Git State:** Ensure all work in progress is committed to a feature branch or cleanly stashed before hand-off.
+
+---
+
+## 3. Subagent Dispatch & Multi-Agent Coordination Protocol
+
+When an Orchestrator / Master Agent delegates tasks to subagents (via `invoke_subagent`, `/teamwork`, or multi-agent orchestration), each subagent starts with a **fresh, isolated context window**. Subagents do **not** inherit previous chat history.
+
+### The Explicit Skill Binding Invariant
+> [!IMPORTANT]
+> A subagent will **never** automatically know which skill to load or follow unless explicitly instructed. The orchestrating agent **MUST** supply explicit relative file paths to 1–2 required `SKILL.md` files in the subagent's prompt, along with pointers to the authoritative artifact contracts.
+
+### Canonical Subagent Roles & Prompt Templates
+
+#### A. Implementer Subagent (Worker)
+Dispatch when executing a vertical code slice or feature task:
+```markdown
+Role: Feature Implementer Subagent
+Assigned Slice: [Task ID & Name from tasks.md, e.g., Task 2.1: User Authentication API]
+
+MANDATORY SKILL INSTRUCTIONS:
+Before writing or modifying any code, you MUST read and strictly follow these skills:
+1. `skills/test-driven-development/SKILL.md`: Enforce strict Red-Green-Refactor. Write a failing behavioral test first, verify failure, write minimal logic, verify pass.
+2. `skills/incremental-implementation/SKILL.md`: Stay strictly within your assigned vertical slice. Do not edit unrelated files.
+
+AUTHORITATIVE POINTERS:
+- Feature Spec: `docs/features/<feature-id>/spec.md`
+- Task List: `docs/features/<feature-id>/tasks.md`
+- API Contracts: `contracts/` (if modifying interfaces)
+
+REQUIRED OUTPUT & EVIDENCE:
+- Run all test and build commands through `python scripts/bounded_run.py "<cmd>"`.
+- Return to Orchestrator:
+  1. Terminal evidence showing test failed first.
+  2. Terminal evidence showing test passed after implementation.
+  3. Git diff summary of files modified.
+```
+
+#### B. Adversarial Reviewer Subagent (Verifier)
+Dispatch to review an implemented slice independently without author bias:
+```markdown
+Role: Adversarial Code & Spec Reviewer Subagent
+Assigned Target: [Branch name, PR, or list of modified files from Task ID]
+
+MANDATORY SKILL INSTRUCTIONS:
+Before conducting the review, you MUST read and strictly follow these skills:
+1. `skills/code-review-and-quality/SKILL.md`: Perform multi-axis audit (correctness, architecture boundaries, complexity, error handling).
+2. `skills/verification-before-completion/SKILL.md`: You MUST empirically execute the test suite in the terminal yourself. Do not accept unverified claims.
+
+AUTHORITATIVE POINTERS:
+- Acceptance Criteria (Gherkin): `docs/features/<feature-id>/spec.md`
+- Quality Checklists: `shared/references/security-checklist.md`, `shared/references/performance-checklist.md`
+
+REQUIRED OUTPUT & EVIDENCE:
+- Independent terminal test execution output via `python scripts/bounded_run.py "<test-cmd>"`.
+- Categorized findings: Blocker (must fix), Major (defect/debt), Minor (style/nit).
+- Final Verdict: `APPROVED` or `CHANGES_REQUESTED`.
+```
+
+#### C. Root-Cause Debugger Subagent (Investigator)
+Dispatch when investigating unexpected test failures or defect reports:
+```markdown
+Role: Systematic Debugger Subagent
+Assigned Defect: [Exact error message, failing test output, or defect description]
+
+MANDATORY SKILL INSTRUCTIONS:
+You MUST read and strictly follow:
+1. `skills/systematic-debugging/SKILL.md`: Follow the strict 4-phase root cause isolation process:
+   Phase 1: Reproduce & create minimal failing reproduction.
+   Phase 2: Isolate root cause with empirical evidence (no guessing).
+   Phase 3: Formulate and test hypothesis.
+   Phase 4: Implement minimal fix and add permanent regression guard.
+   NEVER apply symptom patches or speculative edits.
+
+REQUIRED OUTPUT & EVIDENCE:
+- Root cause explanation with proof.
+- Automated regression test file path and failure trace.
+- Passing test verification command and terminal evidence.
+```

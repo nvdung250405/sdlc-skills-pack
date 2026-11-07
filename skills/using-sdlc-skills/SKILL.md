@@ -91,6 +91,17 @@ When operating in any repository:
 3. **Context Memory**: Persist durable architectural decisions via MCP Knowledge Graph tools (`create_entities`, `add_observations`).
 4. **Bounded Execution**: Run shell commands through `python scripts/bounded_run.py <cmd>` to bound terminal output and extract failure stacktraces.
 
+## Subagent Dispatch & Multi-Agent Orchestration
+
+When an Orchestrator / Master Agent coordinates parallel work streams or delegates tasks to subagents (e.g. `invoke_subagent`, `/teamwork`):
+1. **Fresh Context Isolation**: Each subagent runs in a fresh, isolated context window with zero prior chat history. It does **not** inherit the parent's loaded skills or mental model.
+2. **Mandatory Skill Binding**: The orchestrator **MUST** explicitly specify relative paths to 1–2 required `SKILL.md` files in the subagent prompt. Never send bare task instructions like "implement feature X".
+3. **Canonical Delegation Roles** (defined in `workflows/agent-handoff-contract.md`):
+   - **Implementer Subagent**: Must bind `skills/test-driven-development/SKILL.md` + `skills/incremental-implementation/SKILL.md` and adhere to strict Red-Green-Refactor.
+   - **Reviewer Subagent**: Must bind `skills/code-review-and-quality/SKILL.md` + `skills/verification-before-completion/SKILL.md` and independently execute verification commands.
+   - **Debugger Subagent**: Must bind `skills/systematic-debugging/SKILL.md` and follow the 4-phase root cause isolation process.
+4. **Pointer Discipline**: Pass file paths to specifications (`docs/features/<id>/spec.md`) rather than pasting raw document content into the subagent prompt.
+
 ## Cross-Skill Invariants
 
 1. **One artifact, one owner**: PRD and system specifications are owned by `spec-driven-development`; Stories/AC by `pm-user-story`; architecture by `software-architecture`; ADRs by `documentation-and-adrs`; final tasks by `planning-and-task-breakdown`.
@@ -103,3 +114,4 @@ When operating in any repository:
 8. **Fallback honestly**: Report tool limitations and fallbacks explicitly.
 9. **Approval boundaries**: Production/destructive operations require explicit human approval.
 10. **Context discipline**: Load strictly on demand (1 workflow + 1–2 skills). Do not dump entire skill packs or templates into prompt context.
+11. **Subagent skill binding**: When dispatching subagents, the orchestrator MUST bind explicit skill paths in the subagent prompt (`workflows/agent-handoff-contract.md`). Subagents start in fresh contexts and will not execute skills unless instructed.

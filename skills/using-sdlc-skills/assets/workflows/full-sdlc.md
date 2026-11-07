@@ -61,7 +61,7 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
     - Author canonical feature specification in `docs/features/<feature-id>/spec.md` with `pm-user-story` (Stories & BDD Given/When/Then AC).
     - Plan tasks in `docs/features/<feature-id>/tasks.md` with `planning-and-task-breakdown`.
     - Execute the TDD construction loop (`incremental-implementation`, `test-driven-development`).
-    - Use `subagent-driven-development` when orchestrating independent feature loops in parallel across isolated subagent workspaces.
+    - Use the Subagent Dispatch Protocol (`workflows/agent-handoff-contract.md`) when orchestrating independent feature loops in parallel across isolated subagent workspaces (binding `test-driven-development` to Implementers and `code-review-and-quality` to Reviewers).
     - Maintain active progress and role hand-offs using `task-handoff` (`.agent/tasks/<task-id>.md`).
     - Collect empirical verification evidence for each capability before completing its slice.
 
