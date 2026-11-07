@@ -45,3 +45,8 @@ If a category has no findings, say so. Do not manufacture findings to fill the t
 ## Gate guidance
 
 Do not use an arbitrary numeric score as the release criterion. Do not proceed with unresolved Critical findings. Major findings must be fixed or explicitly accepted by the appropriate owner with rationale. Minor/Cosmetic findings may be deferred when the risk and schedule justify it. This audit checks document quality; it does not prove the implementation works, replace code review, or replace runtime acceptance testing.
+
+## Environment Integration
+
+> [!TIP]
+> On completion: finish with `verification-before-completion` to confirm any generated artifacts meet acceptance criteria, then `task-handoff` to persist state across sessions.

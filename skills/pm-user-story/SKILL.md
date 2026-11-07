@@ -44,3 +44,8 @@ Update the canonical feature spec; do not create a second source of truth. Each 
 ## Quality gate
 
 Ready for planning when the need and value are understandable; story scope is reasonably independent; ACs are observable and testable; material error/alternate paths are addressed; assumptions are visible; and there are no unresolved contradictions. Use `pm-spec-quality-audit` for non-trivial or high-risk specs.
+
+## Environment Integration
+
+> [!TIP]
+> On completion: finish with `verification-before-completion` to confirm any generated artifacts meet acceptance criteria, then `task-handoff` to persist state across sessions.

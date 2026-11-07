@@ -247,3 +247,11 @@ After completing all increments for a task:
 ## See Also
 
 Per-increment verification is the local check. Before declaring a task done, apply the project-wide Definition of Done as the final gate, the standing bar every increment clears regardless of the task. See `references/definition-of-done.md`.
+
+## Environment Integration
+
+> [!TIP]
+> This skill runs best when the agent exploits the active environment:
+> - **Code navigation**: use `.agent/repo_map.txt` for structural orientation or call `ast-grep:find_code` / `ast-grep:analyze-imports` instead of reading whole files.
+> - **Command execution**: run all shell commands via `python scripts/bounded_run.py <cmd>` to bound output and auto-extract failure stacktraces.
+> - **Completion**: finish each session with `verification-before-completion` → `task-handoff` (and `memory:add_observations` for key architecture decisions).

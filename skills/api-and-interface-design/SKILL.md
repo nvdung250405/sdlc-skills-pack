@@ -365,3 +365,11 @@ After designing an API:
 - [ ] A reused key with a different payload fails loudly rather than replaying the wrong response
 - [ ] The in-flight-duplicate response is a deliberate choice (409, wait, or 202) rather than whatever falls out
 - [ ] Key retention outlives the longest retry path, including dead-letter replay
+
+## Environment Integration
+
+> [!TIP]
+> This skill runs best when the agent exploits the active environment:
+> - **Code navigation**: use `.agent/repo_map.txt` for structural orientation or call `ast-grep:find_code` / `ast-grep:analyze-imports` instead of reading whole files.
+> - **Command execution**: run all shell commands via `python scripts/bounded_run.py <cmd>` to bound output and auto-extract failure stacktraces.
+> - **Completion**: finish each session with `verification-before-completion` → `task-handoff` (and `memory:add_observations` for key architecture decisions).

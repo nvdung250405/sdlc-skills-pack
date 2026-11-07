@@ -396,3 +396,11 @@ After review is complete:
 - [ ] Dependency upgrades were reviewed against their changelog, isolated per package, and verified by a green suite with the lockfile diff reviewed
 
 **Presumptive blockers:** surface and propose the simpler design for each of these; escalate to Required only when the change actively makes structure worse: a refactor that relocates complexity instead of reducing it; a change that pushes a file past the size boundary with no decomposition; feature logic added to a shared module; a near-duplicate of an existing canonical helper; a silent fallback that hides an unclear invariant.
+
+## Environment Integration
+
+> [!TIP]
+> This skill runs best when the agent exploits the active environment:
+> - **Code navigation**: use `.agent/repo_map.txt` for structural orientation or call `ast-grep:find_code` / `ast-grep:analyze-imports` instead of reading whole files.
+> - **Command execution**: run all shell commands via `python scripts/bounded_run.py <cmd>` to bound output and auto-extract failure stacktraces.
+> - **Completion**: finish each session with `verification-before-completion` → `task-handoff` (and `memory:add_observations` for key architecture decisions).

@@ -30,3 +30,11 @@ Read the task file first, then only the files it points to. Do not re-derive dec
 - When Knowledge Graph Memory tools are present (`create_entities`, `add_observations`), persist key architecture decisions to the graph so cross-session context survives.
 
 Done when a different agent could continue using only this file and the repo.
+
+## Environment Integration
+
+> [!TIP]
+> This skill runs best when the agent exploits the active environment:
+> - **Code navigation**: use `.agent/repo_map.txt` for structural orientation or call `ast-grep:find_code` / `ast-grep:analyze-imports` instead of reading whole files.
+> - **Command execution**: run all shell commands via `python scripts/bounded_run.py <cmd>` to bound output and auto-extract failure stacktraces.
+> - **Completion**: finish each session with `verification-before-completion` → `task-handoff` (and `memory:add_observations` for key architecture decisions).

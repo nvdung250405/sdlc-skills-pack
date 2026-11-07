@@ -304,7 +304,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "8858af26e4f3a2fce99b42807de9200e850dbfca11d431a4e7aab615c0deed92"
+      "content_sha256": "e616881924ec94cbff4c7e3bf882540ef234c325ba5b56e201bd12a50368c3da"
     },
     "skills/software-architecture": {
       "upstream": "agentic-sdlc-kit",
@@ -317,7 +317,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "355c76828c662e52c8f34a960ec3ce09293b016f751633e499d1121ccf1d7c34"
+      "content_sha256": "1265aad3f2b343c21c9dc9164087beb19490c1613fe3774165e066e7169cdf58"
     },
     "skills/using-sdlc-skills": {
       "upstream": "pack-owned",
@@ -350,7 +350,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "63db1f070298932b502bfa3fe1466c253fdebf8f028a4e7eaac467c7b914f653"
+      "content_sha256": "3c9abf9bd7a87f3aef5dec2ddae8f603d102897e81f7dec33faaeb28f5bf10b6"
     },
     "extras/docker-expert": {
       "upstream": "sickn33-agentic-awesome-skills",
@@ -460,7 +460,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "97dcb7f710f7129fcab42d3094335a59dd89be6622d35e91f340f5b8018f241e"
+      "content_sha256": "3b62f405a5fc2164f045245e682fc116b73bbedec5f11d3bead8bf63cf354c5b"
     },
     "skills/pm-user-story": {
       "upstream": "uxcel-product-skills",
@@ -473,7 +473,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "48ea8e037d84848666e5c49e98dab231cb1273d92bc6443ad27a5ac8c4092865"
+      "content_sha256": "ad60bf841f1069e571479e43f5490d3488809c648b05aa4336031e9ed9bab2d0"
     },
     "skills/pm-spec-quality-audit": {
       "upstream": "uxcel-product-skills",
@@ -486,7 +486,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "a5167702394551b4770703a71743c85040ba8bd6845c491a7ecae095574cced3"
+      "content_sha256": "d257f7fcca9be3023bdd65bebc768f47c26d76766f101f90d224cd772e8ac2b7"
     },
     "extras/secrets-management": {
       "upstream": "wshobson-agents",

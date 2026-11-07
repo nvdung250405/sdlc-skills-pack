@@ -44,3 +44,8 @@ Include, as appropriate:
 ## Quality gate
 
 The PRD is ready when the problem and target users are clear enough for the next decision; goals and boundaries are explicit; success can be evaluated; material assumptions are labeled; and downstream feature detail is not confused with product-level intent. For significant work, request `pm-spec-quality-audit` before the PRD is treated as build-ready.
+
+## Environment Integration
+
+> [!TIP]
+> On completion: finish with `verification-before-completion` to confirm any generated artifacts meet acceptance criteria, then `task-handoff` to persist state across sessions.

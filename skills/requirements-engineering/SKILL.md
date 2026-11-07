@@ -39,3 +39,8 @@ Use project conventions where present. Do not create an SRS merely because this 
 ## Quality gate
 
 Each accepted requirement has a clear source/owner, is unambiguous and verifiable, and does not conflict with another accepted requirement. NFR targets have a justified basis or remain open questions. Stable IDs and traceability state are preserved. This skill defines requirements; it does not design the architecture or declare implementation acceptance.
+
+## Environment Integration
+
+> [!TIP]
+> On completion: finish with `verification-before-completion` to confirm any generated artifacts meet acceptance criteria, then `task-handoff` to persist state across sessions.
