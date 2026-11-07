@@ -11,3 +11,4 @@
 - Run `python scripts/lint_pack.py` during local work, then `python scripts/lint_pack.py --strict` and `python -m unittest discover -s tests -v` before release.
 - Never claim cross-agent runtime compatibility unless relevant workflows have been exercised on at least two real agents.
 - Use `verification-before-completion` before claiming tests or checks passed. Report commands actually run and limitations honestly.
+- For token efficiency and harness execution: consult `.agent/repo_map.txt` for structural orientation, run long test/build commands via `python scripts/bounded_run.py`, and inspect code via viewports instead of reading full large files.
