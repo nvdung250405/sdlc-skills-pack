@@ -77,7 +77,7 @@ def read_json(path: Path, label: str, errors: list[str]) -> dict[str, Any] | Non
 def check_distribution_hygiene(errors: list[str]) -> None:
     """Ensure no junk files or temporary directories pollute the pack distribution."""
     prohibited_names = {".agent", "__pycache__", ".git", ".DS_Store", ".pytest_cache"}
-    for search_dir in ("skills", "extras", "workflows", "templates", "manifests", "adapters"):
+    for search_dir in ("skills", "workflows", "templates", "manifests", "adapters"):
         dir_path = ROOT / search_dir
         if not dir_path.is_dir():
             continue
@@ -89,7 +89,7 @@ def check_distribution_hygiene(errors: list[str]) -> None:
 def check_doc_metrics(errors: list[str]) -> None:
     """Ensure key documentation files state exactly the actual skill, template, and workflow counts."""
     core_count = len([p for p in (ROOT / "skills").iterdir() if p.is_dir()])
-    extras_count = len([p for p in (ROOT / "extras").iterdir() if p.is_dir()])
+    extras_count = len([p for p in (ROOT / "extras").iterdir() if p.is_dir()]) if (ROOT / "extras").is_dir() else 0
     tmpl_count = len([p for p in (ROOT / "templates").rglob("*") if p.is_file() and p.name != "README.md"])
     wf_count = len([p for p in (ROOT / "workflows").glob("*.md") if p.is_file()])
 
@@ -103,10 +103,7 @@ def check_doc_metrics(errors: list[str]) -> None:
 
     # Dynamic positive checks that extract stated numbers and compare with actual counts:
     positive_checks = [
-        (re.compile(r"\bCore\s*\(\s*(\d+)\s*(?:skills?)?\s*\)", re.I), core_count, "Core count"),
-        (re.compile(r"\b(\d+)\s+(?:Lean\s+)?Core\s+skills?\b", re.I), core_count, "Core count"),
-        (re.compile(r"\bExtras\s*\(\s*(\d+)\s*(?:skills?)?\s*\)"), extras_count, "Extras count"),
-        (re.compile(r"(?<![0-9]–)(?<![0-9]-)\b(\d+)\s+(?:Contextual\s+)?Extras\s+skills?\b"), extras_count, "Extras count"),
+        (re.compile(r"\b(\d+)\s+Universal\s+(?:SDLC\s+)?skills?\b", re.I), core_count, "Universal SDLC skills count"),
         (re.compile(r"\b(\d+)\s+(?:canonical\s+)?(?:artifact\s+)?(?:starter\s+)?templates\b", re.I), tmpl_count, "templates count"),
         (re.compile(r"\btemplates\s*\(\s*(\d+)\s*\)", re.I), tmpl_count, "templates count"),
         (re.compile(r"\b(\d+)\s+(?:standardized\s+)?workflows\b", re.I), wf_count, "workflows count"),
@@ -114,7 +111,9 @@ def check_doc_metrics(errors: list[str]) -> None:
     ]
 
     obsolete_patterns = [
-        (re.compile(r"--extras\b"), "found obsolete flag '--extras' (actual: '--with-extras')"),
+        (re.compile(r"\b29\s+(?:Lean\s+)?Core\b", re.I), "found obsolete '29 Core' (now: 32 Universal SDLC skills)"),
+        (re.compile(r"\b34\s+(?:Contextual\s+)?Extras\b", re.I), "found obsolete '34 Extras' (now: 32 Universal SDLC skills)"),
+        (re.compile(r"--extras\b"), "found obsolete flag '--extras'"),
         (re.compile(r"\b(?:Runtime\s+Adapters|runtimes)\s*\(6\)", re.I), "found obsolete 'Adapters/runtimes (6)' (actual: 8 runtime targets)"),
         (re.compile(r"\b(?:17|19)\s+(?:test\s+assertions|unit\s+tests?)\b", re.I), "found obsolete test count (actual: 20 unit tests)"),
     ]
@@ -173,10 +172,10 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
     skill_count = 0
-    available_by_tier: dict[str, set[str]] = {"skills": set(), "extras": set()}
+    available_by_tier: dict[str, set[str]] = {"skills": set()}
     seen_names: dict[str, Path] = {}
 
-    for tier_name in ("skills", "extras"):
+    for tier_name in ("skills",):
         root = ROOT / tier_name
         if not root.is_dir():
             errors.append(f"missing required directory {tier_name}/")
@@ -223,7 +222,7 @@ def main() -> int:
                 check_markdown_links(doc, errors)
 
     manifest = read_json(ROOT / "upstream.json", "upstream manifest", errors)
-    expected_by_tier: dict[str, set[str]] = {"skills": set(), "extras": set()}
+    expected_by_tier: dict[str, set[str]] = {"skills": set()}
     expected_resources: list[tuple[str, str, bool]] = []
     expected_sources: set[str] = set()
     if manifest is not None:
@@ -266,8 +265,7 @@ def main() -> int:
             expected_by_tier[tier].add(name)
 
         # A pack-owned skill directory is a legitimate installed skill as well.
-        expected_by_tier["skills"].update({"using-sdlc-skills", "task-handoff"})
-        expected_by_tier["extras"].update({"skill-authoring", "api-contract-testing"})
+        expected_by_tier["skills"].update({"using-sdlc-skills", "task-handoff", "api-contract-testing"})
         for tier_name, expected in expected_by_tier.items():
             missing = sorted(expected - available_by_tier[tier_name])
             if missing:
@@ -322,7 +320,7 @@ def main() -> int:
                 errors.append(f"manifests/skill-map.json: profile 'core' does not match skills/ (diff: {sorted(core_prof ^ actual_core)})")
             # Full profile must match all skills
             full_prof = set(profiles.get("full", []))
-            actual_all = {p.name for root in [ROOT / "skills", ROOT / "extras"] for p in root.iterdir() if p.is_dir()}
+            actual_all = {p.name for p in (ROOT / "skills").iterdir() if p.is_dir()}
             if full_prof != actual_all:
                 errors.append(f"manifests/skill-map.json: profile 'full' does not match all skills on disk (diff: {sorted(full_prof ^ actual_all)})")
 
@@ -426,7 +424,7 @@ def main() -> int:
             ROOT / "skills" / "shipping-and-launch" / "references" / "security-checklist.md",
         ],
         ROOT / "shared" / "references" / "performance-checklist.md": [
-            ROOT / "extras" / "performance-optimization" / "references" / "performance-checklist.md",
+            ROOT / "skills" / "performance-optimization" / "references" / "performance-checklist.md",
             ROOT / "skills" / "code-review-and-quality" / "references" / "performance-checklist.md",
             ROOT / "skills" / "shipping-and-launch" / "references" / "performance-checklist.md",
         ],

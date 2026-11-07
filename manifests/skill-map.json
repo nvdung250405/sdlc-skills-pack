@@ -32,149 +32,179 @@
     "using-sdlc-skills",
     "verification-before-completion"
   ],
-  "extras": [
-    "ab-testing",
-    "analytics",
-    "api-contract-testing",
-    "auth-implementation-patterns",
-    "browser-testing-with-devtools",
-    "codebase-design",
-    "cost-optimization",
-    "customer-research",
-    "deprecation-and-migration",
-    "doc-coauthoring",
-    "docker-expert",
-    "domain-modeling",
-    "frontend-design",
-    "frontend-ui-engineering",
-    "git-guardrails-claude-code",
-    "improve-codebase-architecture",
-    "k6-load-testing",
-    "kubernetes-architect",
-    "mcp-builder",
-    "performance-optimization",
-    "screen-reader-testing",
-    "secrets-management",
-    "service-mesh-observability",
-    "setup-pre-commit",
-    "skill-authoring",
-    "subagent-driven-development",
-    "terraform-specialist",
-    "threat-model-analyst",
-    "to-tickets",
-    "vercel-react-best-practices",
-    "web-design-guidelines",
-    "webapp-testing",
-    "writing-for-agents",
-    "writing-guidelines"
-  ],
+  "extras": [],
   "groups": {
     "router-context-governance": [
       "using-sdlc-skills",
-      "context-engineering",
-      "task-handoff",
-      "skill-authoring",
-      "writing-for-agents",
-      "mcp-builder"
+      "task-handoff"
     ],
     "discovery-and-learning": [
       "interview-me",
       "idea-refine",
-      "customer-research",
-      "analytics",
-      "ab-testing"
+      "analytics"
     ],
     "requirements-and-specifications": [
       "spec-driven-development",
-      "requirements-engineering",
-      "pm-product-spec",
-      "pm-user-story",
-      "pm-spec-quality-audit"
+      "pm-user-story"
     ],
     "architecture-and-modeling": [
       "software-architecture",
       "api-and-interface-design",
       "database-design",
-      "documentation-and-adrs",
-      "codebase-design",
-      "domain-modeling"
+      "documentation-and-adrs"
     ],
     "planning-and-task-breakdown": [
-      "planning-and-task-breakdown",
-      "to-tickets"
+      "planning-and-task-breakdown"
     ],
     "implementation-and-construction": [
       "incremental-implementation",
       "test-driven-development",
       "source-driven-development",
       "git-workflow-and-versioning",
-      "using-git-worktrees",
-      "subagent-driven-development",
-      "frontend-ui-engineering",
-      "vercel-react-best-practices"
+      "frontend-ui-engineering"
     ],
     "testing-and-verification": [
       "verification-before-completion",
       "webapp-testing",
-      "browser-testing-with-devtools",
       "api-contract-testing",
-      "k6-load-testing",
-      "screen-reader-testing"
+      "k6-load-testing"
     ],
     "review-acceptance-and-guidelines": [
-      "code-review-and-quality",
-      "receiving-code-review",
-      "frontend-design",
-      "web-design-guidelines"
+      "code-review-and-quality"
     ],
     "release-cloud-and-infrastructure": [
       "ci-cd-and-automation",
       "shipping-and-launch",
-      "docker-expert",
-      "terraform-specialist",
-      "kubernetes-architect",
-      "service-mesh-observability",
-      "cost-optimization"
+      "docker-expert"
     ],
     "security-privacy-and-auth": [
       "security-and-hardening",
-      "threat-model-analyst",
-      "secrets-management",
       "auth-implementation-patterns"
     ],
     "operations-maintenance-and-evolution": [
       "observability-and-instrumentation",
       "systematic-debugging",
       "code-simplification",
-      "improve-codebase-architecture",
       "performance-optimization",
       "deprecation-and-migration"
     ],
-    "platform-devex-and-documentation": [
-      "setup-pre-commit",
-      "git-guardrails-claude-code",
-      "doc-coauthoring",
-      "writing-guidelines"
-    ]
+    "platform-devex-and-documentation": []
   },
   "precedence": {
     "using-sdlc-skills": "Only pack-level router. It classifies the work and selects a workflow; upstream skills do not install/activate a competing router by default.",
-    "pm-product-spec": "Owns product-level PRD/product intent. It may summarize candidate stories but does not own detailed Story/AC records.",
     "pm-user-story": "Owns the detailed Story/Acceptance Criteria section in the canonical feature spec. User story content must not be duplicated into another authoritative file.",
-    "pm-spec-quality-audit": "Owns semantic review of PRD/spec/Story documents; findings are severity-rated, not reduced to an arbitrary score.",
-    "requirements-engineering": "Owns formal system SRS/FR/NFR and initial requirement rows/IDs only when formal requirements/traceability are warranted.",
     "software-architecture": "Owns system architecture overview; ADRs, API contracts and detailed feature design are separate responsibilities.",
     "planning-and-task-breakdown": "Owns the final tasks list for a feature. Other workflow/skill content may inform the plan but must not create a competing task list.",
     "verification-before-completion": "Requires fresh observable evidence before making completion/pass claims; it does not replace acceptance criteria or independent review.",
     "systematic-debugging": "Default pack debugging skill. Stabilize/reproduce and identify root cause before changing code.",
     "webapp-testing": "Use Playwright-based tests when the environment supports it. Do not also invoke browser-testing-with-devtools unless the second tool provides distinct required evidence.",
-    "browser-testing-with-devtools": "Use browser DevTools/MCP for runtime inspection when that tool is available; do not assume its MCP is installed.",
     "database-design": "Provides schema design, indexing, and migration guidelines. Complements software-architecture by focusing on persistence tier.",
     "api-contract-testing": "Verifies wire-level provider/consumer schema contracts and backward compatibility using local fixtures; does not replace end-to-end web testing.",
-    "auth-implementation-patterns": "Designs authentication tokens, session lifecycles, and RBAC/ABAC authorization boundaries; does not replace security code review.",
-    "secrets-management": "Secures secrets retrieval, CI credentials, and rotation workflows; does not grant permission to inspect production secrets."
+    "auth-implementation-patterns": "Designs authentication tokens, session lifecycles, and RBAC/ABAC authorization boundaries; does not replace security code review."
   },
   "profiles": {
+    "canonical-32": [
+      "analytics",
+      "api-and-interface-design",
+      "api-contract-testing",
+      "auth-implementation-patterns",
+      "ci-cd-and-automation",
+      "code-review-and-quality",
+      "code-simplification",
+      "database-design",
+      "deprecation-and-migration",
+      "docker-expert",
+      "documentation-and-adrs",
+      "frontend-ui-engineering",
+      "git-workflow-and-versioning",
+      "idea-refine",
+      "incremental-implementation",
+      "interview-me",
+      "k6-load-testing",
+      "observability-and-instrumentation",
+      "performance-optimization",
+      "planning-and-task-breakdown",
+      "pm-user-story",
+      "security-and-hardening",
+      "shipping-and-launch",
+      "software-architecture",
+      "source-driven-development",
+      "spec-driven-development",
+      "systematic-debugging",
+      "task-handoff",
+      "test-driven-development",
+      "using-sdlc-skills",
+      "verification-before-completion",
+      "webapp-testing"
+    ],
+    "full": [
+      "analytics",
+      "api-and-interface-design",
+      "api-contract-testing",
+      "auth-implementation-patterns",
+      "ci-cd-and-automation",
+      "code-review-and-quality",
+      "code-simplification",
+      "database-design",
+      "deprecation-and-migration",
+      "docker-expert",
+      "documentation-and-adrs",
+      "frontend-ui-engineering",
+      "git-workflow-and-versioning",
+      "idea-refine",
+      "incremental-implementation",
+      "interview-me",
+      "k6-load-testing",
+      "observability-and-instrumentation",
+      "performance-optimization",
+      "planning-and-task-breakdown",
+      "pm-user-story",
+      "security-and-hardening",
+      "shipping-and-launch",
+      "software-architecture",
+      "source-driven-development",
+      "spec-driven-development",
+      "systematic-debugging",
+      "task-handoff",
+      "test-driven-development",
+      "using-sdlc-skills",
+      "verification-before-completion",
+      "webapp-testing"
+    ],
+    "core": [
+      "analytics",
+      "api-and-interface-design",
+      "api-contract-testing",
+      "auth-implementation-patterns",
+      "ci-cd-and-automation",
+      "code-review-and-quality",
+      "code-simplification",
+      "database-design",
+      "deprecation-and-migration",
+      "docker-expert",
+      "documentation-and-adrs",
+      "frontend-ui-engineering",
+      "git-workflow-and-versioning",
+      "idea-refine",
+      "incremental-implementation",
+      "interview-me",
+      "k6-load-testing",
+      "observability-and-instrumentation",
+      "performance-optimization",
+      "planning-and-task-breakdown",
+      "pm-user-story",
+      "security-and-hardening",
+      "shipping-and-launch",
+      "software-architecture",
+      "source-driven-development",
+      "spec-driven-development",
+      "systematic-debugging",
+      "task-handoff",
+      "test-driven-development",
+      "using-sdlc-skills",
+      "verification-before-completion",
+      "webapp-testing"
+    ],
     "eager-lean": [
       "code-review-and-quality",
       "incremental-implementation",
@@ -184,181 +214,12 @@
       "test-driven-development",
       "using-sdlc-skills",
       "verification-before-completion"
-    ],
-    "core": [
-      "api-and-interface-design",
-      "ci-cd-and-automation",
-      "code-review-and-quality",
-      "code-simplification",
-      "context-engineering",
-      "database-design",
-      "documentation-and-adrs",
-      "git-workflow-and-versioning",
-      "idea-refine",
-      "incremental-implementation",
-      "interview-me",
-      "observability-and-instrumentation",
-      "planning-and-task-breakdown",
-      "pm-product-spec",
-      "pm-spec-quality-audit",
-      "pm-user-story",
-      "receiving-code-review",
-      "requirements-engineering",
-      "security-and-hardening",
-      "shipping-and-launch",
-      "software-architecture",
-      "source-driven-development",
-      "spec-driven-development",
-      "systematic-debugging",
-      "task-handoff",
-      "test-driven-development",
-      "using-git-worktrees",
-      "using-sdlc-skills",
-      "verification-before-completion"
-    ],
-    "core+web": [
-      "api-and-interface-design",
-      "browser-testing-with-devtools",
-      "ci-cd-and-automation",
-      "code-review-and-quality",
-      "code-simplification",
-      "context-engineering",
-      "database-design",
-      "documentation-and-adrs",
-      "frontend-design",
-      "frontend-ui-engineering",
-      "git-workflow-and-versioning",
-      "idea-refine",
-      "incremental-implementation",
-      "interview-me",
-      "observability-and-instrumentation",
-      "planning-and-task-breakdown",
-      "pm-product-spec",
-      "pm-spec-quality-audit",
-      "pm-user-story",
-      "receiving-code-review",
-      "requirements-engineering",
-      "screen-reader-testing",
-      "security-and-hardening",
-      "shipping-and-launch",
-      "software-architecture",
-      "source-driven-development",
-      "spec-driven-development",
-      "systematic-debugging",
-      "task-handoff",
-      "test-driven-development",
-      "using-git-worktrees",
-      "using-sdlc-skills",
-      "vercel-react-best-practices",
-      "verification-before-completion",
-      "web-design-guidelines",
-      "webapp-testing"
-    ],
-    "full": [
-      "ab-testing",
-      "analytics",
-      "api-and-interface-design",
-      "api-contract-testing",
-      "auth-implementation-patterns",
-      "browser-testing-with-devtools",
-      "ci-cd-and-automation",
-      "code-review-and-quality",
-      "code-simplification",
-      "codebase-design",
-      "context-engineering",
-      "cost-optimization",
-      "customer-research",
-      "database-design",
-      "deprecation-and-migration",
-      "doc-coauthoring",
-      "docker-expert",
-      "documentation-and-adrs",
-      "domain-modeling",
-      "frontend-design",
-      "frontend-ui-engineering",
-      "git-guardrails-claude-code",
-      "git-workflow-and-versioning",
-      "idea-refine",
-      "improve-codebase-architecture",
-      "incremental-implementation",
-      "interview-me",
-      "k6-load-testing",
-      "kubernetes-architect",
-      "mcp-builder",
-      "observability-and-instrumentation",
-      "performance-optimization",
-      "planning-and-task-breakdown",
-      "pm-product-spec",
-      "pm-spec-quality-audit",
-      "pm-user-story",
-      "receiving-code-review",
-      "requirements-engineering",
-      "screen-reader-testing",
-      "secrets-management",
-      "security-and-hardening",
-      "service-mesh-observability",
-      "setup-pre-commit",
-      "shipping-and-launch",
-      "skill-authoring",
-      "software-architecture",
-      "source-driven-development",
-      "spec-driven-development",
-      "subagent-driven-development",
-      "systematic-debugging",
-      "task-handoff",
-      "terraform-specialist",
-      "test-driven-development",
-      "threat-model-analyst",
-      "to-tickets",
-      "using-git-worktrees",
-      "using-sdlc-skills",
-      "vercel-react-best-practices",
-      "verification-before-completion",
-      "web-design-guidelines",
-      "webapp-testing",
-      "writing-for-agents",
-      "writing-guidelines"
-    ],
-    "canonical-32": [
-      "using-sdlc-skills",
-      "interview-me",
-      "idea-refine",
-      "spec-driven-development",
-      "pm-user-story",
-      "software-architecture",
-      "api-and-interface-design",
-      "database-design",
-      "documentation-and-adrs",
-      "planning-and-task-breakdown",
-      "task-handoff",
-      "incremental-implementation",
-      "test-driven-development",
-      "source-driven-development",
-      "git-workflow-and-versioning",
-      "code-review-and-quality",
-      "systematic-debugging",
-      "code-simplification",
-      "verification-before-completion",
-      "security-and-hardening",
-      "ci-cd-and-automation",
-      "shipping-and-launch",
-      "observability-and-instrumentation",
-      "frontend-ui-engineering",
-      "performance-optimization",
-      "deprecation-and-migration",
-      "webapp-testing",
-      "api-contract-testing",
-      "k6-load-testing",
-      "docker-expert",
-      "auth-implementation-patterns",
-      "analytics"
     ]
   },
   "workflow_dependencies": {
     "full-sdlc": {
       "requires": [
         "using-sdlc-skills",
-        "pm-product-spec",
         "pm-user-story",
         "software-architecture",
         "planning-and-task-breakdown",
@@ -372,19 +233,13 @@
       "optional": [
         "interview-me",
         "idea-refine",
-        "customer-research",
-        "pm-spec-quality-audit",
-        "requirements-engineering",
         "api-and-interface-design",
         "api-contract-testing",
         "database-design",
         "documentation-and-adrs",
-        "threat-model-analyst",
         "security-and-hardening",
-        "frontend-design",
         "frontend-ui-engineering",
         "webapp-testing",
-        "browser-testing-with-devtools",
         "ci-cd-and-automation",
         "observability-and-instrumentation"
       ]
@@ -402,19 +257,14 @@
         "task-handoff"
       ],
       "optional": [
-        "pm-product-spec",
-        "pm-spec-quality-audit",
         "api-and-interface-design",
         "api-contract-testing",
         "database-design",
         "software-architecture",
         "documentation-and-adrs",
-        "threat-model-analyst",
         "security-and-hardening",
-        "frontend-design",
         "frontend-ui-engineering",
-        "webapp-testing",
-        "browser-testing-with-devtools"
+        "webapp-testing"
       ]
     },
     "bug-fix": {
@@ -451,9 +301,7 @@
         "verification-before-completion",
         "task-handoff"
       ],
-      "optional": [
-        "service-mesh-observability"
-      ]
+      "optional": []
     },
     "refactoring": {
       "requires": [
@@ -462,10 +310,7 @@
         "test-driven-development",
         "verification-before-completion"
       ],
-      "optional": [
-        "improve-codebase-architecture",
-        "codebase-design"
-      ]
+      "optional": []
     },
     "performance-tuning": {
       "requires": [
@@ -483,7 +328,6 @@
       "requires": [
         "using-sdlc-skills",
         "security-and-hardening",
-        "using-git-worktrees",
         "verification-before-completion"
       ],
       "optional": [
@@ -508,8 +352,7 @@
         "task-handoff"
       ],
       "optional": [
-        "analytics",
-        "ab-testing"
+        "analytics"
       ]
     },
     "agent-handoff-contract": {
@@ -517,9 +360,41 @@
         "using-sdlc-skills",
         "task-handoff"
       ],
-      "optional": [
-        "using-git-worktrees"
-      ]
+      "optional": []
     }
-  }
+  },
+  "skills": [
+    "analytics",
+    "api-and-interface-design",
+    "api-contract-testing",
+    "auth-implementation-patterns",
+    "ci-cd-and-automation",
+    "code-review-and-quality",
+    "code-simplification",
+    "database-design",
+    "deprecation-and-migration",
+    "docker-expert",
+    "documentation-and-adrs",
+    "frontend-ui-engineering",
+    "git-workflow-and-versioning",
+    "idea-refine",
+    "incremental-implementation",
+    "interview-me",
+    "k6-load-testing",
+    "observability-and-instrumentation",
+    "performance-optimization",
+    "planning-and-task-breakdown",
+    "pm-user-story",
+    "security-and-hardening",
+    "shipping-and-launch",
+    "software-architecture",
+    "source-driven-development",
+    "spec-driven-development",
+    "systematic-debugging",
+    "task-handoff",
+    "test-driven-development",
+    "using-sdlc-skills",
+    "verification-before-completion",
+    "webapp-testing"
+  ]
 }

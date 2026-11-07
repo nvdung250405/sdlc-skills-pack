@@ -12,26 +12,37 @@
   ],
   "expected_skills": [
     "security-and-hardening",
-    "using-git-worktrees",
-    "test-driven-development",
     "git-workflow-and-versioning",
+    "test-driven-development",
     "verification-before-completion"
   ],
   "expected_artifacts": [
     {
       "alias": "handoff",
       "canonical_path": ".agent/tasks/dep-upgrade-pyyaml.md",
-      "must_contain": ["Vulnerability Audit", "Worktree Branch", "Changed Manifests"]
+      "must_contain": [
+        "Vulnerability Audit",
+        "Worktree Branch",
+        "Changed Manifests"
+      ]
     },
     {
       "alias": "pr",
       "canonical_path": ".github/pull_request_template.md",
-      "must_contain": ["Security Fix", "Test Verification", "Breaking Changes"]
+      "must_contain": [
+        "Security Fix",
+        "Test Verification",
+        "Breaking Changes"
+      ]
     },
     {
       "alias": "completion",
       "canonical_path": "docs/features/upgrade-pyyaml/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [
@@ -40,4 +51,3 @@
     "Replace all unsafe loader calls without silently weakening parser behavior"
   ]
 }
-

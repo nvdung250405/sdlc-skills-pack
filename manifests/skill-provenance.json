@@ -133,18 +133,6 @@
       "refresh_policy": "pinned-sync",
       "content_sha256": "f0c5ed754057eb0c1e027e2587f59de816651feb5e837242296c43ea21cf621d"
     },
-    "skills/context-engineering": {
-      "upstream": "addyosmani-agent-skills",
-      "source_path": "skills/context-engineering",
-      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
-      "license": "MIT",
-      "transformations": [
-        "Localize shared references into the skill directory at sync time."
-      ],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "8b736cb9e55b82b265ab6ff78349c0e826e8a6df550deddf665b7fb3ff858b63"
-    },
     "skills/code-review-and-quality": {
       "upstream": "addyosmani-agent-skills",
       "source_path": "skills/code-review-and-quality",
@@ -205,7 +193,7 @@
       "refresh_policy": "pinned-sync",
       "content_sha256": "8e71d0b45376deac9850aed899aa52ebb4f537f0d29408b3fdfaeadad044168c"
     },
-    "extras/performance-optimization": {
+    "skills/performance-optimization": {
       "upstream": "addyosmani-agent-skills",
       "source_path": "skills/performance-optimization",
       "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
@@ -217,7 +205,7 @@
       "refresh_policy": "pinned-sync",
       "content_sha256": "2341f0b822516b0d13ccabcca96ed763ac51f25d80b6fb55a5df1f81a51e834e"
     },
-    "extras/frontend-ui-engineering": {
+    "skills/frontend-ui-engineering": {
       "upstream": "addyosmani-agent-skills",
       "source_path": "skills/frontend-ui-engineering",
       "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
@@ -229,7 +217,7 @@
       "refresh_policy": "pinned-sync",
       "content_sha256": "3b21fa03812a48b847df0b4bc36b6e5ee16676a8be1b0672b0bc2d9dff9cac9d"
     },
-    "extras/deprecation-and-migration": {
+    "skills/deprecation-and-migration": {
       "upstream": "addyosmani-agent-skills",
       "source_path": "skills/deprecation-and-migration",
       "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
@@ -262,49 +250,6 @@
       "kind": "vendored-upstream",
       "refresh_policy": "pinned-sync",
       "content_sha256": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3"
-    },
-    "skills/receiving-code-review": {
-      "upstream": "obra-superpowers",
-      "source_path": "skills/receiving-code-review",
-      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438"
-    },
-    "skills/using-git-worktrees": {
-      "upstream": "obra-superpowers",
-      "source_path": "skills/using-git-worktrees",
-      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "8cfb86f121269e8f7f12361e6795c4f6738828340e28964c9229d365666c9edd"
-    },
-    "extras/frontend-design": {
-      "upstream": "anthropics-skills",
-      "source_path": "skills/frontend-design",
-      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
-      "license": "Apache-2.0",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
-    },
-    "skills/requirements-engineering": {
-      "upstream": "agentic-sdlc-kit",
-      "source_path": "skills/requirements-engineering/SKILL.md",
-      "commit": "main",
-      "license": "Apache-2.0",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Retained formal requirements elicitation, functional/non-functional breakdown, requirement IDs, and RTM traceability."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "e616881924ec94cbff4c7e3bf882540ef234c325ba5b56e201bd12a50368c3da"
     },
     "skills/software-architecture": {
       "upstream": "agentic-sdlc-kit",
@@ -352,7 +297,7 @@
       "refresh_policy": "manual-review-only",
       "content_sha256": "3c9abf9bd7a87f3aef5dec2ddae8f603d102897e81f7dec33faaeb28f5bf10b6"
     },
-    "extras/docker-expert": {
+    "skills/docker-expert": {
       "upstream": "sickn33-agentic-awesome-skills",
       "source_path": "skills/docker-expert/SKILL.md",
       "commit": "main",
@@ -365,7 +310,7 @@
       "refresh_policy": "manual-review-only",
       "content_sha256": "5f7b6bc14c35f427e630a997cc75ef42c2f32a8b7f0074fcc6155b95be7fc0c5"
     },
-    "extras/k6-load-testing": {
+    "skills/k6-load-testing": {
       "upstream": "sickn33-agentic-awesome-skills",
       "source_path": "skills/k6-load-testing/SKILL.md",
       "commit": "main",
@@ -378,58 +323,7 @@
       "refresh_policy": "manual-review-only",
       "content_sha256": "29a808e73b4e7fe7880ed5595e526e4916d43fef2bdfd2cbacf8c7cea99b0c63"
     },
-    "extras/terraform-specialist": {
-      "upstream": "sickn33-agentic-awesome-skills",
-      "source_path": "skills/terraform-specialist/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved Terraform and OpenTofu IaC module design, state management, and policy-as-code automation."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "77a5db1664abdbd106746bc5f3f153d18641d9c3ccc5b97f05535ee2122d7396"
-    },
-    "extras/kubernetes-architect": {
-      "upstream": "sickn33-agentic-awesome-skills",
-      "source_path": "skills/kubernetes-architect/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved Kubernetes orchestration, GitOps deployment patterns, multi-cluster topology, and reliability guidance."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "35f172260d7958ed97a00d1c911a725491508158943bc079ea02a52ea0c168d2"
-    },
-    "extras/screen-reader-testing": {
-      "upstream": "wshobson-agents",
-      "source_path": "skills/screen-reader-testing/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved screen reader verification, ARIA announcement audits, accessibility workflows, and implementation playbook."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "9b2d8fa67e89b635e773decc158ff1838a89a32d4d2d3f6f52af2d40ad03fedf"
-    },
-    "extras/browser-testing-with-devtools": {
-      "upstream": "addyosmani-agent-skills",
-      "source_path": "skills/browser-testing-with-devtools",
-      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
-      "license": "MIT",
-      "transformations": [
-        "Localize shared references into the skill directory at sync time."
-      ],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "4e3aacd6a380cd25bc6c2d67fdd1c926a9b22535b8a62109ecd33cefd909e3d9"
-    },
-    "extras/webapp-testing": {
+    "skills/webapp-testing": {
       "upstream": "anthropics-skills",
       "source_path": "skills/webapp-testing",
       "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
@@ -439,7 +333,7 @@
       "refresh_policy": "pinned-sync",
       "content_sha256": "53f3127ae26f727675089e0cca295436df7b20af4cf4e78206e59c4b9e153afd"
     },
-    "extras/api-contract-testing": {
+    "skills/api-contract-testing": {
       "upstream": "pack-owned",
       "source_path": "extras/api-contract-testing",
       "commit": "local-pack",
@@ -448,19 +342,6 @@
       "kind": "pack-owned",
       "refresh_policy": "local",
       "content_sha256": "63311bf6ac659dc19ba5255cf548cfb84ad4ef847dd1f2c8f967096fb4f891f2"
-    },
-    "skills/pm-product-spec": {
-      "upstream": "uxcel-product-skills",
-      "source_path": "skills/pm-product-spec/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into core skills tier; adapted for PRD creation, product goals, scope boundaries, and non-story technical handoff."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "3b62f405a5fc2164f045245e682fc116b73bbedec5f11d3bead8bf63cf354c5b"
     },
     "skills/pm-user-story": {
       "upstream": "uxcel-product-skills",
@@ -475,33 +356,7 @@
       "refresh_policy": "manual-review-only",
       "content_sha256": "ad60bf841f1069e571479e43f5490d3488809c648b05aa4336031e9ed9bab2d0"
     },
-    "skills/pm-spec-quality-audit": {
-      "upstream": "uxcel-product-skills",
-      "source_path": "skills/pm-spec-quality-audit/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into core skills tier; structured spec quality review, gap analysis, and ambiguity audit before implementation."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "d257f7fcca9be3023bdd65bebc768f47c26d76766f101f90d224cd772e8ac2b7"
-    },
-    "extras/secrets-management": {
-      "upstream": "wshobson-agents",
-      "source_path": "skills/secrets-management/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into extras tier; preserved CI/CD credential security, workload identity, secret rotation procedures, and reference documentation for Vault and GitHub Secrets."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "f4127f545f22948a4fcd4f8824b885029adc1adfb853690bc4d77c085f8ac6c6"
-    },
-    "extras/auth-implementation-patterns": {
+    "skills/auth-implementation-patterns": {
       "upstream": "wshobson-agents",
       "source_path": "skills/auth-implementation-patterns/SKILL.md",
       "commit": "main",
@@ -514,153 +369,7 @@
       "refresh_policy": "manual-review-only",
       "content_sha256": "79f7a7172c192ddaf9a04e07914b31e2a3fd753125a88e237b7d48c705228c7c"
     },
-    "extras/skill-authoring": {
-      "upstream": "pack-owned",
-      "source_path": "extras/skill-authoring",
-      "commit": "local-pack",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "pack-owned",
-      "refresh_policy": "local",
-      "content_sha256": "2464057a4e40f81f4cb8feab0662e324fcd86ec0664efd3748a3ffb7e873fe3e"
-    },
-    "extras/service-mesh-observability": {
-      "upstream": "wshobson-agents",
-      "source_path": "plugins/cloud-infrastructure/skills/service-mesh-observability/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved service mesh observability, distributed tracing, envoy metrics, and SLO telemetry playbooks."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "bba8728733d6a99abbcebd72f5ab83e5a07497e41a5e16114f8954ec54f1bc7d"
-    },
-    "extras/cost-optimization": {
-      "upstream": "wshobson-agents",
-      "source_path": "plugins/cloud-infrastructure/skills/cost-optimization/SKILL.md",
-      "commit": "main",
-      "license": "MIT",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved multi-cloud FinOps resource rightsizing, cost anomaly detection, and budget governance."
-      ],
-      "kind": "adapted-derived-skill",
-      "refresh_policy": "manual-review-only",
-      "content_sha256": "a1c2789754fc5cefed6bcb92d2a45e2bb6af832dd8055f7d0d9571b75aeb5d8d"
-    },
-    "extras/subagent-driven-development": {
-      "upstream": "obra-superpowers",
-      "source_path": "skills/subagent-driven-development",
-      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "ba41f697136cba88a7962d60c8e2f97488ba04a8688b1d0fbeb27f6953808e75"
-    },
-    "extras/mcp-builder": {
-      "upstream": "anthropics-skills",
-      "source_path": "skills/mcp-builder",
-      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
-      "license": "Apache-2.0",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "323a42dcf2bd27b8dcd8e903f060414643c65987d77fce5af13f9357a4fba49d"
-    },
-    "extras/doc-coauthoring": {
-      "upstream": "anthropics-skills",
-      "source_path": "skills/doc-coauthoring",
-      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
-      "license": "Apache-2.0",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "acb9b89b228fb818ffe2f464e40b1cdbf6948b50ceeeb7378f0e5b9d78c996ad"
-    },
-    "extras/codebase-design": {
-      "upstream": "mattpocock-skills",
-      "source_path": "skills/engineering/codebase-design",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "362b0bec828219d9f4b08ca7c466164e67253bdd817359258e60d2e9c5692a8f"
-    },
-    "extras/domain-modeling": {
-      "upstream": "mattpocock-skills",
-      "source_path": "skills/engineering/domain-modeling",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "b62d997256cc073e123d4303da8e9db00db0e28de9739660ca3e55ab76e09cdb"
-    },
-    "extras/to-tickets": {
-      "upstream": "mattpocock-skills",
-      "source_path": "skills/engineering/to-tickets",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "65a4bc6dd28727f0e79b2705d4d06b06f6edb29fdb51da6d886fe87f09367dd1"
-    },
-    "extras/improve-codebase-architecture": {
-      "upstream": "mattpocock-skills",
-      "source_path": "skills/engineering/improve-codebase-architecture",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "6fc62e310fdefa5589fd5c1ebb28dc988484202b4e9f78bf7a98196e4f355ee8"
-    },
-    "extras/setup-pre-commit": {
-      "upstream": "mattpocock-skills",
-      "source_path": "skills/misc/setup-pre-commit",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "e069e6a23069ebdba946d4dea11e5d663c10640c6b14b55c4585c81b1a256ac9"
-    },
-    "extras/git-guardrails-claude-code": {
-      "upstream": "mattpocock-skills",
-      "source_path": "skills/misc/git-guardrails-claude-code",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "12d335b84bcf984b213b527014262233f27ffa1eb807db466832ff711b96f41f"
-    },
-    "extras/writing-for-agents": {
-      "upstream": "mattpocock-skills",
-      "source_path": "skills/productivity/writing-for-agents",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "1c0c4ebf2d221917591144f0ced4fe46dae13301cb3d6d93fc88ecf0dda6aed2"
-    },
-    "extras/customer-research": {
-      "upstream": "coreyhaines31-marketingskills",
-      "source_path": "skills/customer-research",
-      "commit": "0cd9b3a0ef4c411a1d690419ce843f2a1da32cce",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "db66ecd9d45f4aab6c0ea0432a34752bb69934aa7b42c312a6eaef603741ee2e"
-    },
-    "extras/analytics": {
+    "skills/analytics": {
       "upstream": "coreyhaines31-marketingskills",
       "source_path": "skills/analytics",
       "commit": "0cd9b3a0ef4c411a1d690419ce843f2a1da32cce",
@@ -669,56 +378,6 @@
       "kind": "vendored-upstream",
       "refresh_policy": "pinned-sync",
       "content_sha256": "3b94e829c5e18b078a0b0b59c3120d8c1a5872820c3af8617e444953cd30e8b5"
-    },
-    "extras/ab-testing": {
-      "upstream": "coreyhaines31-marketingskills",
-      "source_path": "skills/ab-testing",
-      "commit": "0cd9b3a0ef4c411a1d690419ce843f2a1da32cce",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "4cd0bd42c34b227a53b142b37955a33c6626c21c74e27d4af98e4eedb0187fa4"
-    },
-    "extras/vercel-react-best-practices": {
-      "upstream": "vercel-labs-agent-skills",
-      "source_path": "skills/react-best-practices",
-      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "3286ace648b4d740317b9c1cb7fbd38600eaacc62a8b57ea5e06fd2992b5582e"
-    },
-    "extras/web-design-guidelines": {
-      "upstream": "vercel-labs-agent-skills",
-      "source_path": "skills/web-design-guidelines",
-      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "17e48da905f83a19c174079b50760a98c069527ba50079239b3c187236627c29"
-    },
-    "extras/writing-guidelines": {
-      "upstream": "vercel-labs-agent-skills",
-      "source_path": "skills/writing-guidelines",
-      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "c28458a39d09a2fb7d6459eb7311d1a30c7c7f17069ad28132031b916d74d269"
-    },
-    "extras/threat-model-analyst": {
-      "upstream": "github-awesome-copilot",
-      "source_path": "skills/threat-model-analyst",
-      "commit": "b6483db44fb602654bca6a097185fcaddb305f97",
-      "license": "MIT",
-      "transformations": [],
-      "kind": "vendored-upstream",
-      "refresh_policy": "pinned-sync",
-      "content_sha256": "cdd72b75b224b20f006cb31602b0b68d0ea27c22a25c9a6458a2cf0b90a25fb3"
     }
   },
   "resources": {}

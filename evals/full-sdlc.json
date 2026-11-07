@@ -13,7 +13,7 @@
   ],
   "expected_skills": [
     "interview-me",
-    "pm-product-spec",
+    "spec-driven-development",
     "software-architecture",
     "api-and-interface-design",
     "planning-and-task-breakdown",
@@ -25,37 +25,64 @@
     {
       "alias": "brief",
       "canonical_path": "docs/discovery/billing-subscriptions/opportunity-brief.md",
-      "must_contain": ["Target Users", "Opportunity Framing", "Core Hypothesis"]
+      "must_contain": [
+        "Target Users",
+        "Opportunity Framing",
+        "Core Hypothesis"
+      ]
     },
     {
       "alias": "prd",
       "canonical_path": "docs/prd.md",
-      "must_contain": ["Goals", "Epics", "Non-Goals", "Risks"]
+      "must_contain": [
+        "Goals",
+        "Epics",
+        "Non-Goals",
+        "Risks"
+      ]
     },
     {
       "alias": "arch",
       "canonical_path": "docs/architecture.md",
-      "must_contain": ["System Boundaries", "Component Breakdown", "Data Ownership"]
+      "must_contain": [
+        "System Boundaries",
+        "Component Breakdown",
+        "Data Ownership"
+      ]
     },
     {
       "alias": "openapi",
       "canonical_path": "contracts/openapi.yaml",
-      "must_contain": ["/v1/subscriptions", "openapi: 3.1"]
+      "must_contain": [
+        "/v1/subscriptions",
+        "openapi: 3.1"
+      ]
     },
     {
       "alias": "tasks",
       "canonical_path": "docs/features/billing-subscriptions/tasks.md",
-      "must_contain": ["[ ]", "Task 1"]
+      "must_contain": [
+        "[ ]",
+        "Task 1"
+      ]
     },
     {
       "alias": "checklist",
       "canonical_path": "docs/releases/release-checklist.md",
-      "must_contain": ["Deployment Gates", "Rollback Trigger", "Smoke Test"]
+      "must_contain": [
+        "Deployment Gates",
+        "Rollback Trigger",
+        "Smoke Test"
+      ]
     },
     {
       "alias": "completion",
       "canonical_path": "docs/features/billing-subscriptions/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [
@@ -64,4 +91,3 @@
     "All verification backed by executable command output"
   ]
 }
-

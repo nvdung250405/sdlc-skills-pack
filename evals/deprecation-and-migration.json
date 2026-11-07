@@ -19,22 +19,36 @@
     {
       "alias": "deprecation",
       "canonical_path": "docs/migrations/v1-xml-export-deprecation.md",
-      "must_contain": ["Sunset Date", "Migration Path", "Breaking Changes"]
+      "must_contain": [
+        "Sunset Date",
+        "Migration Path",
+        "Breaking Changes"
+      ]
     },
     {
       "alias": "openapi",
       "canonical_path": "contracts/openapi.yaml",
-      "must_contain": ["deprecated: true", "/v1/export.json"]
+      "must_contain": [
+        "deprecated: true",
+        "/v1/export.json"
+      ]
     },
     {
       "alias": "migration",
       "canonical_path": "migrations/20261104_add_export_format_flag_migration.sql",
-      "must_contain": ["ALTER TABLE", "ADD COLUMN"]
+      "must_contain": [
+        "ALTER TABLE",
+        "ADD COLUMN"
+      ]
     },
     {
       "alias": "completion",
       "canonical_path": "docs/features/migration-xml-to-json/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [
@@ -43,4 +57,3 @@
     "Contract verification passes before completion"
   ]
 }
-

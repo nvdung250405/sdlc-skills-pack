@@ -21,22 +21,39 @@
     {
       "alias": "spec",
       "canonical_path": "docs/features/payment-idempotency/spec.md",
-      "must_contain": ["US-01", "AC-01", "Given", "When", "Then"]
+      "must_contain": [
+        "US-01",
+        "AC-01",
+        "Given",
+        "When",
+        "Then"
+      ]
     },
     {
       "alias": "openapi",
       "canonical_path": "contracts/openapi.yaml",
-      "must_contain": ["Idempotency-Key", "201", "409"]
+      "must_contain": [
+        "Idempotency-Key",
+        "201",
+        "409"
+      ]
     },
     {
       "alias": "tasks",
       "canonical_path": "docs/features/payment-idempotency/tasks.md",
-      "must_contain": ["[ ]", "Task 1"]
+      "must_contain": [
+        "[ ]",
+        "Task 1"
+      ]
     },
     {
       "alias": "completion",
       "canonical_path": "docs/features/payment-idempotency/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [

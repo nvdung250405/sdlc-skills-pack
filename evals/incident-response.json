@@ -20,22 +20,38 @@
     {
       "alias": "alert-rules",
       "canonical_path": "deploy/alerts/database-pool-rules.yaml",
-      "must_contain": ["DatabaseConnectionSaturation", "expr", "severity: critical"]
+      "must_contain": [
+        "DatabaseConnectionSaturation",
+        "expr",
+        "severity: critical"
+      ]
     },
     {
       "alias": "runbook",
       "canonical_path": "docs/runbooks/database-failover.md",
-      "must_contain": ["Triage", "Remediation Steps", "Escalation Path"]
+      "must_contain": [
+        "Triage",
+        "Remediation Steps",
+        "Escalation Path"
+      ]
     },
     {
       "alias": "postmortem",
       "canonical_path": "docs/incidents/20261104-db-pool-exhaustion/postmortem.md",
-      "must_contain": ["Timeline", "Root Cause", "Action Items"]
+      "must_contain": [
+        "Timeline",
+        "Root Cause",
+        "Action Items"
+      ]
     },
     {
       "alias": "completion",
       "canonical_path": "docs/features/incident-db-pool-exhaustion/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [
@@ -44,4 +60,3 @@
     "Alert rules must be verified with syntactically valid YAML"
   ]
 }
-

@@ -55,14 +55,6 @@
           "tier": "skills"
         },
         {
-          "src": "skills/context-engineering",
-          "tier": "skills"
-        },
-        {
-          "src": "skills/browser-testing-with-devtools",
-          "tier": "extras"
-        },
-        {
           "src": "skills/code-review-and-quality",
           "tier": "skills"
         },
@@ -84,15 +76,15 @@
         },
         {
           "src": "skills/performance-optimization",
-          "tier": "extras"
+          "tier": "skills"
         },
         {
           "src": "skills/frontend-ui-engineering",
-          "tier": "extras"
+          "tier": "skills"
         },
         {
           "src": "skills/deprecation-and-migration",
-          "tier": "extras"
+          "tier": "skills"
         }
       ],
       "selection_rationale": "Engineering backbone: discovery/refinement, feature specification, planning, TDD, incremental implementation, interfaces, review, security, CI/CD, release and observability. The optional generic router is deliberately omitted so the pack has one default router.",
@@ -121,18 +113,6 @@
         {
           "src": "skills/verification-before-completion",
           "tier": "skills"
-        },
-        {
-          "src": "skills/receiving-code-review",
-          "tier": "skills"
-        },
-        {
-          "src": "skills/using-git-worktrees",
-          "tier": "skills"
-        },
-        {
-          "src": "skills/subagent-driven-development",
-          "tier": "extras"
         }
       ],
       "selection_rationale": "Adds a strong evidence-before-completion gate, structured debugging, code-review interaction, worktree isolation, and subagent orchestration patterns that complement the Addy engineering library."
@@ -146,67 +126,10 @@
       "items": [
         {
           "src": "skills/webapp-testing",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/frontend-design",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/mcp-builder",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/doc-coauthoring",
-          "tier": "extras"
+          "tier": "skills"
         }
       ],
       "selection_rationale": "Curated skills for Playwright web application testing, frontend design guidance, MCP server building, and technical document coauthoring."
-    },
-    {
-      "id": "mattpocock-skills",
-      "url": "https://github.com/mattpocock/skills.git",
-      "ref": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "license": "MIT",
-      "license_file": "LICENSE",
-      "items": [
-        {
-          "src": "skills/engineering/codebase-design",
-          "name": "codebase-design",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/engineering/domain-modeling",
-          "name": "domain-modeling",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/engineering/to-tickets",
-          "name": "to-tickets",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/engineering/improve-codebase-architecture",
-          "name": "improve-codebase-architecture",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/misc/setup-pre-commit",
-          "name": "setup-pre-commit",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/misc/git-guardrails-claude-code",
-          "name": "git-guardrails-claude-code",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/productivity/writing-for-agents",
-          "name": "writing-for-agents",
-          "tier": "extras"
-        }
-      ],
-      "selection_rationale": "Deep modules, domain modeling, ticket breakdown, codebase architecture improvement, pre-commit automation, git guardrails, and writing clear prompt instructions for agents."
     },
     {
       "id": "coreyhaines31-marketingskills",
@@ -216,56 +139,11 @@
       "license_file": "LICENSE",
       "items": [
         {
-          "src": "skills/customer-research",
-          "tier": "extras"
-        },
-        {
           "src": "skills/analytics",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/ab-testing",
-          "tier": "extras"
+          "tier": "skills"
         }
       ],
       "selection_rationale": "Product discovery customer research, quantitative analytics tracking taxonomy, and A/B test experimentation."
-    },
-    {
-      "id": "vercel-labs-agent-skills",
-      "url": "https://github.com/vercel-labs/agent-skills.git",
-      "ref": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
-      "license": "MIT",
-      "license_file": "LICENSE",
-      "items": [
-        {
-          "src": "skills/react-best-practices",
-          "name": "vercel-react-best-practices",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/web-design-guidelines",
-          "tier": "extras"
-        },
-        {
-          "src": "skills/writing-guidelines",
-          "tier": "extras"
-        }
-      ],
-      "selection_rationale": "React and Next.js modern best practices, web design guidelines, and technical documentation editorial standards."
-    },
-    {
-      "id": "github-awesome-copilot",
-      "url": "https://github.com/github/awesome-copilot.git",
-      "ref": "b6483db44fb602654bca6a097185fcaddb305f97",
-      "license": "MIT",
-      "license_file": "LICENSE",
-      "items": [
-        {
-          "src": "skills/threat-model-analyst",
-          "tier": "extras"
-        }
-      ],
-      "selection_rationale": "Cross-cutting STRIDE threat modeling and abuse case analysis."
     }
   ],
   "derived_sources": [
@@ -312,18 +190,6 @@
   ],
   "derived_skills": [
     {
-      "name": "pm-product-spec",
-      "tier": "skills",
-      "source_id": "uxcel-product-skills",
-      "source_path": "skills/pm-product-spec/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into core skills tier; adapted for PRD creation, product goals, scope boundaries, and non-story technical handoff."
-      ]
-    },
-    {
       "name": "pm-user-story",
       "tier": "skills",
       "source_id": "uxcel-product-skills",
@@ -333,30 +199,6 @@
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
         "Categorized into core skills tier; adapted for user story mapping and Given/When/Then acceptance criteria authoring into the canonical feature spec."
-      ]
-    },
-    {
-      "name": "pm-spec-quality-audit",
-      "tier": "skills",
-      "source_id": "uxcel-product-skills",
-      "source_path": "skills/pm-spec-quality-audit/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into core skills tier; structured spec quality review, gap analysis, and ambiguity audit before implementation."
-      ]
-    },
-    {
-      "name": "requirements-engineering",
-      "tier": "skills",
-      "source_id": "agentic-sdlc-kit",
-      "source_path": "skills/requirements-engineering/SKILL.md",
-      "license": "Apache-2.0",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Retained formal requirements elicitation, functional/non-functional breakdown, requirement IDs, and RTM traceability."
       ]
     },
     {
@@ -385,7 +227,7 @@
     },
     {
       "name": "auth-implementation-patterns",
-      "tier": "extras",
+      "tier": "skills",
       "source_id": "wshobson-agents",
       "source_path": "skills/auth-implementation-patterns/SKILL.md",
       "license": "MIT",
@@ -396,20 +238,8 @@
       ]
     },
     {
-      "name": "secrets-management",
-      "tier": "extras",
-      "source_id": "wshobson-agents",
-      "source_path": "skills/secrets-management/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Categorized into extras tier; preserved CI/CD credential security, workload identity, secret rotation procedures, and reference documentation for Vault and GitHub Secrets."
-      ]
-    },
-    {
       "name": "docker-expert",
-      "tier": "extras",
+      "tier": "skills",
       "source_id": "sickn33-agentic-awesome-skills",
       "source_path": "skills/docker-expert/SKILL.md",
       "license": "MIT",
@@ -421,7 +251,7 @@
     },
     {
       "name": "k6-load-testing",
-      "tier": "extras",
+      "tier": "skills",
       "source_id": "sickn33-agentic-awesome-skills",
       "source_path": "skills/k6-load-testing/SKILL.md",
       "license": "MIT",
@@ -429,66 +259,6 @@
       "revision_status": "reviewed-main-unpinned",
       "transformations": [
         "Preserved k6 performance testing, scenario scripting, CI/CD integration, and detailed guide reference."
-      ]
-    },
-    {
-      "name": "terraform-specialist",
-      "tier": "extras",
-      "source_id": "sickn33-agentic-awesome-skills",
-      "source_path": "skills/terraform-specialist/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved Terraform and OpenTofu IaC module design, state management, and policy-as-code automation."
-      ]
-    },
-    {
-      "name": "kubernetes-architect",
-      "tier": "extras",
-      "source_id": "sickn33-agentic-awesome-skills",
-      "source_path": "skills/kubernetes-architect/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved Kubernetes orchestration, GitOps deployment patterns, multi-cluster topology, and reliability guidance."
-      ]
-    },
-    {
-      "name": "screen-reader-testing",
-      "tier": "extras",
-      "source_id": "wshobson-agents",
-      "source_path": "skills/screen-reader-testing/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved screen reader verification, ARIA announcement audits, accessibility workflows, and implementation playbook."
-      ]
-    },
-    {
-      "name": "service-mesh-observability",
-      "tier": "extras",
-      "source_id": "wshobson-agents",
-      "source_path": "plugins/cloud-infrastructure/skills/service-mesh-observability/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved service mesh observability, distributed tracing, envoy metrics, and SLO telemetry playbooks."
-      ]
-    },
-    {
-      "name": "cost-optimization",
-      "tier": "extras",
-      "source_id": "wshobson-agents",
-      "source_path": "plugins/cloud-infrastructure/skills/cost-optimization/SKILL.md",
-      "license": "MIT",
-      "source_ref": "main",
-      "revision_status": "reviewed-main-unpinned",
-      "transformations": [
-        "Preserved multi-cloud FinOps resource rightsizing, cost anomaly detection, and budget governance."
       ]
     }
   ],

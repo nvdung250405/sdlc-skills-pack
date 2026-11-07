@@ -45,9 +45,6 @@ class PackStaticTests(unittest.TestCase):
     def test_handoff_template_and_skill_authoring_assets_exist(self) -> None:
         handoff = ROOT / "skills" / "task-handoff" / "assets" / "task-template.md"
         self.assertTrue(handoff.is_file(), "task-handoff links an asset that must ship with the skill")
-        authoring = ROOT / "extras" / "skill-authoring"
-        self.assertTrue((authoring / "assets" / "SKILL-template.md").is_file())
-        self.assertTrue((authoring / "references" / "trigger-testing.md").is_file())
 
     def test_antigravity_profiles_are_configured(self) -> None:
         adapters = json.loads((ROOT / "adapters" / "agents.json").read_text(encoding="utf-8"))["agents"]
@@ -83,11 +80,9 @@ class PackStaticTests(unittest.TestCase):
     def test_skill_inventory_counts_match_materialized_directories(self) -> None:
         manifest = json.loads((ROOT / "upstream.json").read_text(encoding="utf-8"))
         skill_dirs = {path.name for path in (ROOT / "skills").iterdir() if path.is_dir()}
-        extra_dirs = {path.name for path in (ROOT / "extras").iterdir() if path.is_dir()}
-        self.assertEqual(len(skill_dirs), 29)
-        self.assertEqual(len(extra_dirs), 34)
+        self.assertEqual(len(skill_dirs), 32)
         for item in manifest.get("derived_skills", []):
-            self.assertIn(item["name"], skill_dirs if item.get("tier") == "skills" else extra_dirs)
+            self.assertIn(item["name"], skill_dirs)
 
     def test_feature_spec_has_canonical_story_and_gherkin_contract(self) -> None:
         template = (ROOT / "templates" / "specs" / "feature-spec.md").read_text(encoding="utf-8")

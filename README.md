@@ -5,11 +5,10 @@ Bộ skill phát triển phần mềm có thể cài trên nhiều coding agent,
 ## Cách tổ chức
 
 ```text
-skills/                    # 29 Lean Core skills (kỷ luật công nghệ nền tảng & PM spec, cài đặt mặc định)
-extras/                    # 34 Extras skills (chuyên môn hóa sâu, nạp theo nhu cầu)
+skills/                    # 32 Universal SDLC skills (kỷ luật công nghệ nền tảng, stack-agnostic)
 workflows/                 # 11 quy trình: full SDLC, feature loop, bug fix, quick change, incident, refactoring, performance, upgrade, handoff...
 templates/                 # 32 canonical artifact templates across 5 functional groups (contracts, specs, delivery, platform, governance)
-docs/sdlc-practical-matrix.md # Master Matrix 16 stages và 63 skills chuẩn hóa
+docs/sdlc-practical-matrix.md # Master Matrix 16 stages và 32 Universal SDLC skills chuẩn hóa
 docs/stage-skill-map.md    # Stage → Output → Core & Extras routing map
 docs/architecture.md       # Thiết kế kiến trúc, demand-driven loading & quality gates
 adapters/agents.json       # Đường dẫn cài đặt theo agent; có thể override
@@ -44,8 +43,7 @@ scripts/scaffold.py        # Khởi tạo nhanh canonical artifacts từ templat
 | [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) | Tham khảo cách tổ chức vai trò và workflow | Nguồn tham khảo; không bundle implementation của BMAD |
 
 **Quy mô hiện tại:** Đúng **63 kỹ năng duy nhất** tương ứng với Master Matrix 16 stages:
-- **29 Core skills** trong `skills/`: Nền tảng kỹ thuật bắt buộc và đặc tả nghiệp vụ/PM cho mọi agent SDLC, độc lập công cụ, cài đặt mặc định.
-- **34 Extras skills** trong `extras/`: Lựa chọn nạp theo ngữ cảnh thực tế (stack, vai trò, hạ tầng, MCP).
+Quy chuẩn **32 Universal SDLC skills** độc lập công cụ, cài đặt mặc định.
 - **Exemplar Reference**: [examples/stripe-integration](examples/stripe-integration) được lưu giữ riêng làm thư viện mẫu tham khảo, loại khỏi danh mục đóng gói chính thức.
 - **Deprecated Skills Archive**: [archive/deprecated-skills](archive/deprecated-skills) lưu trữ `finishing-a-development-branch` và `requesting-code-review`.
 
@@ -84,7 +82,6 @@ python scripts/install.py antigravity-cli
 # 3. Profile 'core+web' (36 skills, ~82k tokens) — bổ sung frontend & browser verification
 python scripts/install.py claude --profile core+web
 
-# 4. Profile 'full' (63 skills, ~139k tokens gồm 29 Core + 34 Extras)
 python scripts/install.py codex --profile full
 python scripts/install.py custom --dest ./my-agent/skills --with-extras
 ```

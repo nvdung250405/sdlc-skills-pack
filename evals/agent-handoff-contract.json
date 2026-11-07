@@ -11,24 +11,36 @@
   ],
   "expected_skills": [
     "task-handoff",
-    "using-git-worktrees",
+    "git-workflow-and-versioning",
     "verification-before-completion"
   ],
   "expected_artifacts": [
     {
       "alias": "handoff",
       "canonical_path": ".agent/tasks/payment-integration-phase1.md",
-      "must_contain": ["Artifacts Read & Modified", "Decisions Recorded", "Commands Executed", "Next Steps"]
+      "must_contain": [
+        "Artifacts Read & Modified",
+        "Decisions Recorded",
+        "Commands Executed",
+        "Next Steps"
+      ]
     },
     {
       "alias": "tasks",
       "canonical_path": "docs/features/payment-integration/tasks.md",
-      "must_contain": ["[x] Phase 1: Backend Contracts", "[ ] Phase 2: Frontend Client"]
+      "must_contain": [
+        "[x] Phase 1: Backend Contracts",
+        "[ ] Phase 2: Frontend Client"
+      ]
     },
     {
       "alias": "completion",
       "canonical_path": "docs/features/payment-integration/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [
@@ -37,4 +49,3 @@
     "Explicitly declare unverified assumptions or technical debt for the next agent"
   ]
 }
-

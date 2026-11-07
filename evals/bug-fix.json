@@ -2,7 +2,7 @@
   "id": "eval-bug-fix-01",
   "name": "Remediate 500 Error on Unicode Emojis in Order Instructions",
   "workflow": "workflows/bug-fix.md",
-  "task_description": "Fix bug where submitting an order with unicode emojis (e.g. 📦) in shipping instructions causes an uncaught database encoding error and HTTP 500 response.",
+  "task_description": "Fix bug where submitting an order with unicode emojis (e.g. \ud83d\udce6) in shipping instructions causes an uncaught database encoding error and HTTP 500 response.",
   "expected_stages": [
     "Reproduction & Root Cause Isolation",
     "Regression Test Authoring (Failing Test)",
@@ -19,12 +19,20 @@
     {
       "alias": "handoff",
       "canonical_path": ".agent/tasks/bug-fix-unicode-shipping.md",
-      "must_contain": ["Root Cause", "Reproduction Command", "Fix Strategy"]
+      "must_contain": [
+        "Root Cause",
+        "Reproduction Command",
+        "Fix Strategy"
+      ]
     },
     {
       "alias": "completion",
       "canonical_path": "docs/features/bugfix-unicode-shipping/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [

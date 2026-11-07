@@ -55,7 +55,7 @@ The pack operates within diverse AI agent runtimes, shell environments (Bash, Zs
 | Concept | Definition / Responsibility | Authoritative Source |
 |---|---|---|
 | **Practical Matrix** | Curated map of SDLC stages, roles, artifacts, competencies, and candidate skills. Defines capability scope, not runtime loading or mandatory sequence. | [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md) |
-| **Packaged Inventory** | Skills actually distributed by the repository (29 Core, 34 Extras), verified against commit locks and content hashes. | [`upstream.json`](../upstream.json), [`manifests/skill-provenance.json`](../manifests/skill-provenance.json) |
+| **Packaged Inventory** | Skills actually distributed by the repository (32 Universal SDLC skills), verified against commit locks and content hashes. | [`upstream.json`](../upstream.json), [`manifests/skill-provenance.json`](../manifests/skill-provenance.json) |
 | **Stable Skill ID** | Canonical identifier that remains stable across upstream renames, file moves, or path refactoring. | [`upstream.json`](../upstream.json), `manifests/skill-map.json` |
 | **Core / Extras** | Tiering policy: Core (29) skills provide universal engineering discipline installed by default; Extras (34) skills provide contextual stack/domain capabilities loaded on demand. | [`docs/stage-skill-map.md`](stage-skill-map.md) |
 | **Task Active Skills** | The minimal subset of skills dynamically selected and loaded into context for the current task step. Distinct from installed skills. | Runtime execution state / `.agent/tasks/<task-id>.md` |
@@ -161,7 +161,7 @@ For every accepted skill, the repository records:
 
 ### 5.1 Skill Consolidation and Context Budget Strategy
 To protect agent prompt budgets against context degradation, the pack maintains a strict token economy:
-- **Upstream Harvest vs. Packaged Footprint:** Upstream collection gathers granular skills across specialized domains (63 entries), which are mapped into 32 Canonical Competency Centers to avoid functional redundancy and overlap.
+- **Upstream Harvest vs. Packaged Footprint:** The pack maintains 32 Universal SDLC Competency Centers to avoid functional redundancy and overlap.
 - **Description Budgeting:** Frontmatter `description` fields are strictly budgeted under 25 words with explicit trigger phrases (`Use when...`, `Use for...`), eliminating keyword spamming and keeping total catalog metadata under ~2.5k tokens.
 - **Hierarchical Modularization:** Specialized secondary skills are integrated as progressive disclosure sub-modules, runbooks, or reference playbooks inside their parent primary skills rather than polluting top-level agent discovery.
 
@@ -200,7 +200,7 @@ The architecture strictly decouples physical installation from context loading:
 
 | Layer | Scope | Mechanism |
 |---|---|---|
-| **Installation** | Target environment disk | `scripts/install.py` installs 29 Core skills (or full 63 skills with `--with-extras`). |
+| **Installation** | Target environment disk | `scripts/install.py` installs 32 Universal SDLC skills. |
 | **Discovery & Selection** | Task-specific scope | Router identifies the Smallest Sufficient Set from packaged inventory. |
 | **Context Loading & Activation** | Agent working memory | Loads only relevant `SKILL.md` instructions; defers large references until needed. |
 
@@ -327,8 +327,7 @@ When installing into runtimes with `eager` or `unknown` loading mode, all instal
 
 | Path | Responsibility | Required / Conditional |
 |---|---|---|
-| `skills/` | 29 Core self-contained skill packages installed by default. | Required |
-| `extras/` | 34 Contextual Extras skill packages loaded on demand. | Required |
+| `skills/` | 32 Universal SDLC skill packages installed by default. | Required |
 | `workflows/` | 11 standardized multi-step coordination workflows. | Required |
 | `templates/` | 32 canonical artifact starter templates across 5 functional directories. | Required |
 | `adapters/` | Runtime mapping and agent installation configurations. | Required |

@@ -18,7 +18,11 @@
     {
       "alias": "completion",
       "canonical_path": "docs/features/password-length/completion-report.md",
-      "must_contain": ["Status", "Verification", "Limitations"]
+      "must_contain": [
+        "Status",
+        "Verification",
+        "Limitations"
+      ]
     }
   ],
   "invariants": [
