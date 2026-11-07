@@ -28,14 +28,14 @@ Task Intake ──► Discover & Select ──► Load & Scaffold ──► Exec
 
 | Task Type | Recommended Route | Primary Workflow |
 |---|---|---|
-| New initiative / product | Discovery (`interview-me`, `idea-refine`, `pm-product-spec`) → Architecture → Planning → Implementation | `workflows/full-sdlc.md` |
-| User-facing feature | `pm-product-spec` → `pm-user-story` → `pm-spec-quality-audit` → `planning-and-task-breakdown` → TDD/Implementation | `workflows/feature-loop.md` |
+| New initiative / product | Discovery (`interview-me`, `idea-refine`, `spec-driven-development`) → Architecture → Planning → Implementation | `workflows/full-sdlc.md` |
+| User-facing feature | `spec-driven-development` → `pm-user-story` → `planning-and-task-breakdown` → TDD/Implementation | `workflows/feature-loop.md` |
 | Small, clear change | Repository guidance → `incremental-implementation` → `test-driven-development` → `verification-before-completion` | `workflows/quick-change.md` |
 | Bug / unexpected behavior | `systematic-debugging` → reproduce → regression test → minimal fix → `verification-before-completion` | `workflows/bug-fix.md` |
-| Refactor / Cleanup | Characterization tests → `codebase-design` (if installed) → `code-simplification` micro-steps → regression verification | `workflows/refactoring.md` |
+| Refactor / Cleanup | Characterization tests → `software-architecture` → `code-simplification` micro-steps → regression verification | `workflows/refactoring.md` |
 | Incident / outage | Immediate mitigation → restore service → `systematic-debugging` root cause → regression test | `workflows/incident-response.md` |
-| Session / agent transfer | Update `.agent/tasks/<task-id>.md` via `task-handoff`; use `using-git-worktrees` if isolated worktree needed | `workflows/agent-handoff-contract.md` |
-| Deprecation / migration | 4-phase Expand/Contract zero-downtime transition using `database-design`, `deprecation-and-migration` (if installed), and contract updates | `workflows/deprecation-and-migration.md` |
+| Session / agent transfer | Update `.agent/tasks/<task-id>.md` via `task-handoff`; use `git-workflow-and-versioning` if isolated worktree needed | `workflows/agent-handoff-contract.md` |
+| Deprecation / migration | 4-phase Expand/Contract zero-downtime transition using `database-design`, `deprecation-and-migration`, and contract updates | `workflows/deprecation-and-migration.md` |
 | Performance tuning | Baseline benchmark → bottleneck profiling → surgical fix with comparative verification | `workflows/performance-tuning.md` |
 | Dependency / CVE update | Audit advisory → worktree branch → bump manifest/lockfile → verify regressions | `workflows/dependency-upgrade.md` |
 | A/B experimentation | Metric hypothesis → telemetry schema → variant branch/flag → statistical verification | `workflows/experimentation-loop.md` |
@@ -78,16 +78,22 @@ Use helper scripts in `scripts/` (or router bundled `scripts/`):
 - **Repo Map Generator**: `python scripts/repo_map.py [--max-tokens 1024]`
 - **Contract Gate**: `python scripts/verify_contracts.py [--dir contracts]`
 
-## Environment Awareness & Token Discipline
+## 3-Tier Architecture & Project Operating Rules
 
-Agents operating this pack MUST exploit the active environment capabilities:
-1. **Code Graph & Structural Orientation**: Read `.agent/repo_map.txt` (~1k tokens) or call AST tools (`ast-grep:find_code`, `ast-grep:analyze-imports`) to navigate definitions without token waste.
-2. **Context Memory (Knowledge Graph)**: When logging architecture choices or project entities, persist them via MCP Knowledge Graph tools (`create_entities`, `create_relations`, `add_observations`) so cross-session context survives.
-3. **Execution Harness**: Never run raw shell commands that dump long terminal output into context. Always run tests and builds via `python scripts/bounded_run.py`. Inspect files via viewports rather than dumping entire files.
+The pack decouples skills, project rules, and execution harness into 3 tiers:
+- **Tier 1 (Universal Skills)**: 32 pure engineering heuristics in `skills/` (100% stack-agnostic, portable across all agents).
+- **Tier 2 (Project Operating Rules - `AGENTS.md`)**: Project root rules specifying detected tech stacks, test commands, linters, and environment tools. Always inspect `AGENTS.md` before executing commands.
+- **Tier 3 (Execution Harness & Tools)**: `bounded_run.py`, `repo_map.py`, `ast-grep`, and Memory MCP.
+
+When operating in any repository:
+1. **Consult `AGENTS.md` First**: Discover project-specific test runners, linters, and harness rules.
+2. **Code Graph & Navigation**: Read `.agent/repo_map.txt` (~1k tokens) or call AST tools (`ast-grep:find_code`, `ast-grep:analyze-imports`) to navigate code instead of loading full files.
+3. **Context Memory**: Persist durable architectural decisions via MCP Knowledge Graph tools (`create_entities`, `add_observations`).
+4. **Bounded Execution**: Run shell commands through `python scripts/bounded_run.py <cmd>` to bound terminal output and extract failure stacktraces.
 
 ## Cross-Skill Invariants
 
-1. **One artifact, one owner**: PRD is owned by `pm-product-spec`; Stories/AC by `pm-user-story`; formal system requirements by `requirements-engineering`; architecture by `software-architecture`; ADRs by `documentation-and-adrs`; final tasks by `planning-and-task-breakdown`.
+1. **One artifact, one owner**: PRD and system specifications are owned by `spec-driven-development`; Stories/AC by `pm-user-story`; architecture by `software-architecture`; ADRs by `documentation-and-adrs`; final tasks by `planning-and-task-breakdown`.
 2. **Single pack router**: `using-sdlc-skills` is the only pack router.
 3. **Stable IDs**: Never invent references to absent documents, recycle IDs, or renumber downstream references.
 4. **No fabricated facts**: Separate evidence, approved decisions, assumptions, and proposed defaults.

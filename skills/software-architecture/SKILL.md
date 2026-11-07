@@ -44,8 +44,3 @@ Default path: `docs/architecture.md`, unless a repository has an existing canoni
 ## Quality gate
 
 Architecture supports the accepted requirements and quality attributes, responsibilities and boundaries are understandable, material trade-offs are recorded, interfaces and data ownership are explicit where needed, and material risks have owners/mitigations. Do not silently modify product scope. Architecture approval is not proof that implementation meets the design.
-
-## Environment Integration
-
-> [!TIP]
-> On completion: finish with `verification-before-completion` to confirm any generated artifacts meet acceptance criteria, then `task-handoff` to persist state across sessions.

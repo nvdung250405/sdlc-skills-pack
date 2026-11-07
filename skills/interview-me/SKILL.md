@@ -233,8 +233,3 @@ After applying interview-me:
 - [ ] At the stop point, the agent could predict reactions to the next three questions it would ask
 - [ ] Upon receiving explicit confirmation, stopped the turn immediately without invoking tools or starting downstream work
 - [ ] Any handoff to a downstream skill (`idea-refine`, `spec-driven-development`) was framed in terms of the confirmed intent, not the original underspecified ask
-
-## Environment Integration
-
-> [!TIP]
-> On completion: finish with `verification-before-completion` to confirm any generated artifacts meet acceptance criteria, then `task-handoff` to persist state across sessions.

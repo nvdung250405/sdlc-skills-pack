@@ -255,8 +255,3 @@ Before starting implementation, confirm:
 ## See Also
 
 Acceptance criteria are per-task and answer "did we build the right thing?". They sit on top of the project-wide Definition of Done, the standing bar every task clears before it counts as done. See `references/definition-of-done.md`.
-
-## Environment Integration
-
-> [!TIP]
-> On completion: finish with `verification-before-completion` to confirm any generated artifacts meet acceptance criteria, then `task-handoff` to persist state across sessions.

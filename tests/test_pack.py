@@ -250,6 +250,22 @@ class PackStaticTests(unittest.TestCase):
             self.assertTrue(backups)
             self.assertEqual(backups[0].read_text(encoding="utf-8"), "Do not overwrite me\n")
 
+    def test_agents_md_auto_detect(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            pkg_json = root / "package.json"
+            pkg_json.write_text('{"name": "mock-app", "scripts": {"test": "jest", "lint": "eslint ."}}\n', encoding="utf-8")
+            out_file = root / "AGENTS.md"
+
+            result = run_script("build_agents_md.py", "--auto-detect", "--project-root", str(root), "--output", str(out_file))
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertTrue(out_file.is_file())
+            content = out_file.read_text(encoding="utf-8")
+            self.assertIn("Node.js / JavaScript", content)
+            self.assertIn("npm test", content)
+            self.assertIn("npm run lint", content)
+            self.assertIn("portable index", content.lower())
+
     def test_eval_fixtures_are_valid_and_executable(self) -> None:
         result = run_script("run_evals.py")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

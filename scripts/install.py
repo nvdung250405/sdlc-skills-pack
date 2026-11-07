@@ -136,13 +136,15 @@ def relative_to_project(value: str | None, default: str) -> str:
     return Path(os.path.relpath(target, Path.cwd().resolve())).as_posix()
 
 
-def render_agents_md(with_extras: bool, skill_root: str, asset_root: str) -> str:
+def render_agents_md(with_extras: bool, skill_root: str, asset_root: str, auto_detect: bool = False) -> str:
     command = [
         sys.executable, str(ROOT / "scripts" / "build_agents_md.py"),
         "--skill-root", skill_root, "--asset-root", asset_root,
     ]
     if with_extras:
         command.append("--with-extras")
+    if auto_detect:
+        command.append("--auto-detect")
     result = subprocess.run(command, check=True, capture_output=True)
     return result.stdout.decode("utf-8")
 
@@ -171,9 +173,10 @@ def install_agents_md(args: argparse.Namespace) -> int:
 
     # Preserve an existing AGENTS.md by default, even when the proposed index cannot
     # yet be rendered because the user has not copied the skills/assets into place.
+    auto_detect = getattr(args, "auto_detect", False)
     if target.exists() and not args.force:
         try:
-            content = render_agents_md(args.with_extras, skill_root, asset_root)
+            content = render_agents_md(args.with_extras, skill_root, asset_root, auto_detect=auto_detect)
             old = target.read_text(encoding="utf-8", errors="replace")
             if old == content:
                 print(f"Unchanged: {target}")
@@ -197,7 +200,7 @@ def install_agents_md(args: argparse.Namespace) -> int:
         print(f"ERROR: pack workflows/templates were not found under {asset_path}. Keep the pack assets in the project or set --asset-root.", file=sys.stderr)
         return 2
 
-    content = render_agents_md(args.with_extras, skill_root, asset_root)
+    content = render_agents_md(args.with_extras, skill_root, asset_root, auto_detect=auto_detect)
     if args.dry_run:
         print(f"DRY RUN: would write {target} ({len(content.splitlines())} lines)")
         return 0
@@ -241,6 +244,7 @@ def main() -> int:
     parser.add_argument("--link", action="store_true", help="create symlinks instead of copying skill folders")
     parser.add_argument("--profile", choices=["eager-lean", "canonical-32", "core", "core+web", "full"], default=None, help="installation profile: eager-lean (8 skills, ~15k tokens), canonical-32 (32 skills, ~1.7k tokens catalog), core (29 skills), core+web (36 skills), or full (63 skills)")
     parser.add_argument("--with-extras", action="store_true", help="also install skills from extras/ (equivalent to --profile full)")
+    parser.add_argument("--auto-detect", "--init", dest="auto_detect", action="store_true", help="for agents-md, audit environment and stack")
     parser.add_argument("--dest", help="skill install directory; for agents-md, path to installed skill folders")
     parser.add_argument("--asset-root", help="for agents-md, project-relative path to the pack copy containing workflows/ and templates/")
     parser.add_argument("--force", action="store_true", help="back up conflicting entries before replacing them")

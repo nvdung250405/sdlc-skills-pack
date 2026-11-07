@@ -104,6 +104,39 @@ User Request + Available Context (Repo, STACK.md, Prompts)
 
 ## 4. Pack Architecture
 
+### 4.0 3-Tier Decoupled Architecture
+
+The pack enforces a strict 3-tier decoupling to preserve skill purity, token efficiency, and cross-agent portability:
+
+```mermaid
+flowchart TD
+    subgraph TIER1["Tier 1: 32 Universal SDLC Skills (Pure Mindset)"]
+        S1["TDD (red-green-refactor)"]
+        S2["Systematic Debugging"]
+        S3["Software Architecture & Contracts"]
+        S4["Pure Heuristics (100% Stack- & Tool-Agnostic)"]
+    end
+
+    subgraph TIER2["Tier 2: Project Operating Rules (AGENTS.md)"]
+        A1["scripts/build_agents_md.py --auto-detect"]
+        A2["Detected Stack: Language, Test Runner, Linter"]
+        A3["Environment Tool Rules: AST navigation, bounded harness, memory"]
+    end
+
+    subgraph TIER3["Tier 3: Execution Harness & Tools"]
+        H1["SWE-agent Bounded Runner (bounded_run.py)"]
+        H2["Structural Code Map (repo_map.py, ~992 tokens)"]
+        H3["ast-grep AST Search & Knowledge Graph MCP"]
+    end
+
+    TIER2 -. "Informs Agent on how to run" .-> TIER3
+    TIER1 -. "Applied by Agent in context of" .-> TIER2
+```
+
+1. **Tier 1 — Universal SDLC Skills (`skills/`)**: 32 canonical engineering skills containing pure heuristics and universal software engineering discipline (TDD red-green-refactor, systematic debugging, contract-first design, incremental slices). 100% stack-agnostic and tool-agnostic without hardcoded script names.
+2. **Tier 2 — Project Operating Rules (`AGENTS.md`)**: Project-level rulebook at repository root. Automatically generated via `python scripts/build_agents_md.py --auto-detect` to inspect the project manifests and local harness. Read once by the agent upon session startup.
+3. **Tier 3 — Execution Harness & Environment**: Local runtime tooling (`bounded_run.py`, `repo_map.py`, `ast-grep`, `memory` MCP).
+
 ### 4.1 Component Breakdown
 
 | Component | Responsibility | Inputs | Outputs | Dependencies / Boundaries | Status |
