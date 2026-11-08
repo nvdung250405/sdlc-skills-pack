@@ -213,13 +213,32 @@ def detect_environment(project_root: Path) -> dict:
 
 
 def detect_stack(project_root: Path) -> dict:
-    """Inspect project manifests to infer language, test runner, and linter."""
+    """Inspect project manifests to infer language, test runner, linter, and monorepo services."""
     stack = {
         "language": None,
         "test_runner": None,
         "linter": None,
+        "monorepo_services": [],
+        "compose_services": [],
     }
 
+    # 1. Parse Docker compose services if available
+    for compose_name in ["docker-compose.yml", "docker-compose.yaml", "compose.yml", "compose.yaml"]:
+        compose_file = project_root / compose_name
+        if compose_file.is_file():
+            text = compose_file.read_text(encoding="utf-8", errors="ignore")
+            in_services = False
+            for line in text.splitlines():
+                if line.strip().startswith("services:"):
+                    in_services = True
+                    continue
+                if in_services and line and not line.startswith(" ") and not line.startswith("\t") and not line.startswith("#"):
+                    in_services = False
+                if in_services and re.match(r"^[ ]{2}[a-zA-Z0-9_\-]+:", line):
+                    stack["compose_services"].append(line.strip().rstrip(":"))
+            break
+
+    # 2. Check root manifests
     pyproject = project_root / "pyproject.toml"
     requirements = project_root / "requirements.txt"
     setup_py = project_root / "setup.py"
@@ -265,6 +284,51 @@ def detect_stack(project_root: Path) -> dict:
         stack["test_runner"] = "go test ./..."
         stack["linter"] = "golangci-lint run"
 
+    # 3. Detect nested monorepo services
+    ignore_dirs = {".git", "node_modules", ".venv", "venv", "target", "dist", "build", ".agent", ".idea", ".vscode"}
+    for p in project_root.rglob("*"):
+        if p.is_file() and not any(part in ignore_dirs for part in p.parts):
+            rel = p.relative_to(project_root)
+            if len(rel.parts) > 4:
+                continue
+            posix_path = str(p.parent.relative_to(project_root)).replace("\\", "/")
+            if p.name == "pom.xml" and p.parent != project_root:
+                stack["monorepo_services"].append({
+                    "name": p.parent.name,
+                    "path": posix_path,
+                    "type": "Java 21 / Spring Boot & Maven",
+                    "test": f"cd {posix_path} && ./mvnw test",
+                    "lint": f"cd {posix_path} && ./mvnw checkstyle:check",
+                })
+            elif p.name == "package.json" and p.parent != project_root:
+                pkg_data = {}
+                try:
+                    pkg_data = json.loads(p.read_text(encoding="utf-8", errors="ignore"))
+                except Exception:
+                    pass
+                scripts = pkg_data.get("scripts", {})
+                test_cmd = "npm test" if "test" in scripts else None
+                lint_cmd = "npm run lint" if "lint" in scripts else None
+                tech = "React / TypeScript" if (p.parent / "tsconfig.json").is_file() else "Node.js"
+                stack["monorepo_services"].append({
+                    "name": p.parent.name,
+                    "path": posix_path,
+                    "type": tech,
+                    "test": f"cd {posix_path} && {test_cmd}" if test_cmd else None,
+                    "lint": f"cd {posix_path} && {lint_cmd}" if lint_cmd else None,
+                })
+            elif p.name == "pyproject.toml" and p.parent != project_root:
+                text = p.read_text(encoding="utf-8", errors="ignore").lower()
+                tech = "Python (PySide6 / Edge GUI)" if "pyside" in text else "Python"
+                stack["monorepo_services"].append({
+                    "name": p.parent.name,
+                    "path": posix_path,
+                    "type": tech,
+                    "test": f"cd {posix_path} && pytest",
+                    "lint": f"cd {posix_path} && ruff check .",
+                })
+
+    stack["monorepo_services"].sort(key=lambda x: x["path"])
     return stack
 
 
@@ -311,22 +375,40 @@ def render(
             lines.append("  - `memory` (Knowledge Graph MCP): Lưu các bất biến kiến trúc vĩnh viễn (`create_entities`, `read_graph`).")
         if env["ast_grep"]:
             lines.append("  - `ast-grep` (AST Syntax MCP): Truy vấn và refactor mã nguồn theo cây cú pháp ngữ nghĩa (`find_code`, `rewrite_code`).")
+        lines.append("- **Memory Protocol (Separation of State):**")
+        lines.append("  - **Short-term / Task State:** Lưu tiến độ, checklist và bàn giao phiên vào `.agent/tasks/<task-id>.md` (`task-handoff`).")
+        lines.append("  - **Long-term / Architecture Invariants:** Lưu bất biến hệ thống, quyết định thiết kế (ADR) và schemas vào MCP `memory` (`create_entities`, `add_observations`).")
         lines.append(f"- **Skills Catalog:** `{skill_root}/` (Router: `using-sdlc-skills`, 32 kỹ năng SDLC tải theo nhu cầu).\n")
 
         lines.append("## 2. Target Project Stack (Công nghệ của Dự án đang thao tác)")
         if stack["language"]:
-            lines.append(f"- **Language & Runtime:** {stack['language']}")
+            lines.append(f"- **Primary Root Language & Runtime:** {stack['language']}")
+        if stack["compose_services"]:
+            lines.append(f"- **Docker Services:** {', '.join([f'`{s}`' for s in stack['compose_services']])}")
+        if stack["monorepo_services"]:
+            lines.append("- **Multi-service / Monorepo Architecture:**")
+            for svc in stack["monorepo_services"]:
+                lines.append(f"  - **{svc['name']}** (`{svc['path']}`): {svc['type']}")
         lines.append("")
 
         lines.append("## 3. Mandatory Verification Commands (Always wrap via `bounded_run`)")
         if stack["test_runner"]:
             runner = stack["test_runner"]
             runner = f'bounded_run "{runner}"'
-            lines.append(f"- **Primary Test Command:** `{runner}`")
+            lines.append(f"- **Root Test Command:** `{runner}`")
         if stack["linter"]:
             linter = stack["linter"]
             linter = f'bounded_run "{linter}"'
-            lines.append(f"- **Lint / Quality Gate:** `{linter}`")
+            lines.append(f"- **Root Lint / Quality Gate:** `{linter}`")
+        
+        if stack["monorepo_services"]:
+            lines.append("- **Service-level Verification Commands:**")
+            for svc in stack["monorepo_services"]:
+                if svc["test"]:
+                    lines.append(f"  - **{svc['name']} Test:** `bounded_run \"{svc['test']}\"`")
+                if svc["lint"]:
+                    lines.append(f"  - **{svc['name']} Lint:** `bounded_run \"{svc['lint']}\"`")
+
         lines.append("- **Verification Before Completion:** Always run `verification-before-completion` before declaring work done. Report actual executed commands and evidence honestly.\n")
 
     lines += [
