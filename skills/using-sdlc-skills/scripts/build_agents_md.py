@@ -163,9 +163,26 @@ def render(
         lines.append("## 0. Tool Isolation Boundary (Đồ nghề của thợ vs Nhà của khách)")
         lines.append("- **Tool Isolation Invariant:** Mọi công cụ harness (`bounded_run`, `repo_map`, `scaffold`, `verify_contracts`, `ast-grep`) là công cụ môi trường của Agent. CẤM TUYỆT ĐỐI copy, di chuyển hoặc commit các script nội bộ này vào repository của dự án. Gọi trực tiếp qua Global CLI command (`bounded_run \"<cmd>\"`, `repo_map`) hoặc đường dẫn toolkit môi trường.\n")
 
-        lines.append("## 1. Project Context & Detected Stack")
+        lines.append("## 1. Agent Environment Stack (Đồ nghề & Môi trường Agent vận hành)")
+        lines.append("- **Host & Sandbox:** Host OS, Shell environment, Global PATH.")
+        lines.append("- **Context & Output Guard (SWE-agent Harness):**")
+        lines.append("  - **Execution Wrapper (Mandatory):** `bounded_run \"<cmd>\"` (Lọc log thừa, trích xuất traceback lỗi).")
+        lines.append("  - **Viewport Slicing:** `bounded_run view <file> --line <N> --window <W>` (Xem lát cắt code hẹp, chống cạn kiệt token).")
+        if env["repo_map"]:
+            lines.append(f"  - **Structural Map:** `repo_map` (Cập nhật AST toàn dự án dưới 1k tokens vào `{env['repo_map']}`).")
+        lines.append("- **MCP Endpoints:**")
+        if env["memory_mcp"]:
+            lines.append("  - `memory` (Knowledge Graph MCP): Lưu các bất biến kiến trúc vĩnh viễn (`create_entities`, `read_graph`).")
+        if env["ast_grep"]:
+            lines.append("  - `ast-grep` (AST Syntax MCP): Truy vấn và refactor mã nguồn theo cây cú pháp ngữ nghĩa (`find_code`, `rewrite_code`).")
+        lines.append(f"- **Skills Catalog:** `{skill_root}/` (Router: `using-sdlc-skills`, 32 kỹ năng SDLC tải theo nhu cầu).\n")
+
+        lines.append("## 2. Target Project Stack (Công nghệ của Dự án đang thao tác)")
         if stack["language"]:
             lines.append(f"- **Language & Runtime:** {stack['language']}")
+        lines.append("")
+
+        lines.append("## 3. Mandatory Verification Commands (Always wrap via `bounded_run`)")
         if stack["test_runner"]:
             runner = stack["test_runner"]
             runner = f'bounded_run "{runner}"'
@@ -174,16 +191,6 @@ def render(
             linter = stack["linter"]
             linter = f'bounded_run "{linter}"'
             lines.append(f"- **Lint / Quality Gate:** `{linter}`")
-        lines.append("")
-
-        lines.append("## 2. Environment Tools & Execution Harness")
-        lines.append("- **Mandatory Bounded Execution:** BẮT BUỘC chạy các lệnh test, build, lint dài qua `bounded_run \"<command>\"` để tránh tràn context và tự động trích xuất stacktrace lỗi.")
-        if env["repo_map"]:
-            lines.append(f"- **Structural Code Navigation:** Consult `{env['repo_map']}` for structural orientation. Read viewports (`bounded_run view <file> --line <N>`) instead of loading entire large files.")
-        if env["ast_grep"]:
-            lines.append("- **AST Search:** `ast-grep` is active. Use `ast-grep:find_code` or `ast-grep:analyze-imports` for structural search across declarations instead of raw regex or full-file inspection.")
-        if env["memory_mcp"]:
-            lines.append("- **Knowledge Graph Memory:** Memory MCP is active. Persist architectural decisions and entity relations via `memory:add_observations` / `memory:create_entities` to maintain cross-session context.")
         lines.append("- **Verification Before Completion:** Always run `verification-before-completion` before declaring work done. Report actual executed commands and evidence honestly.\n")
 
     lines += [

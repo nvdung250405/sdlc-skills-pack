@@ -38,21 +38,39 @@ Work SHOULD be delivered in small slices with explicit acceptance and rollback s
 
 ---
 
-## 2. Project-Specific Constraints & Commands (Required)
+## 2. Environment vs Project Stack Manifest (Two-Tier Architecture)
 
-- **Stack & Supported Runtimes:** [e.g., Node.js 20 LTS, Python 3.11, Docker]
-- **Required Verification Commands (Always wrap via `bounded_run`):**
-  - Build: `bounded_run "[build command]"`
-  - Unit / Integration Tests: `bounded_run "[test command]"`
-  - Lint / Format: `bounded_run "[lint command]"`
-  - Type Check: `bounded_run "[typecheck command]"`
-- **Thresholds:** [Coverage, performance, accessibility, security baseline]
-- **Architectural Seams & Forbidden Dependencies:** [e.g., Domain must not depend on Infrastructure directly]
-- **Data Retention & Privacy Requirements:** [e.g., PII encrypted, GDPR deletion compliant]
+### 2.1 Agent Environment Stack (Đồ nghề & Môi trường Agent vận hành)
+- **Host Sandbox:** Host OS (Windows / Linux / macOS), Shell environment, Global PATH.
+- **Context & Output Guard (SWE-agent Harness):**
+  - **Execution Wrapper (Mandatory):** `bounded_run "<cmd>"` (Lọc log console thừa, tự động trích xuất failure stacktrace).
+  - **Viewport Slicing:** `bounded_run view <file> --line <N> --window <W>` (Xem lát cắt code hẹp, chống cạn kiệt token).
+  - **Structural Map:** `repo_map` (Cập nhật AST toàn dự án dưới 1k tokens vào `.agent/repo_map.txt`).
+- **MCP Endpoints:**
+  - `memory` (Knowledge Graph MCP): Lưu các bất biến kiến trúc vĩnh viễn (`create_entities`, `read_graph`).
+  - `ast-grep` (AST Syntax MCP): Truy vấn và refactor mã nguồn theo cây cú pháp ngữ nghĩa (`find_code`, `rewrite_code`).
+- **Skills Catalog:** `~/.gemini/config/skills/` (Router: `using-sdlc-skills`, 32 kỹ năng SDLC tải theo nhu cầu).
+
+### 2.2 Target Project Stack (Công nghệ của Dự án đang thao tác)
+- **Stack & Supported Runtimes:** [e.g., Node.js 20 LTS, Java 21, Python 3.14, Docker]
+- **Core Frameworks & Storage:** [e.g., Spring Boot, React/Vite, PostgreSQL 16, SQLite WAL]
+- **Architectural Seams & Boundaries:** [e.g., Domain layer must not depend directly on Infrastructure]
 
 ---
 
-## 3. Governance & Compliance Gate (Required)
+## 3. Mandatory Verification Commands (Always wrap via `bounded_run`)
+
+Mọi lệnh terminal kiểm thử, build hoặc scan bắt buộc phải bọc qua `bounded_run` để bảo vệ context window:
+- **Build:** `bounded_run "[build command]"`
+- **Unit / Integration Tests:** `bounded_run "[test command]"`
+- **Lint / Format:** `bounded_run "[lint command]"`
+- **Type Check:** `bounded_run "[typecheck command]"`
+- **Security Audit (SAST/SCA):** `bounded_run "semgrep scan --config auto"`, `bounded_run "trivy fs ."`
+- **Quality Baseline Thresholds:** [Coverage %, max cyclomatic complexity, zero blocker CVEs]
+
+---
+
+## 4. Governance & Compliance Gate (Required)
 Changes to this constitution require review by [OWNER/ROLE]. A change that lowers a quality threshold must document the reason, affected risk, approver and expiry/revisit date. The agent MUST NOT amend this file to make its own change pass without approval.
 
 ### Constitution Compliance Checklist
