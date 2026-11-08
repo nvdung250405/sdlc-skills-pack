@@ -33,7 +33,9 @@ Apply this skill when:
 
 ## Loading Constraints
 
-This skill needs a live, responsive user. **Do not invoke in non-interactive contexts** like CI pipelines, scheduled runs, `/loop`, or autonomous-loop. If you're in one of those and the ask is underspecified, flag that as a blocker for the user instead of guessing.
+This skill needs a live, responsive user. **Do not invoke in non-interactive contexts** like CI pipelines, scheduled runs, `/loop`, or autonomous-loop. If you are invoked in a non-interactive environment:
+- **Do NOT guess, hallucinate, or simulate user answers.**
+- Immediately halt and emit a structured `Intent Blocker Report` listing all unvalidated assumptions and missing inputs.
 
 ## The Process
 
@@ -49,6 +51,8 @@ CONFIDENCE: ~30% — missing: who it's for, what "metrics" means in context, and
 The number forces honesty. If you wrote down a high number but can't actually predict the user's reactions to the next three questions you'd ask, the number is wrong. Start at the confidence level you can defend.
 
 When confidence is below ~70%, append a brief reason on the same line — what's still unresolved or missing. This tells the user exactly what the interview needs to surface, and prevents the number from being a vague signal.
+
+Apply a first-principles lens: strip away conventional solution wrappers ("dashboard", "microservice", "rewrite"). What is the irreducible raw problem the user is trying to solve?
 
 ### Step 2: Ask one question at a time, each with a guess attached
 
@@ -76,10 +80,11 @@ Wait for the user to react before asking the next question.
 
 The risk here is a polite user agreeing with your guess to be agreeable. Mitigate by being visibly willing to be wrong, and occasionally guess in a direction you expect the user to push back on.
 
-### Step 3: Listen for "want vs. should want"
+### Step 3: Listen for "want vs. should want" & Apply the 5 Whys Root Drill
 
-The most dangerous answers are the ones where the user says what a thoughtful answer *sounds like* rather than what they actually want. Watch for:
+The most dangerous answers are the ones where the user says what a thoughtful answer *sounds like* rather than what they actually want, or where they ask for a specific mechanism rather than explaining the real problem.
 
+**Watch for "should want" answers:**
 - Answers that pattern-match best-practice talk ("I want it to be scalable", "clean architecture") without specifics
 - Answers that defer to convention ("the way most apps do it", "the standard approach")
 - Phrases like "I should probably…", "I think I'm supposed to…", "good engineering practice says…"
@@ -91,9 +96,17 @@ When you hear these, the question to ask is:
 
 That single question often does more work than the previous five.
 
-### Step 4: Restate intent in the user's own words
+**The 5 Whys Root Drill (peel the mechanism to find the root bottleneck):**
+When a user asks for a specific mechanism (e.g., "build a dashboard", "export to CSV", "add a settings toggle", "rewrite in Go"), do NOT immediately debate how to build the mechanism. Drill 2–3 levels through causality to expose the underlying operational bottleneck:
+- *Why do you need [mechanism]?* → *To accomplish [task].*
+- *Why is [task] difficult or failing today?* → *Because [underlying bottleneck].*
+- *Why does [underlying bottleneck] happen?* → *Because [root cause / missing fundamental capability].*
 
-When your confidence is high, write back what you now think the user wants. Keep it tight (5–8 lines), use their language where possible, and structure it so the user can confirm or correct line by line:
+Distinguish the surface mechanism (the tool they imagined) from the root outcome (the operational bottleneck they need resolved). Peeling back the mechanism often reveals that the user needs something 10x simpler or fundamentally different from the requested feature.
+
+### Step 4: Restate intent in the user's own words & Register Assumptions
+
+When your confidence is high, write back what you now think the user wants. Keep it tight (6–10 lines), use their language where possible, and structure it so the user can confirm or correct line by line:
 
 ```
 Here's what I now think you want:
@@ -104,11 +117,17 @@ Here's what I now think you want:
 - Success:      <one line — how we know it worked>
 - Constraint:   <one line — the binding limit>
 - Out of scope: <one line — what we're explicitly not doing>
+- Assumptions:  <explicit register of critical assumptions surfaced>
+  * [Assumption 1]: [Confirmed / To Validate] (Impact: High/Med/Low)
+  * [Assumption 2]: [Confirmed / To Validate] (Impact: High/Med/Low)
 
 Yes / no / refine?
 ```
 
 Including "Out of scope" is non-negotiable. Half of misalignment is silent disagreement about what is *not* being built.
+
+**No Silent Guessing Guardrail (Matt Pocock):**
+The agent is strictly prohibited from silently assuming or extrapolating high-impact decisions (security boundaries, data consistency, billing logic, tenant isolation, compliance rules, SLA). Every critical assumption MUST be surfaced in the Assumptions Register and explicitly confirmed by the user before proceeding. In non-interactive contexts (CI pipelines or autonomous loops), unresolved critical assumptions must be flagged as blockers rather than decided autonomously by the agent.
 
 ### Step 5: Confirm — explicit yes, not "whatever you think"
 
@@ -199,6 +218,8 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 |---|---|
 | "The ask is clear enough" | If you can't write the user's desired outcome in one sentence right now, the ask isn't clear. Run Step 1 before deciding. |
 | "Asking too many questions wastes their time" | Time wasted by 4–6 targeted questions is small. Time wasted by building the wrong thing is enormous, and the user is the one bearing that cost. |
+| "The user asked for a dashboard, so they need a dashboard" | Users ask for mechanisms they know, not the root problem they have. Apply the 5 Whys drill to uncover the real operational bottleneck before designing. |
+| "I assumed standard industry defaults for auth/billing/permissions" | No silent guessing. Critical domain, security, and architectural assumptions must be explicitly registered and confirmed by the user. |
 | "I'll figure it out as I build" | Switching costs after code exists are 10x what they are now. Discovery during implementation is rework. |
 | "They said 'whatever you think,' so I should just decide" | "Whatever you think" is delegation, not decision. Re-ask with two concrete options as a choice. |
 | "I should give them several options to pick from" | Options work when the user knows what they want and is choosing between trade-offs. They don't know what they want yet. Listing options widens the search; asking narrows it. |
@@ -208,6 +229,9 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 
 ## Red Flags
 
+- Accepting a surface mechanism without probing the underlying "Why" (5 Whys root drill)
+- Silent guessing: agent assumes a critical business rule, constraint, or architectural boundary without surfacing it in the assumptions register
+- Leaving high-impact assumptions unstated or marked as implicitly accepted
 - Three or more questions in a single message: that's batching, not interviewing
 - A question without your hypothesis attached: that's surveying, not committing
 - Accepting "whatever you think is best" as a terminal answer
@@ -228,7 +252,10 @@ After applying interview-me:
 - [ ] Every confidence number below ~70% was accompanied by a one-line reason (what's still unresolved or missing)
 - [ ] Questions were asked one at a time, each with the agent's guess attached
 - [ ] At least one "what would you actually want if you didn't have to justify it?" probe ran when the user gave a sophistication-signaling or convention-signaling answer
-- [ ] A concrete restate (Outcome / User / Why now / Success / Constraint / Out of scope) was written back to the user
+- [ ] 5 Whys root drill was applied when the ask was framed as a mechanism ("dashboard", "export") rather than a root problem
+- [ ] First-principles applied: examined raw user need without being anchored by conventional solution wrappers
+- [ ] A concrete restate (Outcome / User / Why now / Success / Constraint / Out of scope / Assumptions) was written back to the user
+- [ ] Critical assumptions were explicitly surfaced in the Assumptions Register; zero silent guesswork on high-impact decisions
 - [ ] The user confirmed the restate with an explicit yes (not "whatever you think," not "sounds good," not silence)
 - [ ] At the stop point, the agent could predict reactions to the next three questions it would ask
 - [ ] Upon receiving explicit confirmation, stopped the turn immediately without invoking tools or starting downstream work

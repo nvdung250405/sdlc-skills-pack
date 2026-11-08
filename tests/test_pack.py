@@ -288,6 +288,61 @@ class PackStaticTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("Verified 11 golden evaluation fixtures across all 11 workflows", result.stdout)
 
+    def test_run_evals_single_fixture_isolation(self) -> None:
+        """Verify that single fixture filtering does not suffer from transcript cross-talk."""
+        # Non-matching fixture skips unrelated transcripts cleanly
+        result_bug = run_script("run_evals.py", "--fixture", "eval-bug-fix-01")
+        self.assertEqual(result_bug.returncode, 0, result_bug.stdout + result_bug.stderr)
+        self.assertIn("Verified 1 golden evaluation fixtures across all 1 workflows", result_bug.stdout)
+
+        # Matching fixture validates its transcript cleanly
+        result_feat = run_script("run_evals.py", "--fixture", "eval-feature-loop-01")
+        self.assertEqual(result_feat.returncode, 0, result_feat.stdout + result_feat.stderr)
+        self.assertIn("Verified 1 golden evaluation fixtures across all 1 workflows", result_feat.stdout)
+        self.assertIn("Verified 1 benchmark execution transcript", result_feat.stdout)
+
+    def test_run_evals_strict_mode(self) -> None:
+        """Verify that strict mode executes cleanly across all 11 fixtures."""
+        result = run_script("run_evals.py", "--strict")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Verified 11 golden evaluation fixtures across all 11 workflows", result.stdout)
+
+    def test_run_evals_non_object_json_guard(self) -> None:
+        """Verify that non-object JSON fixtures do not crash with Python tracebacks."""
+        evals_dir = ROOT / "evals"
+        tmp_bad = evals_dir / "_temp_bad_non_object.json"
+        try:
+            tmp_bad.write_text("[]", encoding="utf-8")
+            result = run_script("run_evals.py", "--fixture", tmp_bad.name, "--fixtures-only")
+            self.assertEqual(result.returncode, 1)
+            self.assertNotIn("Traceback", result.stderr)
+            self.assertIn("[SCHEMA]", result.stderr)
+            self.assertIn("JSON root must be an object", result.stderr)
+        finally:
+            tmp_bad.unlink(missing_ok=True)
+
+    def test_run_evals_flags_reconciliation(self) -> None:
+        """Verify that --check-only, --verify-results, and mutual exclusivity operate cleanly."""
+        res_check = run_script("run_evals.py", "--check-only")
+        self.assertEqual(res_check.returncode, 0, res_check.stdout + res_check.stderr)
+
+        res_vr = run_script("run_evals.py", "--verify-results")
+        self.assertEqual(res_vr.returncode, 0, res_vr.stdout + res_vr.stderr)
+
+        res_conflict = run_script("run_evals.py", "--fixtures-only", "--verify-results")
+        self.assertEqual(res_conflict.returncode, 1)
+        self.assertTrue(
+            "mutually exclusive" in res_conflict.stderr.lower() or "cannot combine" in res_conflict.stderr.lower(),
+            res_conflict.stderr,
+        )
+
+        res_conflict2 = run_script("run_evals.py", "--check-only", "--verify-results")
+        self.assertEqual(res_conflict2.returncode, 1)
+
+        res_vr_missing = run_script("run_evals.py", "--fixture", "eval-bug-fix-01", "--verify-results")
+        self.assertEqual(res_vr_missing.returncode, 1)
+        self.assertIn("[TRANSCRIPT]", res_vr_missing.stderr)
+
 
 @unittest.skipUnless(shutil.which("git"), "Git is required for local sync transaction tests")
 class SyncTransactionTests(unittest.TestCase):

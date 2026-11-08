@@ -4,7 +4,7 @@
 > **Workflow:** `refactoring`  
 > **Scenario Group:** Maintenance & Optimization  
 > **Trigger / Input:** Technical debt, code smell, module deepening, shallow abstractions  
-> **Primary Stages:** Scope & Invariants → Characterization Tests → Deep Module Seams → Micro-Steps → Regression Verification  
+> **Primary Stages:** Scope & Invariants → Characterization Tests → Deep Module Seams → Micro-Steps → Regression Verification → Compounding  
 > **Key Output:** Refactored clean code, deep module seams, architectural ADR if seams change  
 > **Verification / Exit Gate:** 100% behavioral preservation, full test suite passing, zero regression  
 
@@ -37,3 +37,7 @@ Use this workflow for technical debt reduction, module deepening, code simplific
 11. **Verify Behavior Preservation**: Run the full project test suite, typecheck, and strict linters.
 12. **Collect Evidence**: Execute `verification-before-completion` to capture fresh terminal output proving zero behavioral regressions.
 13. **Diff Review**: Inspect `git diff` using `code-review-and-quality` to confirm that no accidental side-effects, unwanted formatting noise, or commented-out code remain.
+
+## 6. Compounding & Architectural Knowledge
+14. Record validated simplification patterns, eliminated anti-patterns, and module boundary decisions in Section 5 of `completion-report.md`.
+15. Update `docs/architecture.md` and repository guidelines (`AGENTS.md`) to preserve new deep module conventions and prevent shallow drift in future changes.

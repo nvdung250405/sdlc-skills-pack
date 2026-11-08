@@ -4,7 +4,7 @@
 > **Workflow:** `agent-handoff-contract`  
 > **Scenario Group:** Agent Coordination  
 > **Trigger / Input:** Session context limits, role hand-off, agent hand-off, resuming prior work  
-> **Primary Stages:** Context Capture → Artifact Pointer Linking → Work & Blockers Summary → Next Concrete Action  
+> **Primary Stages:** Context Capture → Artifact Pointer Linking → Work & Blockers Summary → Next Concrete Action → Compounding  
 > **Key Output:** Persistent session handoff record in `.agent/tasks/<task-id>.md`  
 > **Verification / Exit Gate:** Clean git worktree, fresh verification evidence recorded, pointer links verified  
 
@@ -104,3 +104,13 @@ REQUIRED OUTPUT & EVIDENCE:
 - Automated regression test file path and failure trace.
 - Passing test verification command and terminal evidence.
 ```
+
+---
+
+## 4. Institutionalizing Knowledge (The Compounding Step)
+
+Upon receiving handoffs or concluding task execution across subagents, the Orchestrator must synthesize findings into repository memory (Plan → Work → Review → Compound → Repeat):
+1. **Extract Reusable Patterns:** Identify successful code structures, test fixtures, and architectural invariants, updating `docs/architecture.md` or recording ADRs.
+2. **Document Pitfalls & Gotchas:** Record failed attempts, edge cases, and deceptive library quirks into `.agent/tasks/<task-id>.md` or `completion-report.md`.
+3. **Systemic Rule Updates:** Propose concrete amendments to `AGENTS.md` when recurring friction or coordination gaps between subagents are identified.
+4. **Seed Next Cycle:** Carry compounded context forward into the next iteration planning phase.

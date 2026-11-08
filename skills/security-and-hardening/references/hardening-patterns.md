@@ -211,30 +211,32 @@ Two limits, because the check reads stronger than it is. A marker inside the tre
 
 ## Dependency Audit Triage
 
-Package-manager audits report known advisories; they do not prove a package is trustworthy or that vulnerable code is reachable. Use this decision tree:
+Package-manager audits report known advisories; they do not prove a package is trustworthy or that vulnerable code is reachable. Triage findings using Trail of Bits reachability heuristics:
 
-```
-The native package-manager audit reports a vulnerability
-├── Severity: critical or high
-│   ├── Is the vulnerable code reachable in runtime, build, test, or deployment paths?
-│   │   ├── YES --> Fix immediately (update, patch, or replace the dependency)
-│   │   └── NO (confirmed unused across those paths) --> Fix soon, but not a blocker
-│   └── Is a fix available?
-│       ├── YES --> Update to the patched version
-│       └── NO --> Check for workarounds, consider replacing the dependency, or add to allowlist with a review date
-├── Severity: moderate
-│   ├── Reachable in production? --> Fix in the next release cycle
-│   └── Dev-only? --> Fix when convenient, track in backlog
-└── Severity: low
-    └── Track and fix during regular dependency updates
-```
+### The 4-Tier Supply-Chain Reachability Matrix
 
-**Key questions:**
-- Is the vulnerable function actually called in your code path?
-- Is the dependency a runtime dependency or dev-only?
-- Is the vulnerability exploitable given your deployment context (e.g., a server-side vulnerability in a client-only app)?
+| Tier | Classification | Definition & Execution Path | Evidence Required | SLA & Remediation Action |
+|---|---|---|---|---|
+| **Tier 1** | **Direct Runtime Reachable** | Vulnerable symbol is imported, invoked, and exposed to untrusted input in production code paths. | Entrypoint-to-sink call graph trace showing execution path from HTTP router/job worker to vulnerable function. | **P0 Blocker**: Stop deployment. Patch, pin version override, or refactor dependency immediately. |
+| **Tier 2** | **Reachable Guarded** | Vulnerable function is invoked in runtime flow, but domain constraints or upstream sanitization prevent reaching exploitable state. | Test evidence or code analysis demonstrating that input constraints prevent triggering the vulnerability. | **P1 High**: Fix within current sprint/cycle. Add regression test asserting the defensive guard cannot be bypassed. |
+| **Tier 3** | **Transitive Uninvoked** | Vulnerable package resides in lockfile, but the vulnerable function, class, or subpath is never imported or called anywhere. | Codebase-wide AST / symbol reference search proving zero references from application entrypoints. | **P2 Medium/Low**: Deferral permitted with documented triage record, call graph proof, and review date. |
+| **Tier 4** | **Tooling / Build-Time Only** | Dependency runs exclusively during developer builds, linting, or offline test harnesses and never bundles into runtime artifact. | Packaging manifest / build output inspection proving package is excluded from production distribution. | **P3 Low/Backlog**: Track in security debt backlog. Update during scheduled maintenance. |
 
-When you defer a fix, document the reason and set a review date.
+### Evidence-Based Reachability Verification Procedure
+
+1. **Extract Vulnerable Symbol**: Identify the exact function, class, or file affected from the CVE advisory (e.g. `lodash.template` vs `lodash.get`).
+2. **Scan Direct Usages**: Use AST pattern matching (`ast-grep --pattern '<symbol>($$$)'`) to locate direct imports or invocations in application code (`src/`, `lib/`).
+3. **Trace Entrypoint Call Hierarchy**: Trace call paths backwards from application entrypoints (HTTP routes, CLI commands, queue workers). If no entrypoint can reach the invocation, classify as Tier 3.
+4. **Audit Dynamic Invocations**: In dynamic runtimes (Node.js, Python), verify that dynamic imports (`require(variable)`, `importlib.import_module()`) or reflection do not dynamically invoke the affected module.
+5. **Document Triage Record**: When deferring Tier 3 or Tier 4, record in the security triage log or completion report: CVE ID, Package & Version, Reachability Tier, Proof (command & output), Action Taken, and Expiration / Review Date.
+
+### Safe Remediation Protocol
+- **Prohibit `--force` remediation**: Never run `npm audit fix --force` or blanket major version bumps.
+- **Surgical Pinning**: Use narrow overrides in package manifests:
+  - npm: `"overrides": { "vulnerable-pkg": "^x.y.z" }`
+  - pnpm: `"pnpm": { "overrides": { "vulnerable-pkg": "^x.y.z" } }` or `pnpm.patchedDependencies`
+  - Yarn: `"resolutions": { "vulnerable-pkg": "^x.y.z" }`
+- **Verify with Regression Tests**: Exercise the code paths touching the upgraded package before merging.
 
 ## Rate Limiting
 

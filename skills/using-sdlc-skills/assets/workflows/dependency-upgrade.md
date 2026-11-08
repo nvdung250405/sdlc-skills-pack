@@ -4,7 +4,7 @@
 > **Workflow:** `dependency-upgrade`  
 > **Scenario Group:** Maintenance & Optimization  
 > **Trigger / Input:** Security advisory, CVE alert, outdated runtime, major framework version  
-> **Primary Stages:** Upgrade Triage → Worktree Isolation → Manifest/Lockfile Bump → Code Adaptation → Security Audit  
+> **Primary Stages:** Upgrade Triage → Worktree Isolation → Manifest/Lockfile Bump → Code Adaptation → Security Audit → Compounding  
 > **Key Output:** Upgraded package manifest and lockfile, clean security scan report  
 > **Verification / Exit Gate:** Full test suite passing, 0 critical/high CVEs remaining, `verification-before-completion`  
 
@@ -49,3 +49,7 @@ Use this workflow when upgrading frameworks, runtime versions (Node/Python/Go), 
 8. **Final Evidence & Review**:
    - Run `verification-before-completion` to record clean audit logs and test suite passes.
    - Review diff using `code-review-and-quality` and merge following repository PR policy.
+
+## 6. Compounding & Supply-Chain Knowledge
+9. Record resolved advisories, reachability analysis findings, migration pitfalls, and package lock invariants in Section 5 of `completion-report.md`.
+10. Update repository security guidelines or dependency management policies (`AGENTS.md`) with lessons learned to safeguard future upgrade cycles.

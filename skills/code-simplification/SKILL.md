@@ -89,7 +89,7 @@ for (const item of items) {
 }
 ```
 
-### 4. Maintain Balance
+### 4. Maintain Balance & Prune Speculative Code (YAGNI)
 
 Simplification has a failure mode: over-simplification. Watch for these traps:
 
@@ -98,9 +98,15 @@ Simplification has a failure mode: over-simplification. Watch for these traps:
 - **Removing "unnecessary" abstraction** — some abstractions exist for extensibility or testability, not complexity
 - **Optimizing for line count** — fewer lines is not the goal; easier comprehension is
 
-### 5. Scope to What Changed
+**Prune Speculative Complexity (YAGNI):**
+Simplification should actively prune unused speculative code, dead parameters, unnecessary configuration layers, and "just-in-case" abstractions. If an abstraction was built for a hypothetical future that never arrived, remove it or inline it. Git history preserves it if ever needed again. Do not preserve complexity out of fear of future rework.
+
+### 5. Scope to What Changed & Enforce Surgical Diffs
 
 Default to simplifying recently modified code. Avoid drive-by refactors of unrelated code unless explicitly asked to broaden scope. Unscoped simplification creates noise in diffs and risks unintended regressions.
+
+**Surgical Diff Discipline:**
+Simplification diffs must be laser-focused on the targeted complexity. Do not reformat unaffected functions, reorder unrelated imports, or alter indentation/whitespace across untouched code. Every line in the diff must correlate directly to the specific simplification pattern being executed, ensuring the diff is reviewable in under 2 minutes with high signal-to-noise ratio.
 
 ## The Simplification Process
 
@@ -148,9 +154,11 @@ Scan for these patterns — each one is a concrete signal, not a vague smell:
 
 | Pattern | Signal | Simplification |
 |---------|--------|----------------|
-| Duplicated logic | Same 5+ lines in multiple places | Extract to a shared function |
+| Duplicated logic | Same 5+ lines in multiple places | Consolidate onto existing project-standard utilities or shared helpers (Search Before Inventing). Do not invent a third custom helper when standard repository utilities already exist. |
 | Dead code | Unreachable branches, unused variables, commented-out blocks | Remove (after confirming it's truly dead) |
 | Unnecessary abstractions | Wrapper that adds no value | Inline the wrapper, call the underlying function directly |
+| Speculative abstraction (YAGNI) | Classes, interfaces, or generics with single implementation created "for future flexibility" | Inline the wrapper, call underlying logic directly; delete unused speculative hooks |
+| Reinventing the wheel (Reuse-First) | Custom helper written for string/date/array manipulation where standard library or project utility exists | Replace custom implementation with standard repository helper or built-in library |
 | Over-engineered patterns | Factory-for-a-factory, strategy-with-one-strategy | Replace with the simple direct approach |
 | Redundant type assertions | Casting to a type that's already inferred | Remove the assertion |
 
@@ -162,8 +170,9 @@ Make one simplification at a time. Run tests after each change. **Submit refacto
 FOR EACH SIMPLIFICATION:
 1. Make the change
 2. Run the test suite
-3. If tests pass → commit (or continue to next simplification)
-4. If tests fail → revert and reconsider
+3. Check `git diff` — verify surgical precision (zero whitespace drift, no collateral edits)
+4. If tests pass and diff is surgical → commit (or continue to next simplification)
+5. If tests fail → revert and reconsider
 ```
 
 Avoid batching multiple simplifications into a single untested change. If something breaks, you need to know which simplification caused it.
@@ -302,12 +311,17 @@ function UserBadge({ user }: Props) {
 | "Fewer lines is always simpler" | A 1-line nested ternary is not simpler than a 5-line if/else. Simplicity is about comprehension speed, not line count. |
 | "I'll just quickly simplify this unrelated code too" | Unscoped simplification creates noisy diffs and risks regressions in code you didn't intend to change. Stay focused. |
 | "The types make it self-documenting" | Types document structure, not intent. A well-named function explains *why* better than a type signature explains *what*. |
-| "This abstraction might be useful later" | Don't preserve speculative abstractions. If it's not used now, it's complexity without value. Remove it and re-add when needed. |
+| "This abstraction might be useful later" | YAGNI: Don't preserve speculative abstractions or dead parameters. If it's not strictly required now, it's complexity without value. Prune it; git history preserves it if ever needed. |
+| "Writing a new helper here is cleaner than importing an existing project utility" | Reuse existing repo helpers first. Proliferating redundant helpers fragments behavior and increases bug surface area. |
+| "While I'm simplifying this function, I might as well reformat the entire file" | Surgical diff discipline: keep diffs minimal and focused. Whole-file reformatting pollutes blame and obscures the actual simplification. |
 | "The original author must have had a reason" | Maybe. Check git blame — apply Chesterton's Fence. But accumulated complexity often has no reason; it's just the residue of iteration under pressure. |
 | "I'll refactor while adding this feature" | Separate refactoring from feature work. Mixed changes are harder to review, revert, and understand in history. |
 
 ## Red Flags
 
+- Introducing a new custom utility when the codebase or standard library already provides one (violating Reuse-First)
+- Diff touching lines or files outside the target simplification scope (non-surgical diff)
+- Preserving unused speculative abstractions or dead parameters out of fear of future rework (violating YAGNI)
 - Simplification that requires modifying tests to pass (you likely changed behavior)
 - "Simplified" code that is longer and harder to follow than the original
 - Renaming things to match your preferences rather than project conventions
@@ -321,6 +335,9 @@ function UserBadge({ user }: Props) {
 After completing a simplification pass:
 
 - [ ] All existing tests pass without modification
+- [ ] YAGNI applied: speculative abstractions, unused parameters, and dead hooks pruned
+- [ ] Surgical diff verified: git diff contains only intentional simplification edits without collateral churn or whitespace drift
+- [ ] Reused existing project utilities instead of creating redundant single-use helpers
 - [ ] Build succeeds with no new warnings
 - [ ] Linter/formatter passes (no style regressions)
 - [ ] Each simplification is a reviewable, incremental change

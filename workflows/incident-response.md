@@ -4,7 +4,7 @@
 > **Workflow:** `incident-response`  
 > **Scenario Group:** Defect Resolution  
 > **Trigger / Input:** Production alert, outage, service degradation, SLO breach  
-> **Primary Stages:** Stabilize & Mitigate → Diagnose Root Cause → Surgical Fix → Postmortem & Prevention  
+> **Primary Stages:** Stabilize & Mitigate → Diagnose Root Cause → Surgical Fix → Postmortem & Prevention → Compounding  
 > **Key Output:** Incident postmortem, preventative action items, runbook update  
 > **Verification / Exit Gate:** System SLIs/SLOs restored to healthy baseline for ≥ 15 minutes, postmortem published  
 
@@ -42,6 +42,10 @@ Use this workflow for active production or staging incidents affecting service s
    - What went well vs. where response was delayed or fortunate.
 11. **Track Preventative Action Items**: Convert preventative measures (index additions, alert threshold tuning, pipeline gates, circuit breakers) into concrete backlog tickets with designated owners and target completion dates.
 12. **Update Runbooks & Alerts**: Ensure `docs/runbooks/[service-name].md` and alert thresholds are updated to catch or auto-mitigate similar failure modes in the future.
+
+## 4. Compounding & Operational Hardening
+13. Distill outage dynamics, architectural fragilities, and recovery playbooks into Section 5 of `completion-report.md`.
+14. Compound lessons into organizational safeguards: update `AGENTS.md`, architecture guardrails, runbooks, and automated circuit breakers so identical failures cannot re-occur.
 
 ---
 

@@ -57,6 +57,7 @@ Does the change fit the system's design?
 - Is there code duplication that should be shared?
 - Are dependencies flowing in the right direction (no circular dependencies)?
 - Is the abstraction level appropriate (not over-engineered, not too coupled)?
+- **Does the change respect subsystem invariants and architecture boundaries (Trail of Bits Principle)?** Bug fixes must address the root invariant failure rather than applying localized symptom patches that violate module contracts. Check `docs/architecture.md` to ensure component seams remain intact.
 - **Does this refactor reduce complexity or just relocate it?** Count the concepts a reader must hold to follow the change. If a "cleaner" version leaves that count unchanged, it isn't cleaner — prefer the restructuring that makes whole branches, modes, or layers disappear over one that re-centralizes the same logic. Prefer deleting an abstraction to polishing it.
 - **Is feature-specific logic leaking into a shared or general-purpose module?** Keep logic in its owning layer, reuse the existing canonical helper instead of a near-duplicate, and don't normalize architectural drift.
 - **Are type boundaries explicit?** Question gratuitous `any`/`unknown`/optional/casts and silent fallbacks that paper over an unclear invariant — making the boundary explicit often makes the surrounding control flow simpler.
@@ -71,6 +72,8 @@ For detailed security guidance, see `security-and-hardening`. Does the change in
 - Are SQL queries parameterized (no string concatenation)?
 - Are outputs encoded to prevent XSS?
 - Are dependencies from trusted sources with no known vulnerabilities?
+- **Are supply-chain dependencies triaged against the 4-tier reachability matrix?** (Direct Runtime Reachable, Reachable Guarded, Transitive Uninvoked, Dev/Tooling). Any claim that an advisory is unreachable must have documented call-graph or AST proof.
+- **Are PR-wide static analysis checks conducted to identify defect variants?**
 - Is data from external sources (APIs, logs, user content, config files) treated as untrusted?
 - Are external data flows validated at system boundaries before use in logic or rendering?
 
@@ -141,13 +144,18 @@ Every change needs a description that stands alone in version control history.
 
 ### Step 1: Understand the Context
 
-Before looking at code, understand the intent:
+Before looking at code, understand the intent and historical context:
 
 ```
 - What is this change trying to accomplish?
 - What spec or task does it implement?
 - What is the expected behavior change?
 ```
+
+**Inspect Git History & Historical Context (Trail of Bits Principle):**
+- Run `git blame` on modified or deleted lines to understand the original intent and edge cases the existing code was designed to address.
+- Run `git log -S <symbol>` to review previous commits and PR discussions that touched the modified logic.
+- Verify that the change does not reintroduce a previously patched bug, violate historical invariants, or silently drop subtle defensive checks.
 
 ### Step 2: Review the Tests First
 
@@ -171,10 +179,15 @@ Walk through the code with the five axes in mind:
 For each file changed:
 1. Correctness: Does this code do what the test says it should?
 2. Readability: Can I understand this without help?
-3. Architecture: Does this fit the system?
-4. Security: Any vulnerabilities?
+3. Architecture: Does this fit the system and maintain invariants?
+4. Security: Any vulnerabilities or unmitigated supply-chain risks?
 5. Performance: Any bottlenecks?
 ```
+
+**Perform Static Analysis & Variant Sweeping (Trail of Bits Principle):**
+- When reviewing a bug fix or defensive check, check if the same flaw or anti-pattern exists in peer modules.
+- Use AST tools (`ast-grep`) or structural pattern search across the repository to verify that the fix addresses all instances of the defect pattern, not just the single file touched in the PR.
+- Require the author to clean up identical variants or open tracked issues before approving.
 
 ### Step 4: Categorize Findings
 
@@ -299,6 +312,12 @@ Part of code review is dependency review:
 4. **Mind the transitive graph.** Most installed packages are ones nobody chose directly. Review the lockfile diff, not just `package.json`; a single direct bump can pull in dozens of indirect changes.
 5. **Keep the lockfile honest.** Commit it, review its diff, and never hand-edit it. The lockfile is the thing that actually pins what ships.
 
+**Supply-Chain Reachability Review (Trail of Bits 4-Tier Triage):**
+When reviewing dependency updates or security advisory fixes:
+1. Classify findings using the **4-Tier Reachability Matrix**: Tier 1 (Direct Runtime Reachable - P0 Blocker), Tier 2 (Reachable Guarded - P1 High), Tier 3 (Transitive Uninvoked - P2 Defer with Proof), Tier 4 (Tooling/Dev-Only - P3 Backlog).
+2. Require documented AST search or call-graph trace evidence before accepting that a vulnerable transitive dependency is uninvoked.
+3. Reject PRs using blanket forced remediation (`npm audit fix --force`), which silently introduce breaking major version upgrades without changelog review.
+
 For triaging `npm audit` findings and supply-chain risk (typosquatting, compromised maintainers), follow the `security-and-hardening` skill — this section covers the upgrade *workflow*, that one covers the security verdict.
 
 ## The Review Checklist
@@ -308,6 +327,7 @@ For triaging `npm audit` findings and supply-chain risk (typosquatting, compromi
 
 ### Context
 - [ ] I understand what this change does and why
+- [ ] Git history and git blame reviewed for modified lines to preserve historical invariants
 
 ### Correctness
 - [ ] Change matches spec/task requirements
@@ -321,7 +341,7 @@ For triaging `npm audit` findings and supply-chain risk (typosquatting, compromi
 - [ ] No unnecessary complexity
 
 ### Architecture
-- [ ] Follows existing patterns
+- [ ] Follows existing patterns and preserves subsystem invariants
 - [ ] No unnecessary coupling or dependencies
 - [ ] Appropriate abstraction level
 - [ ] Refactors reduce complexity rather than relocate it
@@ -333,6 +353,8 @@ For triaging `npm audit` findings and supply-chain risk (typosquatting, compromi
 - [ ] No injection vulnerabilities
 - [ ] Auth checks in place
 - [ ] External data sources treated as untrusted
+- [ ] Supply-chain changes evaluated against 4-tier reachability matrix with documented proof
+- [ ] Defect fixes accompanied by repository-wide static analysis sweep for peer variants
 
 ### Performance
 - [ ] No N+1 patterns
@@ -377,6 +399,10 @@ For triaging `npm audit` findings and supply-chain risk (typosquatting, compromi
 - No regression tests with bug fix PRs
 - Review comments without severity labels — makes it unclear what's required vs optional
 - Accepting "I'll fix it later" — it never happens
+- Approving modifications or deletions to complex code without reviewing `git blame` / `git log -S` history
+- Accepting bug fixes without checking if identical defective patterns exist in peer modules (omitting static analysis sweeps)
+- Merging dependency updates without reachability evidence for reported vulnerabilities
+- Blanket `npm audit fix --force` changes merged without per-package review
 - A refactor that moves code around without reducing the number of concepts a reader must hold
 - A change that grows an already-large file instead of decomposing it
 - New conditionals scattered into unrelated code paths (a missing abstraction)

@@ -48,3 +48,19 @@ Commands actually executed, exit codes observed, and empirical proof (Evidence-B
 - **Environment Caveats:** [e.g., Run on mock payment gateway in staging]
 - **Technical Debt & Follow-up Items:** [List any deferred cleanups or future optimizations]
 
+---
+
+## 5. Compounded Knowledge & Learnings (Required)
+Institutionalize knowledge for subsequent tasks and future agents (Plan → Work → Review → Compound → Repeat):
+
+### 5.1 Validated Patterns & Reusable Assets
+- [Document what worked well, architectural patterns validated, or reusable test fixtures/helpers created]
+
+### 5.2 Pitfalls, Footguns & Gotchas Avoided
+- [Document false assumptions, tricky edge cases, deceptive library quirks, or debugging dead ends encountered]
+
+### 5.3 Systemic Rule & Architecture Improvements
+- [Identify concrete recommendations to update AGENTS.md, docs/architecture.md, ADRs, or automated linter rules]
+
+### 5.4 Next Iteration / Repeat Triggers
+- [List open follow-on items, technical debt to schedule, or seeds for the next cycle]

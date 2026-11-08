@@ -2,12 +2,14 @@
   "id": "eval-performance-tuning-01",
   "name": "Remediate Dashboard API N+1 Query Bottleneck",
   "workflow": "workflows/performance-tuning.md",
+  "agent_spec_target": "workflows/performance-tuning.md",
   "task_description": "Diagnose and optimize GET /v1/dashboard latency from 4200ms to sub-500ms p95 SLA by replacing an N+1 query loop with batch eager-loading and composite database indexing.",
   "expected_stages": [
     "Baseline Benchmark Measurement",
     "Bottleneck Profiling & EXPLAIN Plan Analysis",
     "Surgical Optimization (Batch Fetch & Index)",
-    "Comparative Verification"
+    "Comparative Verification",
+    "Compounding (Performance Invariants & Guardrails)"
   ],
   "expected_skills": [
     "database-design",
@@ -40,13 +42,21 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "require_empirical_baseline": "Baseline benchmark must precede any query or code modifications (no blind tuning)",
+    "enforce_surgical_diff": "Apply minimal batching and indexing edits without redesigning unrelated domain logic",
+    "preserve_behavioral_invariants": "Optimization must preserve 100% existing domain semantics and output payload contract",
+    "enforce_compound_learning_loop": "Record database access invariants and query budget limits in ADR and completion report"
+  },
   "invariants": [
     "Baseline benchmark must precede any code or query changes",
-    "Preserve 100% existing domain and contract behavior",
-    "Evidence-backed before/after latency comparison required"
+    "Preserve 100% existing domain and contract behavior with zero regression",
+    "Evidence-backed before/after latency comparison required showing compliance with SLA",
+    "Record performance budget rules and N+1 prevention patterns in completion report Section 5"
   ]
 }

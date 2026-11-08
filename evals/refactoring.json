@@ -2,12 +2,14 @@
   "id": "eval-refactoring-01",
   "name": "Decompose Monolithic Tax Calculator into Deep Modules",
   "workflow": "workflows/refactoring.md",
+  "agent_spec_target": "workflows/refactoring.md",
   "task_description": "Decompose OrderTaxCalculator: extract jurisdictional rate lookup behind a narrow interface, preserving 100% existing test behavior without API changes for consumers.",
   "expected_stages": [
     "Characterization Test Baseline",
     "Deep Module Seam Design",
     "Incremental Micro-Refactoring",
-    "Regression Verification"
+    "Regression Verification",
+    "Compounding (Architectural Seam Documentation & Invariants)"
   ],
   "expected_skills": [
     "software-architecture",
@@ -31,13 +33,22 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "design_deep_modules": "Design narrow, simple public interfaces hiding rich internal calculation logic",
+    "require_characterization_tests": "Run and verify existing characterization tests before any code modification",
+    "enforce_behavioral_equivalence": "Public API signatures and external behavior must remain 100% unchanged",
+    "enforce_surgical_diff": "Refactor in small verified micro-steps; do not interleave refactoring with feature additions",
+    "enforce_compound_learning_loop": "Record architectural seam boundaries and simplification rules in ADR and completion report"
+  },
   "invariants": [
-    "Run characterization tests before any code edit",
-    "Public API signature must remain identical",
-    "Run verification after every discrete micro-step"
+    "Run characterization tests before any code edit to anchor baseline behavior",
+    "Public API signature and observable behavior must remain identical",
+    "Run verification after every discrete micro-step to isolate regressions immediately",
+    "Document extracted module boundaries and architectural invariants in completion report Section 5"
   ]
 }

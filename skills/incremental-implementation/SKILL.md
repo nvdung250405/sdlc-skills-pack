@@ -35,7 +35,7 @@ Build in thin vertical slices — implement one piece, test it, verify it, then 
 
 For each slice:
 
-1. **Implement** the smallest complete piece of functionality
+1. **Search & Reuse First, then Implement** — Search the existing codebase (`grep_search`, `find_by_name`, ast-grep) for existing utilities, helpers, or patterns before writing new code. Implement the smallest complete piece of functionality, reusing existing project solutions whenever available.
 2. **Test** — run the test suite (or write a test if none exists)
 3. **Verify** — confirm the slice works as expected (tests pass, build succeeds, manual check)
 4. **Commit** -- save your progress with a descriptive message (see `git-workflow-and-versioning` for atomic commit guidance)
@@ -88,33 +88,58 @@ If Slice 1 fails, you discover it before investing in Slices 2 and 3.
 
 ## Implementation Rules
 
-### Rule 0: Simplicity First
+### Rule 0: Simplicity First & YAGNI (You Aren't Gonna Need It)
 
-Before writing any code, ask: "What is the simplest thing that could work?"
+Before writing any code, ask:
+- "What is the simplest thing that could work?"
+- "Do we actually need this right now, or am I anticipating a speculative future?" (YAGNI)
+
+**The YAGNI Mandate:**
+Do not build for hypothetical future requirements, speculative flexibility, or unrequested extensibility hooks. If an option, parameter, configuration switch, or abstraction is not strictly required by the current task's acceptance criteria, DO NOT build it.
 
 After writing code, review it against these checks:
 - Can this be done in fewer lines?
 - Are these abstractions earning their complexity?
 - Would a staff engineer look at this and say "why didn't you just..."?
-- Am I building for hypothetical future requirements, or the current task?
+- Am I writing code for today's acceptance criteria or tomorrow's imagined feature?
+- Did I add any parameter, method, or config option "just in case"? If yes, delete it.
 
 ```
-SIMPLICITY CHECK:
+YAGNI & SIMPLICITY CHECK:
 ✗ Generic EventBus with middleware pipeline for one notification
-✓ Simple function call
+✓ Simple direct function call
 
 ✗ Abstract factory pattern for two similar components
 ✓ Two straightforward components with shared utilities
 
 ✗ Config-driven form builder for three forms
 ✓ Three form components
+
+✗ Adding unused `tenantId` or `metadata` parameter "in case we need multi-tenancy later"
+✓ Minimal parameter signature matching current acceptance criteria
 ```
 
 Three similar lines of code is better than a premature abstraction. Implement the naive, obviously-correct version first. Optimize only after correctness is proven with tests.
 
-### Rule 0.5: Scope Discipline
+### Rule 0.2: Reuse Before Writing New (Search Before Build)
 
-Touch only what the task requires.
+Mandatory codebase audit before authoring new utilities:
+Before creating any new helper function, utility module, or shared abstraction, search the existing codebase (`grep_search`, `find_by_name`, ast-grep).
+
+- If an existing project helper, utility module, or third-party dependency already provides 80%+ of the needed behavior, reuse or minimally extend it.
+- Never write duplicate helper functions for common operations (string formatting, date parsing, HTTP requests, error wrapping, input sanitization).
+- If a standard library function or existing project utility exists, use it rather than writing a bespoke implementation.
+- The fastest, most bug-free code is code that is already written, tested, and running in production.
+
+### Rule 0.5: Scope Discipline & Surgical Diffs
+
+Touch only what the task requires. Enforce minimal blast radius on every change.
+
+**The Surgical Diff Discipline:**
+- Touch only the exact lines necessary to deliver the increment.
+- Zero collateral edits: no unrelated reformatting, no import reordering in untouched files, no whitespace churn, no drive-by style modernization.
+- Reviewability budget: each increment's diff should be small enough to be thoroughly reviewed in under 2 minutes with high signal-to-noise ratio.
+- Before committing, run `git diff` and inspect every modified line. If any line does not directly advance the increment's objective, revert it.
 
 Do NOT:
 - "Clean up" code adjacent to your change
@@ -201,6 +226,9 @@ Be explicit about what's in scope and what's NOT in scope for each increment.
 After each increment, verify with the repository's own commands (see the test-driven-development skill's Discover the Stack First section):
 
 - [ ] The change does one thing and does it completely
+- [ ] Searched codebase for existing reusable utilities/solutions before creating new code (Reuse-First)
+- [ ] YAGNI adhered to: zero speculative parameters, unused options, or unrequested hooks
+- [ ] Surgical diff verified: git diff shows only lines directly required for this increment (no collateral reformatting or whitespace churn)
 - [ ] All existing tests still pass (the repository's test command: `npm test`, `./gradlew test`, `pytest`, ...)
 - [ ] The build succeeds (the repository's build command)
 - [ ] Type checking passes, where the stack has one (`npx tsc --noEmit`, `mypy`, ...)
@@ -215,6 +243,9 @@ After each increment, verify with the repository's own commands (see the test-dr
 | Rationalization | Reality |
 |---|---|
 | "I'll test it all at the end" | Bugs compound. A bug in Slice 1 makes Slices 2-5 wrong. Test each slice. |
+| "I'll add this parameter now because we'll need it in the next phase" | YAGNI. Build only what is needed today. Adding it later when required is fast and grounded in real use. |
+| "Writing a small helper was faster than searching the codebase" | Unchecked helper proliferation creates maintenance debt and duplicate bugs. Always search before creating. |
+| "I cleaned up the whitespace/imports in this file while editing it" | Non-surgical diffs pollute git blame and make review and rollbacks error-prone. Keep diffs strictly focused. |
 | "It's faster to do it all at once" | It *feels* faster until something breaks and you can't find which of 500 changed lines caused it. |
 | "These changes are too small to commit separately" | Small commits are free. Large commits hide bugs and make rollbacks painful. |
 | "I'll add the feature flag later" | If the feature isn't complete, it shouldn't be user-visible. Add the flag now. |
@@ -223,6 +254,9 @@ After each increment, verify with the repository's own commands (see the test-dr
 
 ## Red Flags
 
+- Writing a new utility function without searching the repository for an existing equivalent (violating Reuse-First)
+- Adding speculative parameters, methods, or configs "for future extensibility" (YAGNI violation)
+- Diff contains whitespace changes, reformatting, or drive-by refactorings outside the increment scope (non-surgical diff)
 - More than 100 lines of code written without running tests
 - Multiple unrelated changes in a single increment
 - "Let me just quickly add this too" scope expansion
@@ -238,6 +272,8 @@ After each increment, verify with the repository's own commands (see the test-dr
 
 After completing all increments for a task:
 
+- [ ] Reused existing codebase utilities instead of introducing redundant helpers
+- [ ] Surgical diff verified: inspected git diff to ensure zero collateral edits or whitespace drift
 - [ ] Each increment was individually tested and committed
 - [ ] The full test suite passes
 - [ ] The build is clean

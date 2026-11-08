@@ -2,12 +2,14 @@
   "id": "eval-experimentation-loop-01",
   "name": "A/B Experiment on Single-Page Checkout Conversion",
   "workflow": "workflows/experimentation-loop.md",
+  "agent_spec_target": "workflows/experimentation-loop.md",
   "task_description": "Design and execute an A/B growth experiment testing a single-page checkout variant against multi-step checkout, defining telemetry tracking schemas and statistical evaluation criteria.",
   "expected_stages": [
     "Experiment Brief & Hypothesis Formulation",
     "Telemetry Tracking Schema Authoring",
     "Variant Implementation & Feature Flagging",
-    "Experiment Verification & Completion"
+    "Experiment Verification & Completion",
+    "Compounding (Experiment Learnings & Variant Decision)"
   ],
   "expected_skills": [
     "incremental-implementation",
@@ -39,13 +41,21 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "enforce_first_principles_hypothesis": "Declare explicit null hypothesis, primary metric, and minimum sample size before code changes",
+    "prohibit_speculative_variants": "Adhere to YAGNI: implement only the minimal variant needed to test the core hypothesis",
+    "enforce_fail_safe_flags": "Feature flags must fail-open to default control flow without impacting user checkout",
+    "enforce_compound_learning_loop": "Synthesize statistical findings and telemetry behavior into repository experimentation memory"
+  },
   "invariants": [
     "Experiment must declare explicit null hypothesis and primary metric prior to code edits",
     "Telemetry event names and schemas must adhere to canonical tracking format",
-    "Feature flag must fail-open to default control flow in case of configuration errors"
+    "Feature flag must fail-open to default control flow in case of configuration errors",
+    "Document variant learnings and post-experiment cleanup tasks in completion report Section 5"
   ]
 }

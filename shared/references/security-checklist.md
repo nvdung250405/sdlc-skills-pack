@@ -13,6 +13,7 @@ Quick reference for web application security. Use alongside the `security-and-ha
 - [CORS Configuration](#cors-configuration)
 - [Data Protection](#data-protection)
 - [Dependency Security](#dependency-security)
+- [4-Tier Supply-Chain Reachability Matrix](#4-tier-supply-chain-reachability-matrix)
 - [AI / LLM Security](#ai--llm-security)
 - [Error Handling](#error-handling)
 - [OWASP Top 10 Quick Reference](#owasp-top-10-quick-reference)
@@ -32,6 +33,8 @@ Before reaching for controls, spend five minutes thinking like an attacker:
 - [ ] No secrets in code (`git diff --cached | grep -i "password\|secret\|api_key\|token"`)
 - [ ] `.gitignore` covers: `.env`, `.env.local`, `*.pem`, `*.key`
 - [ ] `.env.example` uses placeholder values (not real secrets)
+- [ ] Git history and git blame reviewed for modified lines to understand legacy rationale and avoid regressing past fixes
+- [ ] Static analysis / AST sweeps conducted across peer modules to catch identical defect patterns
 
 ## Authentication
 
@@ -181,10 +184,21 @@ Never discover dependency lifecycle scripts by first executing an ordinary insta
 
 Authoritative checks: [npm install-scripts](https://docs.npmjs.com/cli/v11/commands/npm-install-scripts/), [install policy](https://docs.npmjs.com/cli/v11/commands/npm-install/), and [CLI releases](https://github.com/npm/cli/releases); [pnpm approve-builds](https://pnpm.io/cli/approve-builds) and [build settings](https://pnpm.io/settings#allowbuilds); [Yarn security](https://yarnpkg.com/features/security) and [manifest](https://yarnpkg.com/configuration/manifest#dependenciesMeta).
 
+### 4-Tier Supply-Chain Reachability Matrix
+
+Triage package-manager audit findings using the Trail of Bits 4-tier reachability matrix rather than raw CVSS scores alone:
+
+| Tier | Classification | Scope & Criteria | Action & SLA |
+|---|---|---|---|
+| **Tier 1** | **Direct Runtime Reachable** | Vulnerable symbol is imported, invoked, and exposed to untrusted input in production runtime code paths | **P0 Blocker**: Immediate hotfix or upgrade before release; blocks deployment |
+| **Tier 2** | **Reachable Guarded** | Vulnerable code is executed in production, but strict input validation, type invariants, or firewall rules prevent exploit conditions | **P1 High**: Remediate in active development cycle; add defensive invariant test |
+| **Tier 3** | **Transitive Uninvoked** | Vulnerable package is present in lockfile, but AST search or call-graph trace confirms vulnerable symbols are never imported or called | **P2 Defer**: Permitted deferral with documented AST proof and 30-day review date |
+| **Tier 4** | **Tooling / Dev-Only** | Vulnerable package executes exclusively in build/test/lint tooling (`devDependencies`), never bundled into production runtime artifacts | **P3 Backlog**: Track in maintenance backlog; update during routine tool bumps |
+
 **Supply-chain hygiene** (advisory audits do not catch newly malicious packages):
 - [ ] Exactly one authoritative lockfile per project/workspace root is committed and CI never rewrites it
-- [ ] Critical/high findings are triaged for reachability; deferrals have a reason and review date
-- [ ] Forced audit remediation (`npm audit fix --force` or equivalent) is never automatic; remediation diffs and changelogs are reviewed
+- [ ] Critical/high findings are triaged against the 4-tier reachability matrix; any Tier 3 deferral includes AST/call-graph non-reachability proof and a review date
+- [ ] Forced audit remediation (`npm audit fix --force` or equivalent) is strictly prohibited; dependency upgrades are reviewed individually with changelogs
 - [ ] Registry signatures/provenance are verified where the manager supports it
 - [ ] Dependency lifecycle scripts are blocked before first execution and approved only through the pinned manager's native policy
 - [ ] New dependencies are reviewed for ownership, maintenance, release age, provenance, transitive graph, and typosquatting

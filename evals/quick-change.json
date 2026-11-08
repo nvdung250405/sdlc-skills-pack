@@ -2,12 +2,14 @@
   "id": "eval-quick-change-01",
   "name": "Increase Minimum Password Length to 12 Characters",
   "workflow": "workflows/quick-change.md",
+  "agent_spec_target": "workflows/quick-change.md",
   "task_description": "Update user registration password validator to enforce a minimum of 12 characters (up from 8), updating validation messages and unit test fixtures.",
   "expected_stages": [
     "Context Verification & Scope Check",
     "Test Fixture Update",
     "Incremental Code Update",
-    "Verification"
+    "Verification",
+    "Compounding (Lightweight Knowledge Recording)"
   ],
   "expected_skills": [
     "incremental-implementation",
@@ -21,13 +23,21 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "enforce_yagni": "Do not add unnecessary PRD, SRS, or heavy waterfall documentation for low-risk micro changes",
+    "enforce_surgical_diff": "Touch only the password threshold and corresponding test assertion; zero stylistic churn",
+    "require_tdd_cycle": "Update test fixture first to observe failure, then apply minimal code change",
+    "enforce_compound_learning_loop": "Record security policy reason and verification evidence in completion report"
+  },
   "invariants": [
-    "No unnecessary PRD, SRS, or heavy waterfall documentation",
-    "Update test assertions to match new threshold",
-    "Evidence-backed pass report"
+    "No unnecessary PRD, SRS, or heavy waterfall documentation for low-risk micro changes",
+    "Update test assertions first to establish RED baseline before code update",
+    "Evidence-backed pass report with terminal verification output and zero extraneous changes",
+    "Record policy thresholds and validation patterns in completion report Section 5"
   ]
 }

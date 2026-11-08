@@ -134,7 +134,12 @@ Pattern: [Secrets management](references/hardening-patterns.md#secrets-managemen
 
 1. **Find the installation boundary and manager.** Use the workspace root that owns the lockfile, or an independent nested project only when it is outside that workspace. Corroborate `packageManager` (when present), the lockfile, and CI; stop on disagreement or competing lockfiles. Pin the manager version.
 2. **Block dependency scripts before first execution.** Bootstrap with scripts disabled or a documented fail-closed policy, inspect the pending script source, approve only the minimum, commit the policy, then verify with a clean frozen/immutable install. Never blanket-approve.
-3. **Run the native audit against the committed lockfile before every release.** Triage critical/high by **reachability** (runtime, build, test, deploy paths) and fix availability. Never apply forced remediation (`npm audit fix --force` or equivalent) automatically, since forced fixes may cross declared dependency ranges; preview, read changelogs, test each upgrade. Document every deferral with a reason and a review date.
+3. **Run the native audit against the committed lockfile before every release.** Triage findings using the **Trail of Bits 4-Tier Supply-Chain Reachability Matrix** rather than raw CVSS scores alone:
+   - **Tier 1: Direct Runtime Reachable (P0 Blocker)**: The vulnerable symbol is imported, invoked, and exposed to untrusted input in production runtime code paths. Mandatory immediate remediation before release.
+   - **Tier 2: Reachable Guarded (P1 High/Medium)**: The vulnerable code is executed in runtime paths, but constrained by strong boundary validation, type invariants, or firewall rules that prevent exploit conditions. Fix in current milestone; add defensive invariant tests.
+   - **Tier 3: Transitive Uninvoked (P2 Defer with Proof)**: The vulnerable package exists in the lockfile as a transitive dependency, but call-graph tracing and AST symbol analysis prove the vulnerable symbol is never imported or executed in application logic. Deferral permitted ONLY with documented call-graph proof and an expiration review date.
+   - **Tier 4: Tooling / Dev-Only (P3 Backlog)**: The package is confined strictly to build tools, linters, or test harnesses (`devDependencies`), and is never bundled or deployed into production artifacts. Track in maintenance backlog.
+   - **Prohibit forced automatic remediation**: Never run `npm audit fix --force` or equivalent blanket package manager overrides, which introduce breaking major version shifts and destabilize production code; preview, read changelogs, and verify each upgrade individually with a green test suite.
 4. **Audits only match known advisories.** They do not catch a newly malicious or typosquatted package (`cross-env` vs `crossenv`). Review new dependencies, lockfile diffs, and script-policy changes together: ownership, maintenance, release age, provenance, transitive graph. Verify registry signatures where supported (`npm audit signatures`, `pnpm audit signatures`) and treat their absence as a signal to investigate, not automatic proof of compromise (A06, LLM03).
 
 Triage decision tree: [Dependency audit triage](references/hardening-patterns.md#dependency-audit-triage). Manager matrix and install-script gate: `references/security-checklist.md`.
@@ -191,6 +196,9 @@ Before sign-off, walk `references/security-checklist.md`: it covers authenticati
 - No rate limiting on authentication endpoints, or an in-memory limiter in front of more than one instance
 - Stack traces or internal errors exposed to users
 - Dependencies with known critical vulnerabilities, competing lockfiles at one installation boundary, non-reproducible installs, or blanket-approved scripts
+- Dismissing a dependency vulnerability as "unreachable" without static call graph or AST trace evidence
+- Running automated forced audit remediation (`npm audit fix --force` or equivalent) that bypasses semver ranges and changelog review
+- Failing to triage transitive supply-chain dependencies against the 4-tier reachability matrix
 - Server fetches user-supplied URLs without an allowlist (SSRF)
 - LLM/model output passed into a query, the DOM, a shell, or `eval`
 - Secrets, PII, or the full system prompt placed inside an LLM context window
@@ -202,7 +210,7 @@ Before sign-off, walk `references/security-checklist.md`: it covers authenticati
 
 After implementing security-relevant code:
 
-- [ ] The native audit has no unmitigated reachable critical/high findings; CI preserves the authoritative lockfile and blocks unreviewed dependency scripts
+- [ ] The native audit has no unmitigated reachable critical/high findings against the 4-tier reachability matrix; call-graph proof documented for any Tier 3 deferral; CI preserves the authoritative lockfile and blocks unreviewed dependency scripts
 - [ ] No secrets in source code or git history
 - [ ] All user input validated at system boundaries
 - [ ] Destructive filesystem operations resolve symlinks, then verify allowlisted root, minimum depth, and ownership before running

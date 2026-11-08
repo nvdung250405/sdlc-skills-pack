@@ -4,7 +4,7 @@
 > **Workflow:** `full-sdlc`  
 > **Scenario Group:** Construction  
 > **Trigger / Input:** Complex initiatives, greenfield projects, system establishment, multi-team features  
-> **Primary Stages:** Discovery → Requirements → Architecture → Planning → Implementation → Testing → Review → Release → Operations  
+> **Primary Stages:** Discovery → Requirements → Architecture → Planning → Implementation → Testing → Review → Release → Operations → Compounding  
 > **Key Output:** Full feature release, system architecture overview, validated production deliverables  
 > **Verification / Exit Gate:** Full test suite passing, empirical acceptance report, release checklist approved  
 
@@ -95,6 +95,12 @@ Activities are iterative, overlapping, and non-linear. Skip artifacts that add n
 ### Product Learning & Measurement
 28. Define product telemetry taxonomy in `docs/analytics/tracking-plan.md` using `analytics` to measure funnel metrics and adoption.
 29. Design and evaluate continuous experiments using `analytics` in `docs/experiments/[id].md` (via `workflows/experimentation-loop.md`).
+
+### Compounding & Continuous Loop Institutionalization
+30. Conclude initiative lifecycle via the Compound step (Plan → Work → Review → Compound → Repeat):
+    - Synthesize institutional learnings, validated patterns, and performance metrics into `completion-report.md`.
+    - Codify systemic rules and architectural updates into `AGENTS.md` and `docs/architecture.md`.
+    - Document technical debt and operational insights into future backlog epics, closing the loop into repository memory.
 
 ---
 

@@ -4,7 +4,7 @@
 > **Workflow:** `quick-change`  
 > **Scenario Group:** Construction  
 > **Trigger / Input:** Minor tweak, copy update, isolated bug, clear low-risk change  
-> **Primary Stages:** Context & Intake → Acceptance Condition → Atomic TDD Edit → Targeted Verification → Safety Review  
+> **Primary Stages:** Context & Intake → Acceptance Condition → Atomic TDD Edit → Targeted Verification → Safety Review → Compounding  
 > **Key Output:** Atomic commit, targeted test case  
 > **Verification / Exit Gate:** Targeted tests passing, `verification-before-completion` evidence captured  
 
@@ -21,3 +21,4 @@ Use only when scope is unambiguous, risk is low, and the change does not affect 
 5. **Verification Gate:** Run `verification-before-completion` to capture fresh terminal output confirming all checks passed and zero unexpected regressions exist.
 6. **Diff & Safety Review:** Review `git diff` using `code-review-and-quality` for unintended side-effects, formatting noise, or security risks.
 7. **Honest Reporting:** Report exact command execution evidence and remaining uncertainty in the completion response.
+8. **Compounding & Knowledge Capture:** Conclude the loop (Plan → Work → Review → Compound → Repeat). Record any discovered edge cases or technical debt in the task log, and propose rule adjustments if a recurring friction pattern is noticed.

@@ -4,7 +4,7 @@
 > **Workflow:** `feature-loop`  
 > **Scenario Group:** Construction  
 > **Trigger / Input:** Standard feature request, user story in existing codebase  
-> **Primary Stages:** Spec & Stories → Contract-First Architecture → Planning → Construction (TDD) → Verification & Acceptance  
+> **Primary Stages:** Spec & Stories → Contract-First Architecture → Planning → Construction (TDD) → Verification & Acceptance → Compounding  
 > **Key Output:** Working feature slice, automated unit/integration tests, canonical feature spec  
 > **Verification / Exit Gate:** All AC tests green, DoD satisfied, `verification-before-completion` evidence recorded  
 
@@ -44,6 +44,12 @@ Use for implementing a feature in an existing codebase. Read existing repository
     - **Subagent / Teamwork Delegation:** Dispatch an independent **Reviewer Subagent** binding `skills/code-review-and-quality/SKILL.md` and `skills/verification-before-completion/SKILL.md` following `workflows/agent-handoff-contract.md` to conduct an unbiased, adversarial review.
 12. Execute `verification-before-completion` to record fresh empirical evidence in `docs/features/<feature-id>/acceptance-report.md` (from `templates/delivery/acceptance-report.md`) or `completion-report.md`.
 13. Update session handoff log in `.agent/tasks/<task-id>.md` using `task-handoff`.
+
+## 6. Compounding & Knowledge Preservation
+14. Conclude the feature loop via the Compound step (Plan → Work → Review → Compound → Repeat):
+   - Distill validated patterns, reusable test helpers, and avoided pitfalls into Section 5 of `completion-report.md`.
+   - Propose systemic rule or architecture updates (`AGENTS.md`, `docs/architecture.md`, ADRs) if new boundaries or friction were discovered.
+   - Carry forward open follow-up items into the next feature or refactoring cycle.
 
 ---
 

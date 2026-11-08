@@ -2,12 +2,14 @@
   "id": "eval-agent-handoff-01",
   "name": "Structured Multi-Role Session Handoff for Payment Integration",
   "workflow": "workflows/agent-handoff-contract.md",
+  "agent_spec_target": "workflows/agent-handoff-contract.md",
   "task_description": "Preserve and transfer full task state after completing backend API contracts and database migrations, authoring a structured task handoff file for an incoming frontend agent.",
   "expected_stages": [
     "Task State & Progress Synthesis",
     "Authoritative Artifact Trail Ledger",
     "Verified Test Command Recording",
-    "Next Steps & Open Questions Handoff"
+    "Next Steps & Open Questions Handoff",
+    "Compounding (Knowledge Institutionalization)"
   ],
   "expected_skills": [
     "task-handoff",
@@ -39,13 +41,21 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "enforce_pointer_discipline": "Reference authoritative files on disk rather than pasting large code bodies into context",
+    "enforce_compound_learning_loop": "Synthesize lessons learned, dead ends, and reusable patterns into repository memory (Plan -> Work -> Review -> Compound -> Repeat)",
+    "prohibit_unrecorded_assumptions": "Explicitly record open assumptions and risks with designated owners rather than guessing",
+    "require_fresh_evidence": "Report executed commands and test outputs with exact exit codes and terminal logs"
+  },
   "invariants": [
     "Handoff must reference authoritative files on disk rather than pasting large code blocks",
     "Report executed commands and test outputs with exact exit codes",
-    "Explicitly declare unverified assumptions or technical debt for the next agent"
+    "Explicitly declare unverified assumptions or technical debt for the next agent",
+    "Capture failed attempts, dead ends, and compounded lessons in completion report and handoff to prevent repeat mistakes"
   ]
 }

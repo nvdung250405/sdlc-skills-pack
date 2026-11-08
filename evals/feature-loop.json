@@ -2,13 +2,15 @@
   "id": "eval-feature-loop-01",
   "name": "Add Idempotency-Key Header to Payment Endpoint",
   "workflow": "workflows/feature-loop.md",
+  "agent_spec_target": "workflows/feature-loop.md",
   "task_description": "Add an Idempotency-Key header to the POST /v1/payments endpoint to prevent duplicate charges when network retries occur.",
   "expected_stages": [
     "Requirements (User Story & Acceptance Criteria)",
     "Contract Update (OpenAPI 3.1)",
     "Implementation Planning & Task Breakdown",
     "Test-Driven Implementation (TDD)",
-    "Verification & Completion Report"
+    "Verification & Completion Report",
+    "Compounding (Knowledge Capture & Reusable Patterns)"
   ],
   "expected_skills": [
     "pm-user-story",
@@ -52,13 +54,21 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "prohibit_premature_coding": "No code implementation before feature spec and API contracts are accepted",
+    "enforce_yagni_and_surgical_diff": "Implement minimal vertical slices without speculative caching, frameworks, or extra headers",
+    "prioritize_internal_reuse": "Search for existing header validators or lock utilities before writing new helpers",
+    "enforce_compound_learning_loop": "Extract reusable idempotency patterns and document edge cases in completion report"
+  },
   "invariants": [
-    "No code implementation before feature spec is accepted",
-    "Contract must be valid OpenAPI 3.1",
-    "All assertions backed by fresh test run exit codes"
+    "No code implementation before feature spec is accepted and contracts are verified",
+    "Contract must be valid OpenAPI 3.1 matching BDD acceptance criteria",
+    "All assertions backed by fresh test run exit codes and surgical diffs",
+    "Document reusable idempotency patterns and lessons in completion report Section 5"
   ]
 }

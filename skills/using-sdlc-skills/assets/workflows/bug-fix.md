@@ -4,7 +4,7 @@
 > **Workflow:** `bug-fix`  
 > **Scenario Group:** Defect Resolution  
 > **Trigger / Input:** Defect ticket, failing test, bug report, unexpected runtime behavior  
-> **Primary Stages:** Reproduce (Red) → Isolate Root Cause → Fix (Green) → Refactor → Verify  
+> **Primary Stages:** Reproduce (Red) → Isolate Root Cause → Fix (Green) → Refactor → Verify → Compounding  
 > **Key Output:** Bug fix commit, automated regression test guard  
 > **Verification / Exit Gate:** Regression test passing, zero side regressions, `verification-before-completion`  
 
@@ -30,3 +30,8 @@
 7. Run the project's full test suite, linting, and type checking to ensure zero regressions.
 8. Use `security-and-hardening` when trust boundaries, permissions, credentials, or sensitive data are touched.
 9. Execute `verification-before-completion` to capture fresh terminal output and evidence before reporting the fix as complete.
+
+## 5. Compounding & Knowledge Preservation
+10. Capture root cause analysis, systemic defect patterns, and lessons learned into Section 5 of `completion-report.md` (or task log via `task-handoff`).
+11. Update regression test suites, architecture notes, or repository guidelines (`AGENTS.md`) to prevent recurrences of this defect class across peer modules.
+12. Close the loop into repository memory before taking on the next task (Repeat).

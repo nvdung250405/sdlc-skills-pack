@@ -2,6 +2,7 @@
   "id": "eval-full-sdlc-01",
   "name": "Design and Implement Multi-Tenant Billing Subscriptions",
   "workflow": "workflows/full-sdlc.md",
+  "agent_spec_target": "workflows/full-sdlc.md",
   "task_description": "Architect and deliver an end-to-end multi-tenant subscription billing engine from customer opportunity framing to production release readiness.",
   "expected_stages": [
     "Opportunity Discovery & Framing",
@@ -9,7 +10,8 @@
     "System Architecture & Interface Contracts",
     "Implementation Planning & Task Breakdown",
     "TDD Incremental Slices",
-    "Pre-Release Checklist & Acceptance"
+    "Pre-Release Checklist & Acceptance",
+    "Compounding (Systemic Retrospective & Architectural Playbook)"
   ],
   "expected_skills": [
     "interview-me",
@@ -81,13 +83,21 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "enforce_5_whys_discovery": "Peel away superficial requirements to uncover root business model and tenant boundaries",
+    "design_deep_modules": "Design simple, narrow billing interfaces concealing complex prorating and state machines",
+    "prohibit_unrecorded_assumptions": "Explicitly record architectural assumptions and tenant isolation constraints",
+    "enforce_compound_learning_loop": "Synthesize cross-stage lessons and publish architectural retrospective into repository memory"
+  },
   "invariants": [
-    "Architecture and OpenAPI contract must precede implementation",
-    "One authoritative feature spec and task list",
-    "All verification backed by executable command output"
+    "Architecture, explicit assumptions, and OpenAPI contract must precede implementation",
+    "One authoritative feature spec and task list maintained across all lifecycle phases",
+    "All verification backed by executable command output and rigorous pre-release checklists",
+    "Capture multi-tenant edge cases and systemic rules in completion report Section 5"
   ]
 }

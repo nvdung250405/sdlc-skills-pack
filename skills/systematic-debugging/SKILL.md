@@ -14,7 +14,7 @@ description: Use when diagnosing defects, investigating test failures, or isolat
 ## The Iron Law
 
 ```
-NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
+NO FIXES WITHOUT ROOT CAUSE INVESTIGATION & ARCHITECTURAL COMPREHENSION FIRST
 ```
 
 If you haven't completed Phase 1, you cannot propose fixes.
@@ -55,19 +55,27 @@ You MUST complete each phase before proceeding to the next.
    - Use AST tools (`ast-grep:find_code`) or viewports (`bounded_run.py view`) to inspect exact lines without token waste
    - Note line numbers, file paths, error codes
 
-2. **Reproduce Consistently**
+2. **Understand Architecture & Invariants First (Trail of Bits Principle)**
+   - Before attempting any code modification, understand the subsystem architecture and module boundaries
+   - Read `docs/architecture.md`, subsystem specs, and data ownership contracts
+   - Identify component invariants: What preconditions must hold true? What guarantees does each boundary enforce?
+   - Determine whether the defect is a local implementation error or an architectural contract violation across subsystems
+   - Never apply symptom fixes that violate higher-level architectural invariants
+
+3. **Reproduce Consistently**
    - Can you trigger it reliably?
    - What are the exact steps?
    - Does it happen every time?
    - If not reproducible → gather more data, don't guess
 
-3. **Check Recent Changes**
-   - What changed that could cause this?
-   - Git diff, recent commits
-   - New dependencies, config changes
-   - Environmental differences
+4. **Inspect Git History & Historical Context (Trail of Bits Principle)**
+   - Code is historical sediment — never treat existing logic as arbitrary
+   - Run `git log -S <symbol>` to trace when and why the broken code or invariant was introduced
+   - Run `git blame` on affected lines to uncover the original commit message, PR context, and author rationale
+   - Check if the code was part of a prior bug fix or security patch — never remove an existing check without proving it wasn't added to handle a historical edge case
+   - Review recent changes: git diff, recent commits, dependency bumps, configuration drift
 
-4. **Gather Evidence in Multi-Component Systems**
+5. **Gather Evidence in Multi-Component Systems**
 
    **WHEN system has multiple components (CI → build → signing, API → service → database):**
 
@@ -105,7 +113,7 @@ You MUST complete each phase before proceeding to the next.
 
    **This reveals:** Which layer fails (secrets → workflow ✓, workflow → build ✗)
 
-5. **Trace Data Flow**
+6. **Trace Data Flow**
 
    **WHEN error is deep in call stack:**
 
@@ -188,14 +196,20 @@ You MUST complete each phase before proceeding to the next.
    - Issue actually resolved?
    - Use the `verification-before-completion` skill before claiming success
 
-4. **If Fix Doesn't Work**
+4. **Systemic Defect Sweep via Static Analysis / AST Search (Trail of Bits Variant Analysis)**
+   - Once the root cause pattern is identified and verified, sweep the entire codebase
+   - Use AST tools (`ast-grep:find_code`, `ast-grep --pattern '...'`) to find identical defective patterns in peer modules
+   - Remediate all instances of the defect pattern across the repository, not just the isolated reported symptom
+   - If peer instances are out of scope for the immediate fix, record them in the issue tracker or completion report
+
+5. **If Fix Doesn't Work**
    - STOP
    - Count: How many fixes have you tried?
    - If < 3: Return to Phase 1, re-analyze with new information
-   - **If ≥ 3: STOP and question the architecture (step 5 below)**
+   - **If ≥ 3: STOP and question the architecture (step 6 below)**
    - DON'T attempt Fix #4 without architectural discussion
 
-5. **If 3+ Fixes Failed: Question Architecture**
+6. **If 3+ Fixes Failed: Question Architecture**
 
    **Pattern indicating architectural problem:**
    - Each fix reveals new shared state/coupling/problem in different place
@@ -223,12 +237,15 @@ If you catch yourself thinking:
 - "Pattern says X but I'll adapt it differently"
 - "Here are the main problems: [lists fixes without investigation]"
 - Proposing solutions before tracing data flow
+- Proposing fixes without inspecting `git blame` or `git log -S` for historical context
+- Patching an isolated symptom without sweeping the repo for variant defects (`ast-grep`)
+- Modifying logic without understanding subsystem invariants and architectural boundaries
 - **"One more fix attempt" (when already tried 2+)**
 - **Each fix reveals new problem in different place**
 
 **ALL of these mean: STOP. Return to Phase 1.**
 
-**If 3+ fixes failed:** Question the architecture (see Phase 4.5)
+**If 3+ fixes failed:** Question the architecture (see Phase 4.6)
 
 ## your human partner's Signals You're Doing It Wrong
 
@@ -258,10 +275,10 @@ If you catch yourself thinking:
 
 | Phase | Key Activities | Success Criteria |
 |-------|---------------|------------------|
-| **1. Root Cause** | Read errors, reproduce, check changes, gather evidence | Understand WHAT and WHY |
+| **1. Root Cause** | Read errors, reproduce, understand architecture & invariants, inspect git history (`git log -S`, `git blame`), gather evidence | Understand WHAT, WHY, and historical context |
 | **2. Pattern** | Find working examples, compare | Identify differences |
 | **3. Hypothesis** | Form theory, test minimally | Confirmed or new hypothesis |
-| **4. Implementation** | Create test, fix, verify | Bug resolved, tests pass |
+| **4. Implementation** | Create test, fix root cause, static analysis sweep (`ast-grep`), verify | Bug resolved across all instances, tests pass |
 
 ## When Process Reveals "No Root Cause"
 

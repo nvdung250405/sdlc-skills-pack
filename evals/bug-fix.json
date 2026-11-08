@@ -2,12 +2,14 @@
   "id": "eval-bug-fix-01",
   "name": "Remediate 500 Error on Unicode Emojis in Order Instructions",
   "workflow": "workflows/bug-fix.md",
+  "agent_spec_target": "workflows/bug-fix.md",
   "task_description": "Fix bug where submitting an order with unicode emojis (e.g. \ud83d\udce6) in shipping instructions causes an uncaught database encoding error and HTTP 500 response.",
   "expected_stages": [
     "Reproduction & Root Cause Isolation",
     "Regression Test Authoring (Failing Test)",
     "Surgical Fix",
-    "Verification & Review"
+    "Verification & Review",
+    "Compounding (Defect Safeguards & Lessons)"
   ],
   "expected_skills": [
     "systematic-debugging",
@@ -31,13 +33,22 @@
       "must_contain": [
         "Status",
         "Verification",
-        "Limitations"
+        "Limitations",
+        "Compounded Knowledge & Learnings"
       ]
     }
   ],
+  "guardrails": {
+    "require_architecture_and_history_first": "Inspect system encoding architecture and review git history (git log -S, git blame) before editing code",
+    "prohibit_premature_patching": "Never apply speculative edits or guess root causes without an automated failing reproduction test",
+    "enforce_surgical_diff": "Apply minimal blast-radius changes (<2 min reviewable, zero unrelated formatting changes)",
+    "prioritize_internal_reuse": "Check existing encoding and serialization utilities before writing custom string handlers",
+    "enforce_compound_learning_loop": "Record failure mechanism and institutionalize defect prevention in test suite and completion report"
+  },
   "invariants": [
-    "Do not guess root cause; write automated reproduction test first",
-    "Fix must be surgical and touch only necessary lines",
-    "Prove regression test transitions from RED to GREEN"
+    "Do not guess root cause; inspect git history and write automated reproduction test first",
+    "Fix must be surgical, adhere to YAGNI, and touch only necessary lines without formatting churn",
+    "Prove regression test transitions from RED to GREEN with bounded run exit codes",
+    "Document root cause insights and encoding invariants in completion report Section 5"
   ]
 }

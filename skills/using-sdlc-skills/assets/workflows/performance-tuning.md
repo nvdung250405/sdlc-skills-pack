@@ -4,7 +4,7 @@
 > **Workflow:** `performance-tuning`  
 > **Scenario Group:** Maintenance & Optimization  
 > **Trigger / Input:** Latency regressions, high CPU/memory/IO, Core Web Vitals degradation  
-> **Primary Stages:** Baseline Measurement → Profiling & Bottlenecks → Surgical Optimization → Comparative Benchmark  
+> **Primary Stages:** Baseline Measurement → Profiling & Bottlenecks → Surgical Optimization → Comparative Benchmark → Compounding  
 > **Key Output:** Optimized code, comparative before/after benchmark delta table  
 > **Verification / Exit Gate:** Target SLA goal achieved without metric regressions, empirical benchmark evidence  
 
@@ -48,3 +48,7 @@ Use this workflow when diagnosing latency regressions, high resource consumption
    - Verify that the target SLA goal was achieved without introducing regressions in other metrics.
 9. **Verification Gate**:
    - Run `verification-before-completion` to document benchmark commands run, test evidence, and observed performance deltas.
+
+## 5. Compounding & Performance Knowledge
+10. Document proven performance patterns, query optimization techniques, and profiling observations in Section 5 of `completion-report.md`.
+11. Update architecture performance baselines (`docs/architecture.md`), alert thresholds, and CI performance regression tests to prevent performance regressions in subsequent iterations.

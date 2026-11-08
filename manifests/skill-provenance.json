@@ -11,7 +11,7 @@
       ],
       "kind": "vendored-upstream",
       "refresh_policy": "pinned-sync",
-      "content_sha256": "257d852addd0c8d49ec95ae524ad46e74bccc977d62598fbb6d45542a3fe93bb"
+      "content_sha256": "63fcdf7e359e29144a1ce17743255ff9db78ec3773991ae6ca9d757d1c2837bd"
     },
     "skills/idea-refine": {
       "upstream": "addyosmani-agent-skills",
@@ -23,7 +23,7 @@
       ],
       "kind": "vendored-upstream",
       "refresh_policy": "pinned-sync",
-      "content_sha256": "fb5b14be70fcb729a4fdc7441ba5fc781ea7dff4bd1cca42d3f152c7045248c9"
+      "content_sha256": "bce854c41214fb0420cdc1a6ca32aa8bacc453984549f600fcde050351e2a138"
     },
     "skills/spec-driven-development": {
       "upstream": "addyosmani-agent-skills",
@@ -262,7 +262,7 @@
       ],
       "kind": "adapted-derived-skill",
       "refresh_policy": "manual-review-only",
-      "content_sha256": "355c76828c662e52c8f34a960ec3ce09293b016f751633e499d1121ccf1d7c34"
+      "content_sha256": "7fce9aec6a417b7bd8d6cea924d0266b81136a431e01e8fde791dddacd6d9ee9"
     },
     "skills/using-sdlc-skills": {
       "upstream": "pack-owned",
