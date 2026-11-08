@@ -37,30 +37,41 @@ def normalize_path(value: str) -> str:
 def detect_environment(project_root: Path) -> dict:
     """Inspect local tooling, MCP servers, and bounded harness in the environment."""
     env_info = {
-        "bounded_run": None,
-        "repo_map": None,
-        "ast_grep": False,
+        "bounded_run": bool(shutil.which("bounded_run")),
+        "repo_map": bool(shutil.which("repo_map")),
+        "ast_grep": bool(shutil.which("ast-grep") or shutil.which("sg")),
         "memory_mcp": False,
+        "clis": [],
     }
 
-    # Bounded Run harness
-    bounded = project_root / "scripts" / "bounded_run.py"
-    if bounded.is_file():
-        env_info["bounded_run"] = "python scripts/bounded_run.py <cmd>"
-    elif (ROOT / "scripts" / "bounded_run.py").is_file():
-        env_info["bounded_run"] = f"python {ROOT / 'scripts' / 'bounded_run.py'} <cmd>"
+    # Detect global Golden CLI Toolchain from PATH
+    cli_candidates = [
+        ("git", "Git CLI"),
+        ("gh", "GitHub CLI (gh)"),
+        ("docker", "Docker CLI"),
+        ("rg", "Ripgrep (rg)"),
+        ("jq", "jq JSON CLI"),
+        ("curl", "cURL CLI"),
+        ("playwright", "Playwright CLI"),
+        ("schemathesis", "Schemathesis API Fuzzing CLI"),
+        ("semgrep", "Semgrep SAST Security CLI"),
+        ("trivy", "Trivy Vulnerability Scanner CLI"),
+        ("ast-grep", "ast-grep Syntax Engine"),
+    ]
+    for binary, label in cli_candidates:
+        if shutil.which(binary):
+            env_info["clis"].append(f"`{binary}` ({label})")
 
-    # Repo Map
-    repo_map = project_root / ".agent" / "repo_map.txt"
-    repo_script = project_root / "scripts" / "repo_map.py"
-    if repo_map.is_file():
-        env_info["repo_map"] = ".agent/repo_map.txt"
-    elif repo_script.is_file():
-        env_info["repo_map"] = "python scripts/repo_map.py"
+    # Bounded Run & Repo Map fallbacks
+    if not env_info["bounded_run"]:
+        if (project_root / "scripts" / "bounded_run.py").is_file():
+            env_info["bounded_run"] = True
+        elif (ROOT / "scripts" / "bounded_run.py").is_file():
+            env_info["bounded_run"] = True
 
-    # MCP servers and CLI tools
-    if shutil.which("ast-grep") or shutil.which("sg"):
-        env_info["ast_grep"] = True
+    if not env_info["repo_map"]:
+        if (project_root / "scripts" / "repo_map.py").is_file() or (ROOT / "scripts" / "repo_map.py").is_file():
+            env_info["repo_map"] = True
 
     mcp_locations = [
         Path.home() / ".gemini" / "config" / "mcp_config.json",
@@ -165,11 +176,13 @@ def render(
 
         lines.append("## 1. Agent Environment Stack (Đồ nghề & Môi trường Agent vận hành)")
         lines.append("- **Host & Sandbox:** Host OS, Shell environment, Global PATH.")
+        if env["clis"]:
+            lines.append(f"- **Detected Global CLIs:** {', '.join(env['clis'])}.")
         lines.append("- **Context & Output Guard (SWE-agent Harness):**")
         lines.append("  - **Execution Wrapper (Mandatory):** `bounded_run \"<cmd>\"` (Lọc log thừa, trích xuất traceback lỗi).")
         lines.append("  - **Viewport Slicing:** `bounded_run view <file> --line <N> --window <W>` (Xem lát cắt code hẹp, chống cạn kiệt token).")
         if env["repo_map"]:
-            lines.append(f"  - **Structural Map:** `repo_map` (Cập nhật AST toàn dự án dưới 1k tokens vào `{env['repo_map']}`).")
+            lines.append("  - **Structural Map:** `repo_map` (Cập nhật AST toàn dự án dưới 1k tokens vào `.agent/repo_map.txt`).")
         lines.append("- **MCP Endpoints:**")
         if env["memory_mcp"]:
             lines.append("  - `memory` (Knowledge Graph MCP): Lưu các bất biến kiến trúc vĩnh viễn (`create_entities`, `read_graph`).")
