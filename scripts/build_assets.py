@@ -23,6 +23,7 @@ ROUTER_DIR = ROOT / "skills" / "using-sdlc-skills"
 DEST_TEMPLATES = ROUTER_DIR / "assets" / "templates"
 DEST_WORKFLOWS = ROUTER_DIR / "assets" / "workflows"
 DEST_SCRIPTS = ROUTER_DIR / "scripts"
+DEST_MANIFESTS = ROUTER_DIR / "assets" / "manifests"
 
 
 def sync_templates(check_only: bool) -> list[str]:
@@ -95,6 +96,23 @@ def sync_scripts(check_only: bool) -> list[str]:
     return diffs
 
 
+def sync_manifests(check_only: bool) -> list[str]:
+    diffs = []
+    manifests_to_sync = ["known-tools.json"]
+    for m_name in manifests_to_sync:
+        src = ROOT / "manifests" / m_name
+        dest = DEST_MANIFESTS / m_name
+        if not src.is_file():
+            continue
+        src_bytes = src.read_bytes().replace(b"\r\n", b"\n")
+        if not dest.is_file() or dest.read_bytes().replace(b"\r\n", b"\n") != src_bytes:
+            diffs.append(f"manifest: {m_name}")
+            if not check_only:
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_bytes(src_bytes)
+    return diffs
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="verify synchronization without modifying files")
@@ -103,12 +121,14 @@ def main() -> int:
     DEST_TEMPLATES.mkdir(parents=True, exist_ok=True)
     DEST_WORKFLOWS.mkdir(parents=True, exist_ok=True)
     DEST_SCRIPTS.mkdir(parents=True, exist_ok=True)
+    DEST_MANIFESTS.mkdir(parents=True, exist_ok=True)
 
     tmpl_diffs = sync_templates(args.check)
     wf_diffs = sync_workflows(args.check)
     script_diffs = sync_scripts(args.check)
+    manifest_diffs = sync_manifests(args.check)
 
-    all_diffs = tmpl_diffs + wf_diffs + script_diffs
+    all_diffs = tmpl_diffs + wf_diffs + script_diffs + manifest_diffs
 
     if args.check:
         if all_diffs:

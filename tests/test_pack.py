@@ -121,11 +121,18 @@ class PackStaticTests(unittest.TestCase):
             self.assertEqual(w.read_bytes().replace(b"\r\n", b"\n"), bundled.read_bytes().replace(b"\r\n", b"\n"), f"Bundled workflow {w.name} out of sync")
 
         router_script_dir = ROOT / "skills" / "using-sdlc-skills" / "scripts"
-        for script_name in ["scaffold.py", "bounded_run.py", "verify_contracts.py"]:
+        for script_name in ["scaffold.py", "bounded_run.py", "verify_contracts.py", "repo_map.py", "build_agents_md.py"]:
             src = ROOT / "scripts" / script_name
             bundled = router_script_dir / script_name
             self.assertTrue(bundled.is_file(), f"Missing bundled script {script_name}")
             self.assertEqual(src.read_bytes().replace(b"\r\n", b"\n"), bundled.read_bytes().replace(b"\r\n", b"\n"), f"Bundled script {script_name} out of sync")
+
+        router_manifest_dir = ROOT / "skills" / "using-sdlc-skills" / "assets" / "manifests"
+        for manifest_name in ["known-tools.json"]:
+            src = ROOT / "manifests" / manifest_name
+            bundled = router_manifest_dir / manifest_name
+            self.assertTrue(bundled.is_file(), f"Missing bundled manifest {manifest_name}")
+            self.assertEqual(src.read_bytes().replace(b"\r\n", b"\n"), bundled.read_bytes().replace(b"\r\n", b"\n"), f"Bundled manifest {manifest_name} out of sync")
 
         res_check = run_script("build_assets.py", "--check")
         self.assertEqual(res_check.returncode, 0, f"build_assets.py --check failed: {res_check.stderr}")
@@ -271,6 +278,9 @@ class PackStaticTests(unittest.TestCase):
             self.assertIn("Node.js / JavaScript", content)
             self.assertIn("npm test", content)
             self.assertIn("npm run lint", content)
+            self.assertIn("Tool Isolation Boundary", content)
+            self.assertIn("Agent Environment Stack", content)
+            self.assertIn("Discovered Host Toolchains", content)
             self.assertIn("portable index", content.lower())
 
     def test_eval_fixtures_are_valid_and_executable(self) -> None:

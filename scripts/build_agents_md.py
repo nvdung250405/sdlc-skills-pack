@@ -34,6 +34,70 @@ def normalize_path(value: str) -> str:
     return Path(value or ".").as_posix().rstrip("/") or "."
 
 
+def load_known_tools() -> dict:
+    """Load known developer tools registry with multi-location fallback."""
+    candidates = [
+        ROOT / "manifests" / "known-tools.json",
+        Path(__file__).resolve().parent.parent / "assets" / "manifests" / "known-tools.json",
+        Path.home() / ".gemini" / "config" / "skills" / "using-sdlc-skills" / "assets" / "manifests" / "known-tools.json",
+    ]
+    for c in candidates:
+        if c.is_file():
+            try:
+                data = json.loads(c.read_text(encoding="utf-8"))
+                if "categories" in data:
+                    return data["categories"]
+            except Exception:
+                pass
+
+    return {
+        "testing": {
+            "label": "The Golden Testing Toolchain",
+            "tools": {
+                "playwright": "Playwright E2E & Browser Automation CLI",
+                "schemathesis": "Schemathesis OpenAPI/GraphQL Contract Fuzzing CLI",
+                "pytest": "PyTest Python Test Runner",
+                "vitest": "Vitest Vite Native Test Runner",
+                "jest": "Jest JavaScript Test Runner",
+                "k6": "k6 High-concurrency Load & Performance Testing CLI",
+            },
+        },
+        "security": {
+            "label": "The Golden Security & Audit Toolchain",
+            "tools": {
+                "semgrep": "Semgrep OWASP Top 10 SAST Scanner",
+                "trivy": "Trivy CVE, Container & Dependency SCA Scanner",
+                "snyk": "Snyk Security & Vulnerability CLI",
+                "gitleaks": "Gitleaks Hardcoded Secret Detection CLI",
+            },
+        },
+        "containers": {
+            "label": "Containers & Infrastructure Orchestration",
+            "tools": {
+                "docker": "Docker CLI & Engine",
+                "kubectl": "Kubernetes Cluster Management CLI",
+                "terraform": "Terraform Infrastructure as Code CLI",
+            },
+        },
+        "navigation": {
+            "label": "Structural Search & Navigation",
+            "tools": {
+                "ast-grep": "ast-grep Syntax-aware Tree-sitter Code Search Engine",
+                "rg": "Ripgrep Ultra-fast Regex Search CLI",
+                "jq": "jq JSON Processor CLI",
+                "curl": "cURL CLI",
+            },
+        },
+        "vcs": {
+            "label": "Version Control & Collaboration",
+            "tools": {
+                "git": "Git Distributed Version Control CLI",
+                "gh": "GitHub CLI (gh)",
+            },
+        },
+    }
+
+
 def detect_environment(project_root: Path) -> dict:
     """Inspect local tooling, MCP servers, and bounded harness in the environment."""
     env_info = {
@@ -41,26 +105,10 @@ def detect_environment(project_root: Path) -> dict:
         "repo_map": bool(shutil.which("repo_map")),
         "ast_grep": bool(shutil.which("ast-grep") or shutil.which("sg")),
         "memory_mcp": False,
+        "tools_by_category": {},
+        "additional_clis": [],
         "clis": [],
     }
-
-    # Detect global Golden CLI Toolchain from PATH
-    cli_candidates = [
-        ("git", "Git CLI"),
-        ("gh", "GitHub CLI (gh)"),
-        ("docker", "Docker CLI"),
-        ("rg", "Ripgrep (rg)"),
-        ("jq", "jq JSON CLI"),
-        ("curl", "cURL CLI"),
-        ("playwright", "Playwright CLI"),
-        ("schemathesis", "Schemathesis API Fuzzing CLI"),
-        ("semgrep", "Semgrep SAST Security CLI"),
-        ("trivy", "Trivy Vulnerability Scanner CLI"),
-        ("ast-grep", "ast-grep Syntax Engine"),
-    ]
-    for binary, label in cli_candidates:
-        if shutil.which(binary):
-            env_info["clis"].append(f"`{binary}` ({label})")
 
     # Bounded Run & Repo Map fallbacks
     if not env_info["bounded_run"]:
@@ -73,6 +121,7 @@ def detect_environment(project_root: Path) -> dict:
         if (project_root / "scripts" / "repo_map.py").is_file() or (ROOT / "scripts" / "repo_map.py").is_file():
             env_info["repo_map"] = True
 
+    # MCP servers detection (files and directory schemas)
     mcp_locations = [
         Path.home() / ".gemini" / "config" / "mcp_config.json",
         Path.home() / ".gemini" / "antigravity" / "mcp_config.json",
@@ -92,6 +141,73 @@ def detect_environment(project_root: Path) -> dict:
                     env_info["memory_mcp"] = True
             except Exception:
                 pass
+
+    agy_mcp_dir = Path.home() / ".gemini" / "antigravity" / "mcp"
+    if agy_mcp_dir.is_dir():
+        if (agy_mcp_dir / "memory").is_dir():
+            env_info["memory_mcp"] = True
+        if (agy_mcp_dir / "ast-grep").is_dir() or (agy_mcp_dir / "ast_grep").is_dir():
+            env_info["ast_grep"] = True
+
+    # Dynamic tool detection using known-tools registry
+    categories = load_known_tools()
+    detected_binaries = set()
+
+    for cat_key, cat_meta in categories.items():
+        cat_label = cat_meta.get("label", cat_key.title())
+        matched = []
+        for binary, desc in cat_meta.get("tools", {}).items():
+            if binary == "sg" and "ast-grep" in detected_binaries:
+                detected_binaries.add("sg")
+                continue
+            if shutil.which(binary):
+                matched.append(f"`{binary}` ({desc})")
+                detected_binaries.add(binary.lower())
+                if binary.lower() == "ast-grep":
+                    detected_binaries.add("sg")
+                if binary.lower() in ("ast-grep", "sg"):
+                    env_info["ast_grep"] = True
+        if matched:
+            env_info["tools_by_category"][cat_label] = matched
+            env_info["clis"].extend(matched)
+
+    # Dynamic detection of uncataloged dev CLIs from package manager directories
+    dev_roots = [
+        Path.home() / "AppData" / "Local" / "Microsoft" / "WinGet" / "Links",
+        Path.home() / "AppData" / "Roaming" / "npm",
+        Path.home() / ".cargo" / "bin",
+        Path.home() / "scoop" / "shims",
+        Path.home() / ".local" / "bin",
+    ]
+    if sys.executable:
+        dev_roots.append(Path(sys.executable).parent / "Scripts")
+
+    ignore_stems = {
+        "pip", "pip3", "pip3.14", "easy_install", "activate", "deactivate",
+        "docutils", "wheel", "virtualenv", "npm", "npx", "yarn", "pnpm", "bun",
+        "conhost", "cmd", "powershell", "pwsh", "wscript", "cscript",
+    }
+    additional_found = set()
+    for root in dev_roots:
+        if root.is_dir():
+            try:
+                for item in root.iterdir():
+                    if not item.is_file():
+                        continue
+                    suffix = item.suffix.lower()
+                    if suffix in (".exe", ".cmd", ""):
+                        stem = item.stem.lower()
+                        if stem in detected_binaries or stem in ignore_stems:
+                            continue
+                        if stem.startswith("python") or stem.endswith("-script") or stem.endswith(".ps1"):
+                            continue
+                        if shutil.which(item.name):
+                            additional_found.add(stem)
+            except Exception:
+                pass
+
+    if additional_found:
+        env_info["additional_clis"] = sorted(list(additional_found))
 
     return env_info
 
@@ -176,7 +292,14 @@ def render(
 
         lines.append("## 1. Agent Environment Stack (Đồ nghề & Môi trường Agent vận hành)")
         lines.append("- **Host & Sandbox:** Host OS, Shell environment, Global PATH.")
-        if env["clis"]:
+        if env["tools_by_category"] or env["additional_clis"]:
+            lines.append("- **Discovered Host Toolchains (Extensible Registry):**")
+            for cat_label, tools in env["tools_by_category"].items():
+                lines.append(f"  - **{cat_label}:** {', '.join(tools)}.")
+            if env["additional_clis"]:
+                additional_formatted = [f"`{c}`" for c in env["additional_clis"]]
+                lines.append(f"  - **Additional Host CLIs:** {', '.join(additional_formatted)}.")
+        elif env["clis"]:
             lines.append(f"- **Detected Global CLIs:** {', '.join(env['clis'])}.")
         lines.append("- **Context & Output Guard (SWE-agent Harness):**")
         lines.append("  - **Execution Wrapper (Mandatory):** `bounded_run \"<cmd>\"` (Lọc log thừa, trích xuất traceback lỗi).")

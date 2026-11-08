@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Extensible Developer & Agent Tooling Registry for Dynamic Discovery across Host Environments",
+  "categories": {
+    "testing": {
+      "label": "The Golden Testing Toolchain",
+      "tools": {
+        "playwright": "Playwright E2E & Browser Automation CLI",
+        "schemathesis": "Schemathesis OpenAPI/GraphQL Contract Fuzzing CLI",
+        "pytest": "PyTest Python Test Runner",
+        "vitest": "Vitest Vite Native Test Runner",
+        "jest": "Jest JavaScript Test Runner",
+        "k6": "k6 High-concurrency Load & Performance Testing CLI",
+        "flaui": "FlaUI Windows UI Automation CLI",
+        "cypress": "Cypress E2E Testing CLI",
+        "locust": "Locust Distributed Load Testing CLI",
+        "artillery": "Artillery Cloud-scale Load Testing CLI"
+      }
+    },
+    "security": {
+      "label": "The Golden Security & Audit Toolchain",
+      "tools": {
+        "semgrep": "Semgrep OWASP Top 10 SAST Scanner",
+        "trivy": "Trivy CVE, Container & Dependency SCA Scanner",
+        "snyk": "Snyk Security & Vulnerability CLI",
+        "gitleaks": "Gitleaks Hardcoded Secret Detection CLI",
+        "sonar-scanner": "SonarQube / SonarCloud Code Quality & SAST CLI",
+        "grype": "Grype Vulnerability Scanner for OCI Images",
+        "syft": "Syft SBOM Software Bill of Materials Generator"
+      }
+    },
+    "containers": {
+      "label": "Containers & Infrastructure Orchestration",
+      "tools": {
+        "docker": "Docker CLI & Engine",
+        "docker-compose": "Docker Compose Multi-container Orchestrator",
+        "podman": "Podman Daemonless OCI Container Engine",
+        "kubectl": "Kubernetes Cluster Management CLI",
+        "helm": "Helm Kubernetes Package Manager",
+        "terraform": "Terraform Infrastructure as Code CLI",
+        "tofu": "OpenTofu Open Source IaC CLI"
+      }
+    },
+    "navigation": {
+      "label": "Structural Search & Navigation",
+      "tools": {
+        "ast-grep": "ast-grep Syntax-aware Tree-sitter Code Search Engine",
+        "sg": "ast-grep CLI (alias)",
+        "rg": "Ripgrep Ultra-fast Regex Search CLI",
+        "jq": "jq Lightweight & Flexible Command-line JSON Processor",
+        "fzf": "fzf Command-line Fuzzy Finder",
+        "curl": "cURL Data Transfer & HTTP Client CLI"
+      }
+    },
+    "vcs": {
+      "label": "Version Control & Collaboration",
+      "tools": {
+        "git": "Git Distributed Version Control CLI",
+        "gh": "GitHub CLI (gh)",
+        "glab": "GitLab CLI (glab)"
+      }
+    },
+    "runtimes_and_build": {
+      "label": "Runtimes, Compilers & Build Systems",
+      "tools": {
+        "python": "Python Interpreter",
+        "node": "Node.js JavaScript Runtime",
+        "npm": "Node Package Manager (npm)",
+        "pnpm": "Fast, Disk-efficient Package Manager (pnpm)",
+        "yarn": "Yarn Package Manager",
+        "bun": "Bun All-in-one JavaScript Runtime & Toolkit",
+        "cargo": "Rust Package Manager & Compiler (Cargo)",
+        "rustc": "Rust Compiler",
+        "go": "Go Programming Language Toolkit",
+        "mvn": "Apache Maven Build System",
+        "gradle": "Gradle Build Tool",
+        "dotnet": ".NET Core CLI"
+      }
+    }
+  }
+}
