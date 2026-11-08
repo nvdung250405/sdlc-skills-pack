@@ -338,6 +338,7 @@ def render(
     asset_root: str = ".",
     auto_detect: bool = False,
     project_root: Path | None = None,
+    skills_table: bool = False,
 ) -> str:
     if project_root is None:
         project_root = Path.cwd()
@@ -351,38 +352,39 @@ def render(
         stack = detect_stack(project_root)
 
         lines.append("# Project Operating Guidelines (AGENTS.md)\n")
-        lines.append("## 0. Tool Isolation Boundary (Đồ nghề của thợ vs Nhà của khách)")
-        lines.append("- **Tool Isolation Invariant:** Mọi công cụ harness (`bounded_run`, `repo_map`, `scaffold`, `verify_contracts`, `ast-grep`) là công cụ môi trường của Agent. CẤM TUYỆT ĐỐI copy, di chuyển hoặc commit các script nội bộ này vào repository của dự án. Gọi trực tiếp qua Global CLI command (`bounded_run \"<cmd>\"`, `repo_map`) hoặc đường dẫn toolkit môi trường.\n")
+        lines.append("## 0. Tool Isolation Boundary")
+        lines.append("- **Tool Isolation Invariant:** Harness tools (`bounded_run`, `repo_map`, `scaffold`, `verify_contracts`, `ast-grep`) belong to the agent environment. DO NOT copy, move, or commit these internal scripts into the project repository. Invoke directly via global CLI command or agent toolkit path.\n")
 
-        lines.append("## 1. Agent Environment Stack (Đồ nghề & Môi trường Agent vận hành)")
+        lines.append("## 1. Agent Environment Stack")
         lines.append("- **Host & Sandbox:** Host OS, Shell environment, Global PATH.")
         if env["tools_by_category"] or env["additional_clis"]:
-            lines.append("- **Discovered Host Toolchains (Extensible Registry):**")
+            lines.append("- **Discovered Host Toolchains:**")
             for cat_label, tools in env["tools_by_category"].items():
                 lines.append(f"  - **{cat_label}:** {', '.join(tools)}.")
             if env["additional_clis"]:
-                additional_formatted = [f"`{c}`" for c in env["additional_clis"]]
-                lines.append(f"  - **Additional Host CLIs:** {', '.join(additional_formatted)}.")
+                additional_formatted = [f"`{c}`" for c in env["additional_clis"][:10]]
+                suffix = "..." if len(env["additional_clis"]) > 10 else "."
+                lines.append(f"  - **Additional Host CLIs:** {', '.join(additional_formatted)}{suffix}")
         elif env["clis"]:
             lines.append(f"- **Detected Global CLIs:** {', '.join(env['clis'])}.")
         lines.append("- **Context & Output Guard (SWE-agent Harness):**")
-        lines.append("  - **Execution Wrapper (Mandatory):** `bounded_run \"<cmd>\"` (Lọc log thừa, trích xuất traceback lỗi).")
-        lines.append("  - **Viewport Slicing:** `bounded_run view <file> --line <N> --window <W>` (Xem lát cắt code hẹp, chống cạn kiệt token).")
+        lines.append("  - **Execution Wrapper (Mandatory):** `bounded_run \"<cmd>\"` (filter excess logs, extract error tracebacks).")
+        lines.append("  - **Viewport Slicing:** `bounded_run view <file> --line <N> --window <W>` (token-efficient narrow code inspection).")
         if env["repo_map"]:
-            lines.append("  - **Structural Map:** `repo_map` (Cập nhật AST toàn dự án dưới 1k tokens vào `.agent/repo_map.txt`).")
+            lines.append("  - **Structural Map:** `repo_map` (project-wide AST map under 1k tokens in `.agent/repo_map.txt`).")
         lines.append("- **MCP Endpoints:**")
         if env["memory_mcp"]:
-            lines.append("  - `memory` (Knowledge Graph MCP): Lưu các bất biến kiến trúc vĩnh viễn (`create_entities`, `read_graph`).")
+            lines.append("  - `memory` (Knowledge Graph MCP): Persist system invariants and schemas (`create_entities`, `read_graph`).")
         if env["ast_grep"]:
-            lines.append("  - `ast-grep` (AST Syntax MCP): Truy vấn và refactor mã nguồn theo cây cú pháp ngữ nghĩa (`find_code`, `rewrite_code`).")
+            lines.append("  - `ast-grep` (AST Syntax MCP): Semantic syntax-tree search and refactoring (`find_code`, `rewrite_code`).")
         lines.append("- **Memory Protocol (Separation of State):**")
-        lines.append("  - **Short-term / Task State:** Lưu tiến độ, checklist và bàn giao phiên vào `.agent/tasks/<task-id>.md` (`task-handoff`).")
-        lines.append("  - **Long-term / Architecture Invariants:** Lưu bất biến hệ thống, quyết định thiết kế (ADR) và schemas vào MCP `memory` (`create_entities`, `add_observations`).")
+        lines.append("  - **Short-term / Task State:** Session progress, checklists, and handoffs in `.agent/tasks/<task-id>.md` (`task-handoff`).")
+        lines.append("  - **Long-term / Invariants:** System invariants, ADRs, and schemas in MCP `memory` (`create_entities`, `add_observations`).")
         skill_folder = ROOT / "skills"
         skill_count = len([p for p in skill_folder.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()]) if skill_folder.is_dir() else 33
-        lines.append(f"- **Skills Catalog:** `{skill_root}/` (Router: `using-sdlc-skills`, {skill_count} kỹ năng SDLC tải theo nhu cầu).\n")
+        lines.append(f"- **Skills Catalog:** `{skill_root}/` (Router: `using-sdlc-skills`, {skill_count} SDLC skills loaded on demand).\n")
 
-        lines.append("## 2. Target Project Stack (Công nghệ của Dự án đang thao tác)")
+        lines.append("## 2. Target Project Stack")
         if stack["language"]:
             lines.append(f"- **Primary Root Language & Runtime:** {stack['language']}")
         if stack["compose_services"]:
@@ -415,37 +417,35 @@ def render(
 
     lines += [
         "# SDLC Agent Skills — portable index", "",
-        "For each task, identify the applicable skill(s) and read their `SKILL.md` before acting. Load only relevant skills; do not paste the whole library into context.",
-        f"The pack-level router is `{skill_root}/using-sdlc-skills/SKILL.md`. For a full lifecycle, follow `{asset_root}/workflows/full-sdlc.md` when that pack asset is available.",
-        f"Use the shared output templates in `{asset_root}/templates/` when present; otherwise follow the project's existing artifact conventions.",
-        "Do not claim checks passed unless they ran. Stop for required human approval before production/destructive actions.", "",
-        "## Available skills", "", "| Skill | Load when |", "|---|---|"
+        "Load only relevant skills on demand; do not paste the whole library into context.",
+        f"- **Pack Router:** `{skill_root}/using-sdlc-skills/SKILL.md` (Classifies task and selects workflow).",
+        "- **Core Workflows:**",
+        f"  - `{asset_root}/workflows/full-sdlc.md` — full requirements-to-release lifecycle.",
+        f"  - `{asset_root}/workflows/feature-loop.md` — incremental feature implementation.",
+        f"  - `{asset_root}/workflows/bug-fix.md` — root-cause diagnosis and regression verification.",
+        f"  - `{asset_root}/workflows/quick-change.md` — low-risk, well-scoped changes.",
+        f"  - `{asset_root}/workflows/agent-handoff-contract.md` — durable cross-agent handoff contract.",
+        "- **Task Session Record:** `.agent/tasks/<id>.md` — durable handoff record for multi-step work.",
+        f"- **Shared Templates:** `{asset_root}/templates/` — contract-compliant artifact templates.",
+        "- **Quality Gate:** Do not claim checks passed unless they ran. Stop for human approval before destructive actions.",
     ]
 
-    skill_folder = ROOT / "skills"
-    if skill_folder.is_dir():
-        for skill_dir in sorted((p for p in skill_folder.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()), key=lambda p: p.name.casefold()):
-            text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-            raw_desc = frontmatter_value(text, "description").replace("|", "/").replace("\n", " ").strip()
-            # Extract punchy concise trigger to preserve token budget
-            short = raw_desc
-            for prefix in ("Use when ", "Use for ", "When "):
-                if short.lower().startswith(prefix.lower()):
-                    short = short[len(prefix):]
-                    break
-            short = short.split(",")[0].split(";")[0].rstrip(".").strip()
-            short = short[:72] + ("..." if len(short) > 72 else "")
-            lines.append(f"| `{skill_dir.name}` | {short} |")
+    if skills_table:
+        lines += ["", "## Available skills", "", "| Skill | Load when |", "|---|---|"]
+        skill_folder = ROOT / "skills"
+        if skill_folder.is_dir():
+            for skill_dir in sorted((p for p in skill_folder.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()), key=lambda p: p.name.casefold()):
+                text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+                raw_desc = frontmatter_value(text, "description").replace("|", "/").replace("\n", " ").strip()
+                short = raw_desc
+                for prefix in ("Use when ", "Use for ", "When "):
+                    if short.lower().startswith(prefix.lower()):
+                        short = short[len(prefix):]
+                        break
+                short = short.split(",")[0].split(";")[0].rstrip(".").strip()
+                short = short[:72] + ("..." if len(short) > 72 else "")
+                lines.append(f"| `{skill_dir.name}` | {short} |")
 
-    lines += [
-        "", "## Workflow references", "",
-        f"- `{asset_root}/workflows/full-sdlc.md` — full requirements-to-release lifecycle.",
-        f"- `{asset_root}/workflows/feature-loop.md` — incremental feature implementation.",
-        f"- `{asset_root}/workflows/bug-fix.md` — root-cause diagnosis and regression verification.",
-        f"- `{asset_root}/workflows/quick-change.md` — low-risk, well-scoped changes.",
-        f"- `{asset_root}/workflows/agent-handoff-contract.md` — durable cross-agent handoff contract.",
-        "- `.agent/tasks/<id>.md` — durable handoff record for multi-step work.", ""
-    ]
     return "\n".join(lines)
 
 
@@ -460,6 +460,7 @@ def main() -> None:
     parser.add_argument("--output", "-o", default=None, help="write output directly to target file")
     parser.add_argument("--force", action="store_true", help="overwrite output file if it exists")
     parser.add_argument("--with-extras", action="store_true", help="legacy flag for backwards compatibility")
+    parser.add_argument("--skills-table", action="store_true", help="include full markdown table of all available skills")
     parser.add_argument("--skill-root", default="skills", help="project-relative path containing installed skill folders")
     parser.add_argument("--asset-root", default=".", help="project-relative path containing workflows/ and templates/")
     args = parser.parse_args()
@@ -471,6 +472,7 @@ def main() -> None:
         asset_root=args.asset_root,
         auto_detect=args.auto_detect,
         project_root=project_root,
+        skills_table=args.skills_table,
     )
 
     if args.output:
