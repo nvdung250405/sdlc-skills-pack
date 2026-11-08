@@ -161,7 +161,7 @@ def detect_environment(project_root: Path) -> dict:
                 detected_binaries.add("sg")
                 continue
             if shutil.which(binary):
-                matched.append(f"`{binary}` ({desc})")
+                matched.append(f"`{binary}`")
                 detected_binaries.add(binary.lower())
                 if binary.lower() == "ast-grep":
                     detected_binaries.add("sg")
@@ -426,9 +426,16 @@ def render(
     if skill_folder.is_dir():
         for skill_dir in sorted((p for p in skill_folder.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()), key=lambda p: p.name.casefold()):
             text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-            desc = frontmatter_value(text, "description").replace("|", "/").replace("\n", " ")
-            link = f"{skill_root}/{skill_dir.name}/SKILL.md"
-            lines.append(f"| `{skill_dir.name}` (`{link}`) | {desc} |")
+            raw_desc = frontmatter_value(text, "description").replace("|", "/").replace("\n", " ").strip()
+            # Extract punchy concise trigger to preserve token budget
+            short = raw_desc
+            for prefix in ("Use when ", "Use for ", "When "):
+                if short.lower().startswith(prefix.lower()):
+                    short = short[len(prefix):]
+                    break
+            short = short.split(",")[0].split(";")[0].rstrip(".").strip()
+            short = short[:72] + ("..." if len(short) > 72 else "")
+            lines.append(f"| `{skill_dir.name}` | {short} |")
 
     lines += [
         "", "## Workflow references", "",
