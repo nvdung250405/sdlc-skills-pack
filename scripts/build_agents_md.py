@@ -160,26 +160,26 @@ def render(
         stack = detect_stack(project_root)
 
         lines.append("# Project Operating Guidelines (AGENTS.md)\n")
+        lines.append("## 0. Tool Isolation Boundary (Đồ nghề của thợ vs Nhà của khách)")
+        lines.append("- **Tool Isolation Invariant:** Mọi công cụ harness (`bounded_run`, `repo_map`, `scaffold`, `verify_contracts`, `ast-grep`) là công cụ môi trường của Agent. CẤM TUYỆT ĐỐI copy, di chuyển hoặc commit các script nội bộ này vào repository của dự án. Gọi trực tiếp qua Global CLI command (`bounded_run \"<cmd>\"`, `repo_map`) hoặc đường dẫn toolkit môi trường.\n")
+
         lines.append("## 1. Project Context & Detected Stack")
         if stack["language"]:
             lines.append(f"- **Language & Runtime:** {stack['language']}")
         if stack["test_runner"]:
             runner = stack["test_runner"]
-            if env["bounded_run"]:
-                runner = f"python scripts/bounded_run.py {runner}"
+            runner = f'bounded_run "{runner}"'
             lines.append(f"- **Primary Test Command:** `{runner}`")
         if stack["linter"]:
             linter = stack["linter"]
-            if env["bounded_run"]:
-                linter = f"python scripts/bounded_run.py {linter}"
+            linter = f'bounded_run "{linter}"'
             lines.append(f"- **Lint / Quality Gate:** `{linter}`")
         lines.append("")
 
         lines.append("## 2. Environment Tools & Execution Harness")
-        if env["bounded_run"]:
-            lines.append("- **Command Output Bounding:** Run long-running test, build, and linter commands through `python scripts/bounded_run.py <command>` to bound output and auto-extract failure stacktraces.")
+        lines.append("- **Mandatory Bounded Execution:** BẮT BUỘC chạy các lệnh test, build, lint dài qua `bounded_run \"<command>\"` để tránh tràn context và tự động trích xuất stacktrace lỗi.")
         if env["repo_map"]:
-            lines.append(f"- **Structural Code Navigation:** Consult `{env['repo_map']}` for structural orientation. Read viewports (`python scripts/bounded_run.py view <file> --line <N>`) instead of loading entire large files.")
+            lines.append(f"- **Structural Code Navigation:** Consult `{env['repo_map']}` for structural orientation. Read viewports (`bounded_run view <file> --line <N>`) instead of loading entire large files.")
         if env["ast_grep"]:
             lines.append("- **AST Search:** `ast-grep` is active. Use `ast-grep:find_code` or `ast-grep:analyze-imports` for structural search across declarations instead of raw regex or full-file inspection.")
         if env["memory_mcp"]:
