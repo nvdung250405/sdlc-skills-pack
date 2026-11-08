@@ -353,81 +353,66 @@ def render(
 
         lines.append("# Project Operating Guidelines (AGENTS.md)\n")
         lines.append("## 0. Tool Isolation Boundary")
-        lines.append("- **Tool Isolation Invariant:** Harness tools (`bounded_run`, `repo_map`, `scaffold`, `verify_contracts`, `ast-grep`) belong to the agent environment. DO NOT copy, move, or commit these internal scripts into the project repository. Invoke directly via global CLI command or agent toolkit path.\n")
+        lines.append("- Harness scripts (`bounded_run`, `repo_map`, `scaffold`, `verify_contracts`, `ast-grep`) belong to the agent environment. NEVER copy or commit them into the repository. Invoke via global CLI or environment path.\n")
 
         lines.append("## 1. Agent Environment Stack")
-        lines.append("- **Host & Sandbox:** Host OS, Shell environment, Global PATH.")
-        if env["tools_by_category"] or env["additional_clis"]:
-            lines.append("- **Discovered Host Toolchains:**")
-            for cat_label, tools in env["tools_by_category"].items():
-                lines.append(f"  - **{cat_label}:** {', '.join(tools)}.")
-            if env["additional_clis"]:
-                additional_formatted = [f"`{c}`" for c in env["additional_clis"][:10]]
-                suffix = "..." if len(env["additional_clis"]) > 10 else "."
-                lines.append(f"  - **Additional Host CLIs:** {', '.join(additional_formatted)}{suffix}")
-        elif env["clis"]:
-            lines.append(f"- **Detected Global CLIs:** {', '.join(env['clis'])}.")
-        lines.append("- **Context & Output Guard (SWE-agent Harness):**")
-        lines.append("  - **Execution Wrapper (Mandatory):** `bounded_run \"<cmd>\"` (filter excess logs, extract error tracebacks).")
-        lines.append("  - **Viewport Slicing:** `bounded_run view <file> --line <N> --window <W>` (token-efficient narrow code inspection).")
+        # Flatten all detected tools into a clean single line
+        all_tools = []
+        for tools in env["tools_by_category"].values():
+            all_tools.extend(tools)
+        if env["clis"]:
+            all_tools.extend(env["clis"])
+        tool_names = sorted(list({t.strip("`") for t in all_tools}))
+        if tool_names:
+            lines.append(f"- **Discovered Host Toolchains:** {', '.join(tool_names[:16])}")
+        lines.append("- **Harness & Guards:**")
+        lines.append("  - Wrap commands: `bounded_run \"<cmd>\"`")
+        lines.append("  - Viewport slice: `bounded_run view <file> --line <N> --window <W>`")
         if env["repo_map"]:
-            lines.append("  - **Structural Map:** `repo_map` (project-wide AST map under 1k tokens in `.agent/repo_map.txt`).")
-        lines.append("- **MCP Endpoints:**")
+            lines.append("  - Structural AST map: `.agent/repo_map.txt` (via `repo_map`)")
+        lines.append("- **State & Memory:**")
+        lines.append("  - Task session: `.agent/tasks/<id>.md` (`task-handoff`)")
         if env["memory_mcp"]:
-            lines.append("  - `memory` (Knowledge Graph MCP): Persist system invariants and schemas (`create_entities`, `read_graph`).")
+            lines.append("  - Invariants: MCP `memory` (`create_entities`, `read_graph`)")
         if env["ast_grep"]:
-            lines.append("  - `ast-grep` (AST Syntax MCP): Semantic syntax-tree search and refactoring (`find_code`, `rewrite_code`).")
-        lines.append("- **Memory Protocol (Separation of State):**")
-        lines.append("  - **Short-term / Task State:** Session progress, checklists, and handoffs in `.agent/tasks/<task-id>.md` (`task-handoff`).")
-        lines.append("  - **Long-term / Invariants:** System invariants, ADRs, and schemas in MCP `memory` (`create_entities`, `add_observations`).")
-        skill_folder = ROOT / "skills"
-        skill_count = len([p for p in skill_folder.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()]) if skill_folder.is_dir() else 33
-        lines.append(f"- **Skills Catalog:** `{skill_root}/` (Router: `using-sdlc-skills`, {skill_count} SDLC skills loaded on demand).\n")
+            lines.append("  - AST refactor: MCP `ast-grep` (`find_code`, `rewrite_code`)")
+        lines.append("")
 
         lines.append("## 2. Target Project Stack")
         if stack["language"]:
-            lines.append(f"- **Primary Root Language & Runtime:** {stack['language']}")
+            lines.append(f"- **Language:** {stack['language']}")
         if stack["compose_services"]:
-            lines.append(f"- **Docker Services:** {', '.join([f'`{s}`' for s in stack['compose_services']])}")
+            lines.append(f"- **Docker Services:** {', '.join(stack['compose_services'])}")
         if stack["monorepo_services"]:
-            lines.append("- **Multi-service / Monorepo Architecture:**")
+            lines.append("- **Services:**")
             for svc in stack["monorepo_services"]:
-                lines.append(f"  - **{svc['name']}** (`{svc['path']}`): {svc['type']}")
+                lines.append(f"  - `{svc['path']}`: {svc['type']}")
         lines.append("")
 
-        lines.append("## 3. Mandatory Verification Commands (Always wrap via `bounded_run`)")
+        lines.append("## 3. Mandatory Verification Commands")
         if stack["test_runner"]:
-            runner = stack["test_runner"]
-            runner = f'bounded_run "{runner}"'
-            lines.append(f"- **Root Test Command:** `{runner}`")
+            runner = f'bounded_run "{stack["test_runner"]}"'
+            lines.append(f"- **Test:** `{runner}`")
         if stack["linter"]:
-            linter = stack["linter"]
-            linter = f'bounded_run "{linter}"'
-            lines.append(f"- **Root Lint / Quality Gate:** `{linter}`")
+            linter = f'bounded_run "{stack["linter"]}"'
+            lines.append(f"- **Lint:** `{linter}`")
         
         if stack["monorepo_services"]:
-            lines.append("- **Service-level Verification Commands:**")
             for svc in stack["monorepo_services"]:
                 if svc["test"]:
-                    lines.append(f"  - **{svc['name']} Test:** `bounded_run \"{svc['test']}\"`")
+                    lines.append(f"- {svc['name']} test: `bounded_run \"{svc['test']}\"`")
                 if svc["lint"]:
-                    lines.append(f"  - **{svc['name']} Lint:** `bounded_run \"{svc['lint']}\"`")
+                    lines.append(f"- {svc['name']} lint: `bounded_run \"{svc['lint']}\"`")
 
-        lines.append("- **Verification Before Completion:** Always run `verification-before-completion` before declaring work done. Report actual executed commands and evidence honestly.\n")
+        lines.append("- Run `verification-before-completion` before declaring work done.\n")
 
     lines += [
         "# SDLC Agent Skills — portable index", "",
-        "Load only relevant skills on demand; do not paste the whole library into context.",
-        f"- **Pack Router:** `{skill_root}/using-sdlc-skills/SKILL.md` (Classifies task and selects workflow).",
-        "- **Core Workflows:**",
-        f"  - `{asset_root}/workflows/full-sdlc.md` — full requirements-to-release lifecycle.",
-        f"  - `{asset_root}/workflows/feature-loop.md` — incremental feature implementation.",
-        f"  - `{asset_root}/workflows/bug-fix.md` — root-cause diagnosis and regression verification.",
-        f"  - `{asset_root}/workflows/quick-change.md` — low-risk, well-scoped changes.",
-        f"  - `{asset_root}/workflows/agent-handoff-contract.md` — durable cross-agent handoff contract.",
-        "- **Task Session Record:** `.agent/tasks/<id>.md` — durable handoff record for multi-step work.",
-        f"- **Shared Templates:** `{asset_root}/templates/` — contract-compliant artifact templates.",
-        "- **Quality Gate:** Do not claim checks passed unless they ran. Stop for human approval before destructive actions.",
+        "Load skills on demand; never paste full catalog into context.",
+        f"- **Router:** `{skill_root}/using-sdlc-skills/SKILL.md` (classifies task, selects workflow & skills).",
+        f"- **Workflows:** `{asset_root}/workflows/` (full-sdlc, feature-loop, bug-fix, quick-change).",
+        f"- **Templates & Tasks:** `{asset_root}/templates/` | `.agent/tasks/<id>.md`.",
+        "- Do not claim checks passed unless run. Stop for human approval before destructive actions.",
     ]
 
     if skills_table:
