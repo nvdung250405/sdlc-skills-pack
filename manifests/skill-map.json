@@ -9,6 +9,7 @@
     "ci-cd-and-automation",
     "code-review-and-quality",
     "code-simplification",
+    "context-engineering",
     "database-design",
     "deprecation-and-migration",
     "docker-expert",
@@ -39,7 +40,8 @@
   "groups": {
     "router-context-governance": [
       "using-sdlc-skills",
-      "task-handoff"
+      "task-handoff",
+      "context-engineering"
     ],
     "discovery-and-learning": [
       "interview-me",
@@ -103,7 +105,8 @@
     "webapp-testing": "Use Playwright-based tests when the environment supports it. Do not also invoke browser-testing-with-devtools unless the second tool provides distinct required evidence.",
     "database-design": "Provides schema design, indexing, and migration guidelines. Complements software-architecture by focusing on persistence tier.",
     "api-contract-testing": "Verifies wire-level provider/consumer schema contracts and backward compatibility using local fixtures; does not replace end-to-end web testing.",
-    "auth-implementation-patterns": "Designs authentication tokens, session lifecycles, and RBAC/ABAC authorization boundaries; does not replace security code review."
+    "auth-implementation-patterns": "Designs authentication tokens, session lifecycles, and RBAC/ABAC authorization boundaries; does not replace security code review.",
+    "context-engineering": "Synthesizes AGENTS.md, establishes tool isolation boundaries, detects monorepo architecture, and enforces separation between short-term task state and long-term architecture invariants."
   },
   "profiles": {
     "canonical-32": [
@@ -148,6 +151,7 @@
       "ci-cd-and-automation",
       "code-review-and-quality",
       "code-simplification",
+      "context-engineering",
       "database-design",
       "deprecation-and-migration",
       "docker-expert",
@@ -182,6 +186,7 @@
       "ci-cd-and-automation",
       "code-review-and-quality",
       "code-simplification",
+      "context-engineering",
       "database-design",
       "deprecation-and-migration",
       "docker-expert",
@@ -374,6 +379,7 @@
     "ci-cd-and-automation",
     "code-review-and-quality",
     "code-simplification",
+    "context-engineering",
     "database-design",
     "deprecation-and-migration",
     "docker-expert",

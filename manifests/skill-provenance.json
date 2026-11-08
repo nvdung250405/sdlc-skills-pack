@@ -378,6 +378,16 @@
       "kind": "vendored-upstream",
       "refresh_policy": "pinned-sync",
       "content_sha256": "2c62df14fe61382e0c398ca7223e6880808518a7fbdea49c57aca5b5bd6f3577"
+    },
+    "skills/context-engineering": {
+      "upstream": "pack-owned",
+      "source_path": "skills/context-engineering",
+      "commit": "local-pack",
+      "license": "MIT",
+      "transformations": [],
+      "kind": "pack-owned",
+      "refresh_policy": "local",
+      "content_sha256": "53aa87a6b158019eb9cac91a2b0f7c67b15f0f36e97834d4f9c7eb02b7c91787"
     }
   },
   "resources": {}

@@ -55,7 +55,7 @@ The pack operates within diverse AI agent runtimes, shell environments (Bash, Zs
 | Concept | Definition / Responsibility | Authoritative Source |
 |---|---|---|
 | **Practical Matrix** | Curated map of SDLC stages, roles, artifacts, competencies, and candidate skills. Defines capability scope, not runtime loading or mandatory sequence. | [`docs/sdlc-practical-matrix.md`](sdlc-practical-matrix.md) |
-| **Packaged Inventory** | Skills actually distributed by the repository (32 Universal SDLC skills), verified against commit locks and content hashes. | [`upstream.json`](../upstream.json), [`manifests/skill-provenance.json`](../manifests/skill-provenance.json) |
+| **Packaged Inventory** | Skills actually distributed by the repository (33 Universal SDLC skills), verified against commit locks and content hashes. | [`upstream.json`](../upstream.json), [`manifests/skill-provenance.json`](../manifests/skill-provenance.json) |
 | **Stable Skill ID** | Canonical identifier that remains stable across upstream renames, file moves, or path refactoring. | [`upstream.json`](../upstream.json), `manifests/skill-map.json` |
 | **Core / Extras** | Tiering policy: Core (29) skills provide universal engineering discipline installed by default; Extras (34) skills provide contextual stack/domain capabilities loaded on demand. | [`docs/stage-skill-map.md`](stage-skill-map.md) |
 | **Task Active Skills** | The minimal subset of skills dynamically selected and loaded into context for the current task step. Distinct from installed skills. | Runtime execution state / `.agent/tasks/<task-id>.md` |
@@ -110,7 +110,7 @@ The pack enforces a strict 3-tier decoupling to preserve skill purity, token eff
 
 ```mermaid
 flowchart TD
-    subgraph TIER1["Tier 1: 32 Universal SDLC Skills (Pure Mindset)"]
+    subgraph TIER1["Tier 1: 33 Universal SDLC Skills (Pure Mindset)"]
         S1["TDD (red-green-refactor)"]
         S2["Systematic Debugging"]
         S3["Software Architecture & Contracts"]
@@ -233,7 +233,7 @@ The architecture strictly decouples physical installation from context loading:
 
 | Layer | Scope | Mechanism |
 |---|---|---|
-| **Installation** | Target environment disk | `scripts/install.py` installs 32 Universal SDLC skills. |
+| **Installation** | Target environment disk | `scripts/install.py` installs 33 Universal SDLC skills. |
 | **Discovery & Selection** | Task-specific scope | Router identifies the Smallest Sufficient Set from packaged inventory. |
 | **Context Loading & Activation** | Agent working memory | Loads only relevant `SKILL.md` instructions; defers large references until needed. |
 
@@ -360,7 +360,7 @@ When installing into runtimes with `eager` or `unknown` loading mode, all instal
 
 | Path | Responsibility | Required / Conditional |
 |---|---|---|
-| `skills/` | 32 Universal SDLC skill packages installed by default. | Required |
+| `skills/` | 33 Universal SDLC skill packages installed by default. | Required |
 | `workflows/` | 11 standardized multi-step coordination workflows. | Required |
 | `templates/` | 32 canonical artifact starter templates across 5 functional directories. | Required |
 | `adapters/` | Runtime mapping and agent installation configurations. | Required |

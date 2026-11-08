@@ -65,7 +65,7 @@ class PackStaticTests(unittest.TestCase):
     def test_selected_skill_map_has_no_unknown_or_duplicate_skill(self) -> None:
         manifest = json.loads((ROOT / "upstream.json").read_text(encoding="utf-8"))
         skill_map = json.loads((ROOT / "manifests" / "skill-map.json").read_text(encoding="utf-8"))
-        known = {"using-sdlc-skills", "task-handoff", "api-contract-testing"}
+        known = {"using-sdlc-skills", "task-handoff", "api-contract-testing", "context-engineering"}
         for upstream in manifest["upstreams"]:
             for item in upstream.get("items", []):
                 name = item.get("name", Path(item["src"]).name)
@@ -80,7 +80,7 @@ class PackStaticTests(unittest.TestCase):
     def test_skill_inventory_counts_match_materialized_directories(self) -> None:
         manifest = json.loads((ROOT / "upstream.json").read_text(encoding="utf-8"))
         skill_dirs = {path.name for path in (ROOT / "skills").iterdir() if path.is_dir()}
-        self.assertEqual(len(skill_dirs), 32)
+        self.assertEqual(len(skill_dirs), 33)
         for item in manifest.get("derived_skills", []):
             self.assertIn(item["name"], skill_dirs)
 

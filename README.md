@@ -1,14 +1,14 @@
 # SDLC Skills Pack
 
-Bộ skill phát triển phần mềm có thể cài trên nhiều coding agent, tuyển chọn từ các upstream đã pin phiên bản và kết hợp bằng một router duy nhất cùng bộ artifact contract thống nhất. Mục tiêu là tái sử dụng skill tốt, tránh trùng chức năng, quy chuẩn **32 Universal SDLC skills**, áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
+Bộ skill phát triển phần mềm có thể cài trên nhiều coding agent, tuyển chọn từ các upstream đã pin phiên bản và kết hợp bằng một router duy nhất cùng bộ artifact contract thống nhất. Mục tiêu là tái sử dụng skill tốt, tránh trùng chức năng, quy chuẩn **33 Universal SDLC skills**, áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
 
 ## Cách tổ chức
 
 ```text
-skills/                    # 32 Universal SDLC skills (kỷ luật công nghệ nền tảng, stack-agnostic)
+skills/                    # 33 Universal SDLC skills (kỷ luật công nghệ nền tảng, stack-agnostic)
 workflows/                 # 11 quy trình: full SDLC, feature loop, bug fix, quick change, incident, refactoring, performance, upgrade, handoff...
 templates/                 # 32 canonical artifact templates across 5 functional groups (contracts, specs, delivery, platform, governance)
-docs/sdlc-practical-matrix.md # Master Matrix 16 stages và 32 Universal SDLC skills chuẩn hóa
+docs/sdlc-practical-matrix.md # Master Matrix 16 stages và 33 Universal SDLC skills chuẩn hóa
 docs/stage-skill-map.md    # Stage → Output → Core & Extras routing map
 docs/architecture.md       # Thiết kế kiến trúc, demand-driven loading & quality gates
 adapters/agents.json       # Đường dẫn cài đặt theo agent; có thể override
@@ -40,7 +40,7 @@ scripts/scaffold.py        # Khởi tạo nhanh canonical artifacts từ templat
 | [GitHub Spec Kit](https://github.com/github/spec-kit) | Tham khảo format Story/AC, independent test, plan/tasks | Nguồn tham khảo, không bundle command/skill nguyên bản |
 | [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) | Tham khảo cách tổ chức vai trò và workflow | Nguồn tham khảo; không bundle implementation của BMAD |
 
-**Quy mô hiện tại:** Quy chuẩn đúng **32 Universal SDLC skills** độc lập công cụ, cài đặt mặc định.
+**Quy mô hiện tại:** Quy chuẩn đúng **33 Universal SDLC skills** độc lập công cụ, cài đặt mặc định.
 - **Exemplar Reference**: [examples/stripe-integration](examples/stripe-integration) được lưu giữ riêng làm thư viện mẫu tham khảo, loại khỏi danh mục đóng gói chính thức.
 - **Deprecated Skills Archive**: [archive/deprecated-skills](archive/deprecated-skills) lưu trữ `finishing-a-development-branch` và `requesting-code-review`.
 

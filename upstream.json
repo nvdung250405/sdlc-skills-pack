@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "purpose": "Portable SDLC skills pack. 32 Universal SDLC skills provide universal engineering discipline installed by default across 16 SDLC stages.",
+  "purpose": "Portable SDLC skills pack. 33 Universal SDLC skills provide universal engineering discipline installed by default across 16 SDLC stages.",
   "upstreams": [
     {
       "id": "addyosmani-agent-skills",

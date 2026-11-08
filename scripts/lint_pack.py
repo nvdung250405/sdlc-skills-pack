@@ -265,7 +265,7 @@ def main() -> int:
             expected_by_tier[tier].add(name)
 
         # A pack-owned skill directory is a legitimate installed skill as well.
-        expected_by_tier["skills"].update({"using-sdlc-skills", "task-handoff", "api-contract-testing"})
+        expected_by_tier["skills"].update({"using-sdlc-skills", "task-handoff", "api-contract-testing", "context-engineering"})
         for tier_name, expected in expected_by_tier.items():
             missing = sorted(expected - available_by_tier[tier_name])
             if missing:

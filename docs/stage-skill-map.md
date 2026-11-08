@@ -3,7 +3,7 @@
 Bản đồ định tuyến kỹ năng thực tế theo **16 giai đoạn chuẩn hóa quốc tế** (ISO/IEC/IEEE 12207, SWEBOK v4, NIST SSDF, DORA, FinOps). Router duy nhất của pack là `using-sdlc-skills` lựa chọn luồng làm việc tinh gọn nhất (right-sized) và áp dụng cơ chế **Nạp kỹ năng theo nhu cầu (Demand-Driven Skill Loading)**.
 
 Pack quy chuẩn thành:
-- **32 Universal SDLC skills**: Kỷ luật công kỹ nghệ nền tảng, độc lập công cụ, cài đặt mặc định cho mọi agent trong mọi dự án.
+- **33 Universal SDLC skills**: Kỷ luật công kỹ nghệ nền tảng, độc lập công cụ, cài đặt mặc định cho mọi agent trong mọi dự án.
 
 ---
 
@@ -91,12 +91,12 @@ Mỗi tạo phẩm chuẩn hóa (canonical artifact) chỉ do một kỹ năng c
 
 Quá trình thực thi tác vụ của agent tuân thủ vòng đời 5 bước theo thiết kế kiến trúc (xem sơ đồ và định nghĩa chuẩn tại [`docs/architecture.md` Section 4.3](architecture.md) và router [`skills/using-sdlc-skills/SKILL.md`](../skills/using-sdlc-skills/SKILL.md)), đảm bảo **nạp đúng theo bối cảnh (context-driven)** và **tuyệt đối không làm quá tải ngữ cảnh (anti-overload)**.
 
-> **Nguyên tắc cốt lõi — Installation ≠ Selection ≠ Context Loading:** 32 Universal skills **được cài đặt** (installed) để luôn có mặt trên disk, nhưng không có nghĩa là tất cả đều được nạp vào cửa sổ ngữ cảnh cùng lúc. Mỗi task chỉ nạp file SKILL.md của các skill thực sự cần dùng cho bước công việc đó. Xem định nghĩa chuẩn "Task Active Skills" tại `architecture.md`.
+> **Nguyên tắc cốt lõi — Installation ≠ Selection ≠ Context Loading:** 33 Universal skills **được cài đặt** (installed) để luôn có mặt trên disk, nhưng không có nghĩa là tất cả đều được nạp vào cửa sổ ngữ cảnh cùng lúc. Mỗi task chỉ nạp file SKILL.md của các skill thực sự cần dùng cho bước công việc đó. Xem định nghĩa chuẩn "Task Active Skills" tại `architecture.md`.
 
 1. **Tiếp nhận tác vụ (Task Intake)**: Phân loại mục tiêu công việc theo 1 trong 16 Stages SDLC.
 2. **Khám phá & Tuyển chọn (Discover & Select — The SDLC Triad)**:
    - **Chọn Workflow:** Xác định kịch bản điều phối phù hợp (`full-sdlc.md`, `feature-loop.md`, `bug-fix.md`, `quick-change.md`, `incident-response.md`, `experimentation-loop.md`, `deprecation-and-migration.md`, `agent-handoff-contract.md`).
-   - **Chọn Kỹ năng:** Xác định *Tập nhỏ nhất đủ dùng (Smallest Sufficient Set)*: 32 Universal skills **được cài đặt sẵn** (installed) không có nghĩa là tất cả đều được nạp vào ngữ cảnh cùng lúc — chỉ nạp các skill thực sự cần cho bước công việc hiện tại (thường là 1–2 skills).
+   - **Chọn Kỹ năng:** Xác định *Tập nhỏ nhất đủ dùng (Smallest Sufficient Set)*: 33 Universal skills **được cài đặt sẵn** (installed) không có nghĩa là tất cả đều được nạp vào ngữ cảnh cùng lúc — chỉ nạp các skill thực sự cần cho bước công việc hiện tại (thường là 1–2 skills).
    - **Chọn Template:** Tra cứu bảng khế ước tạo phẩm để xác định file starter template tương ứng.
 3. **Nạp Quy trình & Dựng khung Tạo phẩm (Load Workflow & Scaffold Template)**:
    - Nạp các bước của workflow đã chọn vào ngữ cảnh hoạt động.
@@ -108,7 +108,7 @@ Quá trình thực thi tác vụ của agent tuân thủ vòng đời 5 bước 
 
 ## 4. Ghi chú về Nguồn gốc và Quản trị
 
-Pack kết hợp **32 Universal SDLC skills tuyển chọn và chuẩn hóa** từ các nguồn uy tín:
+Pack kết hợp **33 Universal SDLC skills tuyển chọn và chuẩn hóa** từ các nguồn uy tín:
 - **Upstream đồng bộ có ghim SHA**: Addy Osmani (19 skills), Superpowers (2 skills), Anthropic Skills (1 skill), Corey Haines (1 skill).
 - **Adapted phái sinh cục bộ có kiểm toán**: Uxcel Product Skills (1 skill), Agentic SDLC Kit (1 skill), wshobson/agents (1 skill), sickn33/agentic-awesome-skills (3 skills), api-contract-testing (1 skill).
 - **Pack-owned cốt lõi**: `using-sdlc-skills`, `task-handoff`, `api-contract-testing`.

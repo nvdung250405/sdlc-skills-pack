@@ -9,7 +9,7 @@ This is the **only default pack-level router**. Classify the task, select the sm
 
 ## Demand-Driven Skill Loading
 
-The pack separates installation from active prompt loading. With **32 Universal SDLC skills** (pure engineering discipline, stack-agnostic), agents follow a 5-step demand-driven lifecycle:
+The pack separates installation from active prompt loading. With **33 Universal SDLC skills** (pure engineering discipline, stack-agnostic), agents follow a 5-step demand-driven lifecycle:
 
 ```
 Task Intake ──► Discover & Select ──► Load & Scaffold ──► Execute Work ──► Verify & Handoff
