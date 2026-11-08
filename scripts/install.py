@@ -159,7 +159,7 @@ def print_missing_optional_summary(sources: list[Path], args: argparse.Namespace
                 print(f"Profile: '{active_profile}' ({len(installed_names)} skills selected).")
                 print(f"Skills omitted in this profile ({len(missing_optional)} skills omitted):")
                 print(f"  {', '.join(missing_optional[:8])}{'...' if len(missing_optional) > 8 else ''}")
-                print("  (Tip: use `--profile canonical-32` or `--profile full` to include all 32 Universal SDLC skills)")
+                print("  (Tip: use `--profile canonical-33` (or `--profile canonical-32`, `--profile full`) to include all 33 Universal SDLC skills)")
         except Exception:
             pass
 
@@ -240,7 +240,7 @@ def main() -> int:
     parser.add_argument("target", help="claude, codex, gemini, cursor, copilot, custom, or agents-md")
     parser.add_argument("--global", dest="global_scope", action="store_true", help="install into the configured user-level directory")
     parser.add_argument("--link", action="store_true", help="create symlinks instead of copying skill folders")
-    parser.add_argument("--profile", choices=["eager-lean", "canonical-32", "core", "full"], default=None, help="installation profile: eager-lean (8 skills, ~20k tokens), canonical-32 (32 skills, ~81k tokens), core (32 skills), or full (32 skills)")
+    parser.add_argument("--profile", choices=["eager-lean", "canonical-33", "canonical-32", "core", "full"], default=None, help="installation profile: eager-lean (8 skills, ~20k tokens), canonical-33 (33 skills, ~84k tokens), core (33 skills), or full (33 skills)")
     parser.add_argument("--with-extras", action="store_true", help="also install skills from extras/ (equivalent to --profile full)")
     parser.add_argument("--auto-detect", "--init", dest="auto_detect", action="store_true", help="for agents-md, audit environment and stack")
     parser.add_argument("--dest", help="skill install directory; for agents-md, path to installed skill folders")
@@ -263,9 +263,9 @@ def main() -> int:
         mode = adapters.get("agents", {}).get(target_name, {}).get("loading_mode", "unknown")
         if mode in ("eager", "unknown"):
             if args.with_extras or args.profile == "full":
-                print(f"TIP: Target '{target_name}' has '{mode}' loading behavior. Installing all 32 skills consumes substantial context (~81k tokens). Consider --profile eager-lean (8 skills, ~20k tokens).", file=sys.stderr)
+                print(f"TIP: Target '{target_name}' has '{mode}' loading behavior. Installing all 33 skills consumes substantial context (~84k tokens). Consider --profile eager-lean (8 skills, ~20k tokens).", file=sys.stderr)
             elif not args.profile:
-                print(f"TIP: Target '{target_name}' has '{mode}' loading. Default Core installs 32 skills (~81k tokens). For an ultra-light context footprint, use --profile eager-lean (8 skills, ~20k tokens).", file=sys.stderr)
+                print(f"TIP: Target '{target_name}' has '{mode}' loading. Default Core installs 33 skills (~84k tokens). For an ultra-light context footprint, use --profile eager-lean (8 skills, ~20k tokens).", file=sys.stderr)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

@@ -68,7 +68,7 @@ python -m unittest discover -s tests -v
 # 1. Profile 'eager-lean' (8 skills, ~20k tokens) — tối ưu cho runtime nạp eager
 python scripts/install.py codex --profile eager-lean
 
-# 2. Profile mặc định 'core' / 'canonical-32' (32 skills, ~81k tokens)
+# 2. Profile mặc định 'core' / 'canonical-33' (33 skills, ~84k tokens)
 python scripts/install.py claude
 python scripts/install.py gemini
 python scripts/install.py cursor
@@ -76,8 +76,8 @@ python scripts/install.py copilot
 python scripts/install.py antigravity
 python scripts/install.py antigravity-cli
 
-# 3. Cài đặt toàn bộ 32 skills có chỉ định profile hoặc đường dẫn custom
-python scripts/install.py codex --profile canonical-32
+# 3. Cài đặt toàn bộ 33 skills có chỉ định profile hoặc đường dẫn custom
+python scripts/install.py codex --profile canonical-33
 python scripts/install.py custom --dest ./my-agent/skills
 ```
 

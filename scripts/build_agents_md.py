@@ -378,7 +378,9 @@ def render(
         lines.append("- **Memory Protocol (Separation of State):**")
         lines.append("  - **Short-term / Task State:** Lưu tiến độ, checklist và bàn giao phiên vào `.agent/tasks/<task-id>.md` (`task-handoff`).")
         lines.append("  - **Long-term / Architecture Invariants:** Lưu bất biến hệ thống, quyết định thiết kế (ADR) và schemas vào MCP `memory` (`create_entities`, `add_observations`).")
-        lines.append(f"- **Skills Catalog:** `{skill_root}/` (Router: `using-sdlc-skills`, 32 kỹ năng SDLC tải theo nhu cầu).\n")
+        skill_folder = ROOT / "skills"
+        skill_count = len([p for p in skill_folder.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()]) if skill_folder.is_dir() else 33
+        lines.append(f"- **Skills Catalog:** `{skill_root}/` (Router: `using-sdlc-skills`, {skill_count} kỹ năng SDLC tải theo nhu cầu).\n")
 
         lines.append("## 2. Target Project Stack (Công nghệ của Dự án đang thao tác)")
         if stack["language"]:
